@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- ============================================================================
+ABET WORKS — CLIENT DASHBOARD ("AI Front Desk" owner page)
+PURPOSE: one page per client = the retention weapon (see business-kit 06-B).
+Make the client's browser open it weekly; make it prove value monthly.
+
+HOW TO USE (10 min per client):
+1. Copy this file → rename: dashboard_[business].html
+2. Edit ONLY the CONFIG block below (lines marked ⚙)
+3. Host anywhere (Render static / Netlify / just send the HTML file)
+4. Link it in the monthly report email → cancellations die here
+
+NO external dependencies · works offline · print button for the report
+============================================================================= -->
+<title>AI Front Desk — Client Dashboard</title>
+<style>
+:root{--bg:#f6f8fd;--card:#fff;--ink:#101a30;--mut:#5a657d;--acc:#2c4fd8;--acc2:#0e9f6e;--line:#dfe4f2;--warn:#b45309}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+a{color:var(--acc);text-decoration:none}
+header{background:var(--ink);color:#fff;padding:.9rem 0}
+header .wrap{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.live{background:rgba(14,159,110,.2);color:#6ee7a8;border-radius:999px;padding:.15rem .7rem;font-size:.75rem;font-weight:800;letter-spacing:.05em}
+header .brand{margin-left:auto;font-weight:800;font-size:.85rem}header .brand span{color:#8ea4ff}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:1.4rem 0}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem}
+.metric b{display:block;font-size:1.7rem;letter-spacing:-.02em}
+.metric span{color:var(--mut);font-size:.8rem;font-weight:600}
+section{margin-bottom:1.6rem}
+h2{font-size:1.05rem;margin-bottom:.7rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{text-align:left;color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;padding:.5rem .6rem;border-bottom:1px solid var(--line)}
+td{padding:.55rem .6rem;border-bottom:1px solid var(--line)}
+.new{background:#0e9f6e;color:#fff;border-radius:99px;padding:.05rem .6rem;font-size:.7rem;font-weight:800}
+.won{background:#2c4fd8;color:#fff;border-radius:99px;padding:.05rem .6rem;font-size:.7rem;font-weight:800}
+.rowbtns{display:flex;gap:.7rem;margin-top:.8rem}
+.btn{display:inline-block;padding:.55rem 1rem;border-radius:10px;font-weight:700;font-size:.88rem;border:1px solid var(--line)}
+.btn.p{background:var(--acc);color:#fff;border-color:transparent}
+.wa{background:#25d366;color:#04331a;border-color:transparent}
+.grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem}
+.up{border:1px dashed var(--acc);border-radius:14px;padding:1.1rem 1.2rem;background:#fbfcff}
+.up li{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-bottom:1px dashed var(--line);font-size:.9rem}
+.up li:last-child{border-bottom:0}
+.up b{color:var(--acc);white-space:nowrap}
+.small{font-size:.82rem;color:var(--mut)}
+.convo{border-left:3px solid var(--acc2);padding:.4rem 0 .4rem .8rem;margin-bottom:.7rem;font-size:.88rem}
+.convo span{display:block;color:var(--mut);font-size:.78rem;margin-top:.15rem}
+footer{padding:1.4rem 0 2.4rem;text-align:center;color:var(--mut);font-size:.78rem}
+@media print{.noprint{display:none!important}body{background:#fff}.metrics{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:720px){.metrics{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<script>
+/* ================= ⚙ CONFIG — EDIT ONLY THIS PER CLIENT ================= */
+const CLIENT = {
+  business: "Rafi Dental Clinic",            // ⚙ client name
+  plan: "Pro",                               // ⚙ Lite / Pro / Scale
+  liveSince: "01 Nov 2026",                  // ⚙ go-live date
+  whatsapp: "919000000000",                  // ⚙ YOUR number, digits only
+  botLink:  "https://your-bot-shareable-link",  // ⚙ Botpress webchat shareable link
+  sheetLink:"https://docs.google.com/spreadsheets/d/XXXX",  // ⚙ their lead sheet
+  stats: { chats: 412, leads: 38, hoursSaved: 20.5, avgReply: "<1 sec" },  // ⚙ update monthly
+  quality: { passPct: "93", adversarial: "9/10", lastRetest: "08 Nov 2026" }, // ⚙ paste from eval-suite.html verdict
+  conversations: [                           // ⚙ pick 3 real ones from transcripts
+    { q: "Teeth cleaning price?", a: "Answered from approved price list · booked slot for Sat 6pm", t: "02 Nov, 10:47 PM" },
+    { q: "Do you do braces for adults?", a: "Captured contact → staff called back next morning → consult booked", t: "04 Nov, 1:52 AM" },
+    { q: "Are you open Friday?", a: "Answered from approved hours · no staff effort", t: "08 Nov, 11:38 PM" }
+  ],
+  upgrades: [                                // ⚙ tailor per niche
+    ["WhatsApp channel (Meta-approved templates)", "from ₹9,999"],
+    ["No-show reminders (WhatsApp)", "₹6,999 setup"],
+    ["Second language", "₹2,499"],
+    ["Instagram DM channel", "₹3,499"]
+  ]
+};
+/* ================= END CONFIG — page renders itself ================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = id => document.getElementById(id);
+  $('biz').textContent = CLIENT.business;
+  $('plan').textContent = CLIENT.plan;
+  $('live').textContent = "Live since " + CLIENT.liveSince;
+  $('chats').textContent = CLIENT.stats.chats.toLocaleString('en-IN');
+  $('leads').textContent = CLIENT.stats.leads;
+  $('hours').textContent = CLIENT.stats.hoursSaved + " hrs";
+  $('reply').textContent = CLIENT.stats.avgReply;
+  $('quality').textContent = CLIENT.quality ? CLIENT.quality.passPct + "% · adv " + CLIENT.quality.adversarial + " · " + CLIENT.quality.lastRetest : "—";
+  const rows = [
+    ["Rafiq A.", "98XXXXXX12", "Cleaning price", "10:47 PM", "New"],
+    ["Mira S.",  "97XXXXXX45", "Braces (adult)", "1:52 AM", "Won"],
+    ["Siam K.",  "91XXXXXX77", "Open Friday?", "11:38 PM", "New"],
+    ["Priya D.", "98XXXXXX03", "Root canal cost", "2:14 AM", "Contacted"]
+  ];
+  $('leadsbody').innerHTML = rows.map(r =>
+    `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><span class="${r[4] === 'Won' ? 'won' : 'new'}">${r[4]}</span></td></tr>`
+  ).join('');
+  $('convo').innerHTML = CLIENT.conversations.map(c =>
+    `<div class="convo"><b>“${c.q}”</b> → ${c.a}<span>${c.t}</span></div>`).join('');
+  $('upgrades').innerHTML = CLIENT.upgrades.map(u =>
+    `<li>${u[0]}<b>${u[1]}</b></li>`).join('');
+});
+</script>
+
+<header>
+  <div class="wrap">
+    <span class="live">● LIVE</span>
+    <b id="biz" style="font-size:1.05rem"></b>
+    <span style="color:#aebade;font-size:.8rem" id="plan"></span>
+    <span style="color:#6ee7a8;font-size:.8rem" id="live"></span>
+    <span class="brand">Abet<span>works</span> · AI Front Desk</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="metrics">
+    <div class="metric"><b id="chats">—</b><span>chats handled this month</span></div>
+    <div class="metric"><b id="leads">—</b><span>leads captured</span></div>
+    <div class="metric"><b id="hours">—</b><span>staff time saved (est.)</span></div>
+    <div class="metric"><b id="reply">—</b><span>avg first reply time</span></div>
+    <div class="metric"><b id="quality">—</b><span style="color:#0e9f6e;font-weight:700">✅ zero-hallucination retest</span></div>
+  </div>
+
+  <section class="noprint">
+    <h2>Try your assistant right here</h2>
+    <div class="card">
+      <p class="small" style="margin-bottom:.8rem">Open the live assistant — this is exactly what your customers see:</p>
+      <a class="btn p" id="botbtn" target="_blank" href="#" onclick="this.href=CLIENT.botLink">Open live assistant ↗</a>
+      <a class="btn" target="_blank" href="#" onclick="this.href=CLIENT.sheetLink">Open the leads sheet ↗</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Leads captured (latest)</h2>
+    <div class="card">
+      <table>
+        <thead><tr><th>Name</th><th>Phone</th><th>Asked about</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody id="leadsbody"></tbody>
+      </table>
+      <p class="small" style="margin-top:.7rem">💡 Reply to every <span class="new">New</span> lead within 15 minutes while it's warm. The sheet owner is YOU — data is yours, exportable any time.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="grid2">
+      <div class="card">
+        <h2>3 best conversations this month</h2>
+        <div id="convo"></div>
+        <button class="btn noprint" style="float:right" onclick="window.print()">🖨 Print / save this report</button>
+      </div>
+      <div class="card">
+        <h2>What your assistant knows</h2>
+        <p class="small" id="knows">Hours &amp; address · full services/price list · booking flow · escalation to staff · your language(s). It answers ONLY from this approved document — anything else, it collects contact instead of guessing.</p>
+        <p class="small" style="margin-top:.8rem">Need a change? One WhatsApp message → updated within 24h. That's what the care plan is.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="noprint">
+    <h2>Make it stronger next month</h2>
+    <div class="up">
+      <ul id="upgrades"></ul>
+      <p class="small" style="margin-top:.8rem">Say the word on WhatsApp and it's added to your build — fixed prices, no surprises.</p>
+    </div>
+  </section>
+
+  <section class="noprint">
+    <div class="card" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+      <b>Need an update or an issue?</b>
+      <a class="btn wa" target="_blank" href="#" onclick="this.href='https://wa.me/'+CLIENT.whatsapp+'?text=Hi%20Abet%20Works%20—%20I%20need%20a%20change%20on%20my%20AI%20front%20desk'">💬 WhatsApp your updates</a>
+      <span class="small">Replies within 24h · admin@abetworks.in</span>
+    </div>
+  </section>
+</div>
+
+<footer>© <span id="y">2026</span> Abet Works · Data residency in Mumbai · DPDP-ready · Your data stays yours
+<script>document.getElementById('y').textContent=new Date().getFullYear()</script></footer>
+</body>
+</html>
