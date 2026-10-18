@@ -28,6 +28,8 @@
 | WEBSITE/client-dashboard.html | per-client owner dashboard — the retention weapon |
 | README.md | START HERE — orientation, placeholder registry, laws of the kit |
 | RESEARCH/competitive-gap-analysis.md | competitor map + THE GAP + P0/P1 features per product + build-order backlog |
+| RESEARCH/spec-front-desk-voice.md | product spec: AI phone receptionist (India/Hinglish) — architecture, compliance, unit economics, pilot plan |
+| RESEARCH/spec-whatsapp-reachability.md | product spec: LeadWorks verified-reachability field — schema, consent-first pipeline, honest tiers |
 | WEBSITE/eval-suite.html + A10 | ⚙ the hallucination eval suite (built!) — pre-delivery test + monthly retest scoring |
 
 TASK-FLOW: daily → 06 · weekly → 00 · when stuck → the file that matches the problem.
