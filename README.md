@@ -1,6 +1,6 @@
 # 🚀 BUSINESS KIT — START HERE
 
-**Owner:** [YOUR NAME] · **Company:** Abet Works (Mumbai) · **Capital:** $0 · **Status: v1.0 — complete, sellable, manageable**
+**Owner:** [YOUR NAME] · **Company:** Abet Works (Mumbai) · **Capital:** $0 · **Status: v1.1 — complete, sellable, manageable (see CHANGELOG)**
 
 This folder is your entire business operating system: outreach engine, delivery templates, pricing/contracts, money rules, scaling plan, content lane, and the live website funnel. Nothing more needs building. What remains is execution + the placeholder replacements below.
 
@@ -52,6 +52,8 @@ Plus the **web funnel**: `WEBSITE/` (allied-services page + one-pager + client d
 | `WEBSITE/README-integration.md` | deploy + UTM + nav wiring |
 | `RESEARCH/competitive-gap-analysis.md` | market map, THE GAP per product, P0/P1/P2 features, 12-item build-order backlog |
 | `RESEARCH/spec-front-desk-voice.md` · `spec-whatsapp-reachability.md` | 2 product build specs (voice receptionist · verified-reachability field) |
+| `trackers/*.csv` + `README-import.md` | import-ready Google Sheets trackers (2-min setup, formulas included) |
+| `CHANGELOG.md` | version history of the kit itself |
 | `WEBSITE/eval-suite.html` + `TEMPLATES/A10` | **built product feature**: 20-question hallucination eval app — SHIP verdict + monthly retest evidence |
 
 ## TODAY (Day 1 — from 06 Section H)

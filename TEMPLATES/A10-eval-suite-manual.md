@@ -10,7 +10,7 @@ Nobody in the SMB chatbot/WhatsApp lane (WATI → Chatbase → Tidio) ships a **
 
 ## The 5-minute workflow
 
-1. **New project** → business name + niche template (clinic/restaurant/gym-coaching/generic)
+1. **New project** → business name + niche template (clinic / restaurant / gym-coaching / real-estate / machine-shop / generic — all six site industries, 20 questions each)
 2. Paste the **owner-approved knowledge document** (ground truth). The evidence JSON references it.
 3. Test the bot:
    - **Manual mode:** open the bot (Botpress shareable link), ask test #1, paste the answer into the row → heuristics run live → confirm the suggested verdict (✅ pass / ❌ fail / 🛑 hallucinated / 👀 needs-read)
