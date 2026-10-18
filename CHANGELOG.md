@@ -14,3 +14,5 @@
 - 10 execution templates (bots A1/A2, delivery A3, contract A4, proposals A5, thumbnails A6, walkthrough A7, calls A8, one-pager A9, eval manual A10)
 - Web funnel: allied-services page, outbound PDF, client dashboard
 - Pushed to GitHub `abetworks-business-kit` (private)
+## v1.1.1 — 2026-10-18
+- **GitHub Pages live site:** `coding4vinayak.github.io/abetworks-business-kit` — landing portal + allied page + eval suite + client dashboard + one-pager, hosted free from the `docs/` folder (source of truth stays in `/WEBSITE`).
