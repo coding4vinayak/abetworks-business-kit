@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- ============================================================================
+ABET WORKS — OUTBOUND ONE-PAGER (print-ready, A4)
+HOW TO MAKE THE PDF:
+1. Open this file in Chrome
+2. Ctrl+P → Destination: Save as PDF · Paper: A4 · Margins: NONE · Background graphics: ON
+3. Save as ABEWORKS-AI-FrontDesk-offer.pdf
+
+EDIT BEFORE FIRST USE (marked ⚙):
+- Logo image path
+- WhatsApp number + wa.me link
+- Prices if the ladder changed (keep synced with allied-services.html)
+- QR image (point to /services/allied-services/)
+============================================================================= -->
+<title>Abet Works — AI Front Desk offer (one page)</title>
+<style>
+:root{--ink:#101a30;--mut:#5a657d;--acc:#2c4fd8;--acc2:#0e9f6e;--line:#dfe4f2;--bg:#ffffff;--soft:#f4f6fd}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;color:var(--ink);background:#e8ecf7;line-height:1.45;font-size:10.5pt}
+.page{width:210mm;min-height:297mm;background:var(--bg);margin:6mm auto;padding:12mm 12mm 10mm;box-shadow:0 2px 18px rgba(16,26,48,.15)}
+@media print{body{background:#fff}.page{margin:0;box-shadow:none;width:auto;min-height:auto;padding:11mm}}
+/* header */
+.top{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--acc);padding-bottom:4mm;margin-bottom:5mm}
+.brand{font-size:15pt;font-weight:800;letter-spacing:-.02em}.brand span{color:var(--acc)}
+.tagline{font-size:8.5pt;color:var(--mut)}
+/* headline */
+h1{font-size:19pt;letter-spacing:-.02em;line-height:1.15}
+.sub{color:var(--mut);margin:2mm 0 4mm;max-width:170mm}
+.chips{display:flex;flex-wrap:wrap;gap:2mm;margin-bottom:5mm}
+.chip{border:1px solid var(--line);border-radius:999px;padding:.6mm 2.6mm;font-size:7.5pt;color:var(--ink);background:var(--soft)}
+/* packages */
+.packrow{display:grid;grid-template-columns:1fr 1fr 1.06fr;gap:3mm;margin-bottom:2mm}
+.pack{border:1px solid var(--line);border-radius:3mm;padding:3.2mm 3.5mm;background:#fff}
+.pack.hot{border:2px solid var(--acc);position:relative}
+.hot .flag{position:absolute;top:-2.6mm;left:3mm;background:var(--acc);color:#fff;font-size:6.5pt;font-weight:800;padding:.4mm 2mm;border-radius:99px;letter-spacing:.05em}
+.tier{font-size:7pt;font-weight:800;letter-spacing:.08em;color:var(--acc);text-transform:uppercase}
+.pack h3{font-size:12pt;margin:.6mm 0}
+.price{font-size:13pt;font-weight:800}
+.per{font-size:8pt;color:var(--mut);font-weight:700}
+.pack ul{list-style:none;margin-top:2.2mm}
+.pack li{position:relative;padding-left:4mm;font-size:8.6pt;margin-bottom:1.3mm;color:#243049}
+.pack li::before{content:"✓";position:absolute;left:0;color:var(--acc2);font-weight:800}
+.pack .sel{margin-top:1.6mm;font-size:8.6pt;font-weight:700;color:var(--acc)}
+.note{font-size:7.6pt;color:var(--mut);margin:2.5mm 0 4mm}
+/* timeline */
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:2.4mm;margin-bottom:5mm}
+.step{background:var(--soft);border:1px solid var(--line);border-radius:2.4mm;padding:2.4mm}
+.step b{color:var(--acc);font-size:8.6pt}
+.step span{display:block;font-size:7.6pt;color:var(--mut);margin-top:.6mm}
+/* trust + extras */
+.dump{display:grid;grid-template-columns:1.25fr 1fr;gap:4mm;margin-bottom:5mm}
+.box{border:1px solid var(--line);border-radius:3mm;padding:3mm 3.5mm}
+.box h4{font-size:8.2pt;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:1.6mm}
+.box p,.box li{font-size:8.4pt;color:#243049}
+.box ul{list-style:none}.box li{margin-bottom:1mm}
+.box li::before{content:"· ";color:var(--acc);font-weight:800}
+/* cta */
+.cta{display:flex;gap:3mm;align-items:stretch;background:var(--ink);border-radius:3mm;color:#fff;padding:3.5mm 4mm;margin-top:1mm}
+.cta .left{flex:1.5}
+.cta h4{font-size:11.5pt;letter-spacing:-.01em}
+.cta p{font-size:8.4pt;color:#c6cfe6;margin-top:.8mm}
+.wa{color:#6ee7a8;font-weight:800}
+.contact{flex:1;background:rgba(255,255,255,.08);border-radius:2.4mm;padding:2.6mm 3mm;font-size:8.6pt;line-height:1.7}
+.contact b{display:block;font-size:7pt;letter-spacing:.08em;color:#aebade;text-transform:uppercase;margin-bottom:.8mm}
+footer{margin-top:4mm;padding-top:2.5mm;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:7.4pt;color:var(--mut)}
+</style>
+</head>
+<body>
+<!-- ⚙ SIDE 1 — THE OFFER -->
+<div class="page">
+  <div class="top">
+    <!-- ⚙ replace with <img src="abet-logo.png" style="height:8mm"> or keep text brand -->
+    <div>
+      <div class="brand">Abet<span>works</span></div>
+      <div class="tagline">AI Front Desk for local businesses — built on one governed platform</div>
+    </div>
+    <div class="tagline" style="text-align:right">admin@abetworks.in<br>301, VS Road, Mumbai</div>
+  </div>
+
+  <h1>Never answer the same question at 11pm again.</h1>
+  <p class="sub">An AI assistant on your website that answers prices, timings and bookings — only from YOUR approved information — and saves every serious buyer's contact to your sheet. Live in <b>5 working days</b>. You never touch a technical screen.</p>
+
+  <div class="chips">
+    <span class="chip">✅ Zero-hallucination policy (retested monthly)</span>
+    <span class="chip">✅ Your data stays yours</span>
+    <span class="chip">✅ DPDP-ready, hosting in Mumbai</span>
+    <span class="chip">✅ Care plan cancels in 7 days — no traps</span>
+  </div>
+
+  <div class="packrow">
+    <div class="pack">
+      <span class="tier">Front Desk</span><h3>Lite</h3>
+      <div class="price">₹14,999<span class="per"> setup + ₹1,999/mo</span></div>
+      <ul>
+        <li>Assistant on your website</li>
+        <li>Knowledge from your approved info only</li>
+        <li>Leads → your email / Google Sheet</li>
+        <li>2 updates/mo + monthly summary</li>
+        <li>Includes AbetConnect licence</li>
+      </ul>
+      <div class="sel">For single-location businesses</div>
+    </div>
+    <div class="pack">
+      <span class="tier">Front Desk + Pipeline</span><h3>Pro</h3>
+      <div class="price">₹34,999<span class="per"> setup + ₹4,999/mo</span></div>
+      <ul>
+        <li>Everything in Lite</li>
+        <li>Leads scored &amp; routed in NuCRM</li>
+        <li>Booking flow + staff handover</li>
+        <li>+1 extra client language</li>
+        <li>One-page monthly report</li>
+        <li>Includes NuCRM + AbetConnect</li>
+      </ul>
+      <div class="sel">For businesses with a sales pipeline, not just DMs</div>
+    </div>
+    <div class="pack hot">
+      <span class="flag">MOST CHOSEN</span>
+      <span class="tier">Multi-location / teams</span><h3>Revenue Ops Scale</h3>
+      <div class="price">₹89,999<span class="per"> setup + ₹14,999/mo</span></div>
+      <ul>
+        <li>Everything in Pro</li>
+        <li>WhatsApp + Instagram, unified, SLAs</li>
+        <li>AbetFlow automations + digests</li>
+        <li>AbetAgent tuned to your SOPs</li>
+        <li>Owner dashboard + attribution</li>
+        <li>Staff training + quarterly optimisation</li>
+      </ul>
+      <div class="sel">For teams where one inbox isn't enough</div>
+    </div>
+  </div>
+  <p class="note">First month of care included on every package · fixed-price extras: WhatsApp API channel from ₹9,999 · extra language ₹2,499 · calendar integration ₹4,999 · Instagram DM ₹3,499.</p>
+
+  <div class="strip">
+    <div class="step"><b>Day 0</b><span>20-min call — bring one FAQ page + price list (a photo is fine)</span></div>
+    <div class="step"><b>Day 1–2</b><span>Knowledge build; you approve the document</span></div>
+    <div class="step"><b>Day 3</b><span>Live demo on YOUR data + the 2am test, on camera</span></div>
+    <div class="step"><b>Day 4</b><span>Publish + 15-min staff training video</span></div>
+    <div class="step"><b>Day 5</b><span>Go live — care plan begins (first month free)</span></div>
+  </div>
+
+  <div class="dump">
+    <div class="box">
+      <h4>What it will never do</h4>
+      <ul>
+        <li>Invent a price, item or doctor that isn't in your approved list</li>
+        <li>Give medical or food-safety advice — those route to your staff</li>
+        <li>Contact your customers on its own; it only answers</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>What the monthly care plan is</h4>
+      <ul>
+        <li>Updates in 24h after one WhatsApp from you</li>
+        <li>Monthly report: chats, leads, 3 real conversations</li>
+        <li>Zero-hallucination retest (20 questions, 5 nasty)</li>
+        <li>Cancel with 7 days' notice — export everything</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="left">
+      <h4>See it on YOUR data before you decide anything.</h4>
+      <p>Free demo built on your menu / price list / FAQ. Reply <span class="wa">"DEMO"</span> on WhatsApp and we'll send the video within 24 hours — no obligation.</p>
+    </div>
+    <!-- ⚙ WhatsApp: replace number -->
+    <div class="contact">
+      <b>Direct line</b>
+      💬 WhatsApp: <b style="display:inline;text-transform:none;font-size:8.6pt;color:#6ee7a8">+91 XXXXX XXXXX</b><br>
+      ✉️ action please: admin@abetworks.in<br>
+      ⚙ QR + link: abetworks-website.onrender.com/services/allied-services/
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Abet Works · Made in Mumbai, India</span>
+    <span>abetworks-website.onrender.com · One platform, one bill</span>
+  </footer>
+</div>
+
+<!-- ⚙ SIDE 2 — print the block below only for paper / chamber-of-commerce handouts. For WhatsApp keep ONE page.
+<div class="page">
+  ... FAQ 4 items + care plan details + "how we work" (we recommend against ourselves where needed) ...
+</div>
+-->
+</body>
+</html>

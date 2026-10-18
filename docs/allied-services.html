@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ============================================================================
+     ABET WORKS — ALLIED SERVICES (standalone page)
+     Drop-in: works as-is on any static hosting (Render / public folder / route).
+     On integration with the main site: swap tokens in :root to global brand
+     vars, replace the minimal header/footer with shared components, and move
+     CTAs to your router-aware <Link>s. Content copy: allied-services-page-copy.md
+     ============================================================================ -->
+<title>Allied Services — done-for-you AI front desk &amp; revenue ops for Indian SMBs | Abet Works</title>
+<meta name="description" content="Clinics, restaurants, retailers, manufacturers: we build, launch and maintain your AI front desk on the Abetworks suite — knowledge base, WhatsApp, lead capture and monthly reporting. Live in 5 working days, from ₹14,999.">
+<meta property="og:title" content="Done-for-you AI front desk for Indian SMBs — Abet Works Allied Services">
+<meta property="og:description" content="Answers at 11pm, leads in your sheet by morning. Built on one governed platform. Live in 5 working days, from ₹14,999.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://abetworks.in/services/allied-services/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Abet Works Allied Services — AI Front Desk & Revenue Ops for SMBs","provider":{"@type":"Organization","name":"Abet Works","address":{"@type":"PostalAddress","streetAddress":"301, VS Road","addressLocality":"Mumbai","addressCountry":"IN"},"email":"admin@abetworks.in"},"areaServed":"IN","serviceType":"AI assistant implementation and managed revenue operations","offers":[{"@type":"Offer","name":"Front Desk Lite","price":"14999","priceCurrency":"INR"},{"@type":"Offer","name":"Front Desk Pro","price":"34999","priceCurrency":"INR"},{"@type":"Offer","name":"Revenue Ops Scale","price":"89999","priceCurrency":"INR"}]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Will the assistant make up prices or services?","acceptedAnswer":{"@type":"Answer","text":"No — it answers only from your approved information. Anything outside it collects the customer's contact. We retest this monthly with 20 questions including adversarial ones."}},
+{"@type":"Question","name":"Do I need WhatsApp Business API?","acceptedAnswer":{"@type":"Answer","text":"Not to start — webchat goes live on day 5. WhatsApp needs Meta business approval; we handle it as a fixed-price add-on and explain Meta's pricing honestly."}},
+{"@type":"Question","name":"Who owns the data and leads?","acceptedAnswer":{"@type":"Answer","text":"You do. Your sheet, your CRM, exportable any time. Data residency in Mumbai; see the trust centre."}},
+{"@type":"Question","name":"Can I cancel the care plan?","acceptedAnswer":{"@type":"Answer","text":"Yes, with 7 days' notice. Retainers are optional by design. The setup fee stands after go-live — it paid for the delivered system and training."}}
+]}
+</script>
+<style>
+:root{--bg:#0b1020;--bg2:#0f1730;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--acc2:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.announce{background:linear-gradient(90deg,#131c3d,#1a2a5e);font-size:.85rem;padding:.5rem 0;border-bottom:1px solid var(--line)}
+.announce .wrap{display:flex;gap:.6rem;align-items:center}.tag{background:var(--acc2);color:#04121a;font-weight:700;border-radius:999px;padding:.1rem .6rem;font-size:.72rem}
+header{position:sticky;top:0;z-index:50;background:rgba(11,16,32,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:1rem;padding:.8rem 20px}
+.logo{font-weight:800;letter-spacing:-.02em}.logo span{color:var(--acc)}
+header nav{margin-left:auto;display:flex;gap:1rem;font-size:.92rem}
+.btn{display:inline-block;padding:.65rem 1.15rem;border-radius:10px;font-weight:700;border:1px solid var(--line)}
+.btn.p{background:var(--acc);color:#fff;border-color:transparent}
+.btn.ghost{color:var(--txt)}
+.hero{padding:4.5rem 0 3rem;background:radial-gradient(900px 380px at 15% -10%,rgba(108,140,255,.18),transparent),radial-gradient(700px 320px at 90% 0,rgba(46,230,168,.1),transparent)}
+.kick{display:inline-block;background:rgba(108,140,255,.14);color:var(--acc);border:1px solid rgba(108,140,255,.35);border-radius:999px;padding:.25rem .8rem;font-size:.8rem;font-weight:700;margin-bottom:1rem}
+h1{font-size:clamp(1.9rem,4.2vw,3.1rem);line-height:1.12;letter-spacing:-.02em;max-width:21ch}
+.hero p.lead{color:var(--mut);max-width:62ch;margin:1.1rem 0 1.6rem;font-size:1.06rem}
+.chips{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.4rem}
+.chip{border:1px solid var(--line);border-radius:999px;padding:.3rem .75rem;font-size:.8rem;color:var(--mut)}
+section{padding:4rem 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-.02em;margin-bottom:.5rem}
+.sub{color:var(--mut);max-width:64ch;margin-bottom:2.2rem}
+.grid{display:grid;gap:1rem}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.g6{grid-template-columns:repeat(6,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem}
+.card h3{font-size:1.02rem;margin-bottom:.4rem}
+.card p{color:var(--mut);font-size:.92rem}
+.card .who{color:var(--acc2);font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.pack .price{font-size:1.5rem;font-weight:800;margin:.35rem 0 .1rem}
+.pack .per{color:var(--mut);font-size:.84rem;font-weight:600}
+.pack ul{list-style:none;margin:1rem 0}
+.pack li{padding-left:1.35rem;position:relative;color:#cdd6ee;font-size:.93rem;margin-bottom:.5rem}
+.pack li::before{content:"✓";position:absolute;left:0;color:var(--acc2);font-weight:800}
+.pack li.no{color:var(--mut)}.pack li.no::before{content:"–";color:var(--warn)}
+.feature{border:2px solid var(--acc);position:relative}
+.ribbon{position:absolute;top:-.85rem;left:1.2rem;background:var(--acc);color:#fff;font-size:.7rem;font-weight:800;padding:.2rem .6rem;border-radius:999px;letter-spacing:.06em}
+.foot-note{font-size:.8rem;color:var(--mut);margin-top:.9rem}
+.days{display:grid;gap:.8rem;grid-template-columns:repeat(5,1fr)}
+.day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem .9rem}
+.day b{color:var(--acc)}.day span{display:block;color:var(--mut);font-size:.85rem;margin-top:.3rem}
+table{width:100%;border-collapse:collapse;font-size:.94rem}
+th,td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em}
+td:nth-child(2),th:nth-child(2){text-align:right}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem;margin-bottom:.8rem}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{color:var(--mut);margin-top:.6rem;font-size:.94rem}
+.cta{background:linear-gradient(120deg,#16224b,#101a38);border:1px solid var(--line)}
+.cta .inner{display:grid;grid-template-columns:1.4fr 1fr;gap:2rem;align-items:center}
+.small{font-size:.82rem;color:var(--mut)}
+footer{padding:3rem 0;border-top:1px solid var(--line)}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem;font-size:.9rem}
+footer h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:.7rem}
+footer li{margin-bottom:.45rem;color:var(--mut)}
+.legal{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:1rem;color:var(--mut);font-size:.8rem}
+@media (max-width:900px){.g3,.g6{grid-template-columns:repeat(2,1fr)}.days{grid-template-columns:repeat(2,1fr)}.cta .inner{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.g2,.g3,.g6{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}header nav{display:none}}
+</style>
+</head>
+<body>
+<div class="announce"><div class="wrap"><span class="tag">New</span> AbetAgent 2.0 is live — autonomous SDR, support and research agents on your own data. <a href="/products/abetagent/">See what it does →</a></div></div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="/">Abet<span>works</span></a>
+    <nav>
+      <a href="/products/">Products</a><a href="/services/">Services</a><a href="/solutions/">Solutions</a><a href="/pricing/">Pricing</a><a href="/contact/">Contact</a>
+    </nav>
+    <a class="btn p" href="https://tripetto.app/run/BKR1M1PACY">Start free</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap small" style="padding-top:1rem"><a href="/">Home</a> / <a href="/services/">Services</a> / Allied services</div>
+
+  <div class="hero">
+    <div class="wrap">
+      <span class="kick">Allied services — for businesses up to ~40 staff</span>
+      <h1>Done-for-you AI systems for the businesses that keep India open till 9pm</h1>
+      <p class="lead">You sell real things — appointments, tables, admissions, orders, parts. Your customers ask questions at 11pm and nobody answers. We build your AI front desk on the Abetworks suite, run it monthly, and hand you the leads. Live in 5 working days. You never touch a technical screen.</p>
+      <a class="btn p" href="/contact/">Book the free 20-min discovery</a> &nbsp; <a class="btn ghost" href="/pricing/">See platform pricing</a>
+      <div class="chips">
+        <span class="chip">🗄 Data residency in Mumbai (ap-south-1)</span>
+        <span class="chip">🛡 DPDP-ready handling</span>
+        <span class="chip">🧠 Zero-hallucination policy</span>
+        <span class="chip">🔑 You own everything</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="who">
+    <div class="wrap">
+      <h2>Who this is built for</h2>
+      <p class="sub">Six patterns we deploy again and again. If it answers customers till midnight, it likely fits.</p>
+      <div class="grid g3">
+        <div class="card"><span class="who">Healthcare</span><h3>Clinics &amp; diagnostic labs</h3><p>Appointment capture, fee/slot questions, no-show reminders — the receptionist that never leaves at 6pm.</p></div>
+        <div class="card"><span class="who">Retail</span><h3>Restaurants &amp; cafés</h3><p>Menu answers, table booking, delivery-intent capture — every chat ends in a booking or a saved number.</p></div>
+        <div class="card"><span class="who">Retail</span><h3>Shops &amp; multi-store retail</h3><p>Stock and price questions per store, clienteling lists, DM-to-lead pipelines.</p></div>
+        <div class="card"><span class="who">Real estate</span><h3>Agents &amp; developers</h3><p>Project FAQs and site-visit booking minutes after the ad click — speed-to-lead for the 2-crore questions.</p></div>
+        <div class="card"><span class="who">Education</span><h3>Coaching &amp; EdTech</h3><p>Admission-season seat info, fees and schedules; parents' numbers captured with zero staff effort.</p></div>
+        <div class="card"><span class="who">Manufacturing</span><h3>Machine shops &amp; factories</h3><p>Enquiry triage and spec-sheet answers till midnight; engineering-grade detail stays with your human quote.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="packages">
+    <div class="wrap">
+      <h2>Three packages. One bill — the service + the licence it needs.</h2>
+      <p class="sub">No agency "chatbot" that dies in month two: the same governed stack our enterprise clients run, sized for small business. Outgrow the front desk and you're already on the platform — nothing gets rebuilt.</p>
+      <div class="grid g3">
+        <div class="card pack">
+          <span class="who">Front Desk</span><h3>Lite</h3>
+          <div class="price">from ₹14,999</div><div class="per">setup + ₹1,999/month care</div>
+          <ul>
+            <li>AI assistant on your website (webchat)</li>
+            <li>Knowledge base built from your approved info only</li>
+            <li>Lead capture → your email / Google Sheet</li>
+            <li>Zero-hallucination guardrail: unknowns collect contacts, never guess</li>
+            <li>2 content updates/month + simple monthly summary</li>
+            <li>Includes: AbetConnect webchat licence</li>
+            <li class="no">WhatsApp API, Instagram DM, bookings — fixed-price extras menu</li>
+          </ul>
+          <a class="btn ghost" href="/contact/">Ask about Lite</a>
+        </div>
+        <div class="card pack feature">
+          <span class="ribbon">Most chosen</span>
+          <span class="who">Front Desk + Pipeline</span><h3>Pro</h3>
+          <div class="price">from ₹34,999</div><div class="per">setup + ₹4,999/month care</div>
+          <ul>
+            <li>Everything in Lite</li>
+            <li>NuCRM pipeline: captured leads scored &amp; routed — you see who's hot</li>
+            <li>Booking / visit flow with staff handover for complex asks</li>
+            <li>1 additional client-facing language</li>
+            <li>Monthly one-page report: chats, leads, time saved, 3 best conversations</li>
+            <li>Includes: AbetConnect + NuCRM licences</li>
+          </ul>
+          <a class="btn p" href="/contact/">Book the Pro discovery</a>
+        </div>
+        <div class="card pack">
+          <span class="who">Multi-location / teams</span><h3>Revenue Ops Scale</h3>
+          <div class="price">from ₹89,999</div><div class="per">setup + ₹14,999/month care</div>
+          <ul>
+            <li>Everything in Pro</li>
+            <li>WhatsApp + Instagram DMs unified with SLAs &amp; handover logs</li>
+            <li>AbetFlow automations: digests, follow-up nudges, no-show reminders</li>
+            <li>AbetAgent tuned to your SOPs (tier-1 resolution with citations)</li>
+            <li>Owner dashboard: chats, leads, SLA, attribution</li>
+            <li>Staff training (90 min) + recorded SOPs · quarterly optimisation</li>
+            <li>Includes: suite licences this scope requires</li>
+          </ul>
+          <a class="btn ghost" href="/contact/">Scope your build</a>
+        </div>
+      </div>
+      <p class="foot-note">All packages: first month of care included · cancel care with 7 days' notice · export everything. Fixed-price extras menu: WhatsApp API channel from ₹9,999 · extra language ₹2,499 · calendar integration ₹4,999 · Instagram DM ₹3,499 · new branch knowledge domain ₹4,999.</p>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <h2>How five working days actually happen</h2>
+      <p class="sub">Discovery is free. Nothing ships without your sign-off on the knowledge document.</p>
+      <div class="days">
+        <div class="day"><b>Day 0</b><span>20-min call. Bring one FAQ page + one price list — a photo is fine.</span></div>
+        <div class="day"><b>Day 1–2</b><span>Knowledge build. You approve the document — what's approved is all it answers.</span></div>
+        <div class="day"><b>Day 3</b><span>Live demo on your data + the 2 a.m. test — on camera.</span></div>
+        <div class="day"><b>Day 4</b><span>Publish to your site / Instagram + staff walk-through (15-min video you keep).</span></div>
+        <div class="day"><b>Day 5</b><span>Go live. Care plan begins — first month included.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <h2>The questions you'd ask anyway</h2>
+      <p class="sub">If yours isn't here, the trust centre probably has it — or just ask.</p>
+      <details open><summary>Will it make up prices or services? (hallucination)</summary><p>No — it answers only from your approved information. Anything outside it, it collects the customer's contact instead of guessing. We demonstratively retest this monthly: 20 questions, five deliberately nasty.</p></details>
+      <details><summary>Do I need WhatsApp Business API?</summary><p>To start, no — webchat goes live on day 5. WhatsApp needs Meta business approval and Meta-side invoicing; we handle the setup as a fixed-price add-on and explain Meta's pricing honestly before you commit.</p></details>
+      <details><summary>Who owns the data and leads?</summary><p>You do. Your sheet, your CRM, exportable any time. Data residency in Mumbai (ap-south-1), DPDP-ready handling — the same trust layer our enterprise clients pass audits on.</p></details>
+      <details><summary>My staff aren't technical. Is that a problem?</summary><p>None. The monthly report is one page. The update path is a single WhatsApp message to us. Training is a 15-minute video your team keeps.</p></details>
+      <details><summary>Can I cancel?</summary><p>The care plan: yes, 7 days' notice — retainers are optional by design. Setup: after go-live it stands, since it paid for the delivered system, knowledge base and training.</p></details>
+      <details><summary>Is this for big companies?</summary><p>No — deliberately. The enterprise lane lives on <a href="/services/">our main services page</a>. Allied services is small-business shaped: same trust, tighter budget.</p></details>
+    </div>
+  </section>
+
+  <section id="tools">
+    <div class="wrap">
+      <h2>Free tools we use on <em>your</em> project</h2>
+      <p class="sub">No signup. Part of the Abetworks Hub — built for exactly this work.</p>
+      <div class="grid g3">
+        <div class="card"><h3><a href="https://hub.abetworks.in/answerready">AnswerReady</a></h3><p>We check whether AI assistants can actually read your website — before promising anything.</p></div>
+        <div class="card"><h3><a href="https://hub.abetworks.in/quotecraft">QuoteCraft</a></h3><p>The quotes and proposals we send you on the day you ask, generated professionally.</p></div>
+        <div class="card"><h3><a href="https://hub.abetworks.in/supportqa">SupportQA</a></h3><p>How the assistant's conversation quality is scored in your monthly report — not vibes, rubric.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap inner">
+      <div>
+        <h2>Start with a live demo on your data — before you decide anything.</h2>
+        <p class="small" style="margin-top:.6rem">Book the free 20-min discovery, or start the 14-day product trial (no credit card). Bring one FAQ page and one price list — the demo build is on us.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.8rem">
+        <a class="btn p" href="/contact/">Talk to sales</a>
+        <a class="btn ghost" href="https://tripetto.app/run/BKR1M1PACY">Start free trial</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="/">Abet<span>works</span></a>
+        <p class="small" style="margin-top:.6rem">Abet Work builds an integrated AI business suite for teams that sell, serve and scale — plus the data, AI and growth services to make it land.<br><br>Abet Works · 301, VS Road · Mumbai, India<br><a href="mailto:admin@abetworks.in">admin@abetworks.in</a></p>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <ul style="list-style:none">
+          <li><a href="/products/nucrm/">NuCRM</a></li>
+          <li><a href="/products/abetconnect/">AbetConnect</a></li>
+          <li><a href="/products/abetflow/">AbetFlow</a></li>
+          <li><a href="/products/abetagent/">AbetAgent</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Trust &amp; legal</h4>
+        <ul style="list-style:none">
+          <li><a href="/trust/">Trust centre</a></li>
+          <li><a href="/trust/data-residency/">Data residency</a></li>
+          <li><a href="/legal/privacy/">Privacy policy</a></li>
+          <li><a href="/legal/terms/">Terms of service</a></li>
+          <li><a href="/legal/dpa/">DPA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© <span id="y">2026</span> Abet Works. All rights reserved.</span><span>Made in Mumbai, India.</span>
+      <span><a href="https://x.com/abetworks">X</a> · <a href="https://www.linkedin.com/company/abetworks">LinkedIn</a> · <a href="https://hub.abetworks.in">Abetworks Hub</a></span>
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
