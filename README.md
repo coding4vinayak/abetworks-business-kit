@@ -51,6 +51,7 @@ Plus the **web funnel**: `WEBSITE/` (allied-services page + one-pager + client d
 | `WEBSITE/client-dashboard.html` | per-client owner dashboard — the retention weapon |
 | `WEBSITE/README-integration.md` | deploy + UTM + nav wiring |
 | `RESEARCH/competitive-gap-analysis.md` | market map, THE GAP per product, P0/P1/P2 features, 12-item build-order backlog |
+| `RESEARCH/spec-front-desk-voice.md` · `spec-whatsapp-reachability.md` | 2 product build specs (voice receptionist · verified-reachability field) |
 | `WEBSITE/eval-suite.html` + `TEMPLATES/A10` | **built product feature**: 20-question hallucination eval app — SHIP verdict + monthly retest evidence |
 
 ## TODAY (Day 1 — from 06 Section H)
