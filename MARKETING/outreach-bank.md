@@ -5,6 +5,8 @@
 
 ---
 
+> 🇮🇳 **Hindi-first prospect?** Use `hinglish-outreach.md` — same W-1…W-4/IG/call scripts in Hinglish. Language routing rules at its top.
+
 ## 1. WhatsApp cold messages (20/day, manual, one at a time)
 
 ### W-1 opener (default)

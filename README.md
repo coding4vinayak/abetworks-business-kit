@@ -54,6 +54,7 @@ Plus the **web funnel**: `WEBSITE/` — 8 pages: allied offer · interactive dem
 | `MARKETING/outreach-bank.md` | every cold channel pre-written + daily quota + 14-day targets |
 | `MARKETING/social-bank.md` | 30-day content calendar + post templates + reel scripts |
 | `MARKETING/objection-book.md` | discovery script + 15 objections + cadence + kill signals |
+| `MARKETING/hinglish-outreach.md` | same outreach machine in Hinglish (WA/IG/call scripts) — language routing rules included |
 | `MARKETING/assets-score.md` | LINK BANK (single source of all URLs) + 7-day launch plan + scoreboard |
 | `TEMPLATES/A11-leave-behind.md` | print A5 card (2-up A4) + QR discipline |
 | `WEBSITE/proposal-generator.html` | ops: branded proposal PDF + WA message per prospect (same verified ROI math) |
