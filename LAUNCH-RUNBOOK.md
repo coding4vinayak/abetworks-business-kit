@@ -10,7 +10,7 @@ One page. Exact order. Every step references a file that already exists. No step
 
 | # | Action | Where | Result |
 |---|---|---|---|
-| 1 | Restart the `abetworks-website` service | Render dashboard | `abetworks.in` stops 520-ing (do FIRST — it's a live brand) |
+| 1 | Do NOT restart Render (verified healthy). Fix the Cloudflare zone per `CUSTOM-DOMAIN-GUIDE.md` §5 (check apex/www record targets + SSL mode Full-strict) | Cloudflare dashboard | `abetworks.in` stops 520-ing (do FIRST — it's a live brand) |
 | 2 | Add DNS record: `CNAME · kit · coding4vinayak.github.io · **DNS only (grey cloud)**` | Cloudflare → abetworks.in → DNS | `kit.abetworks.in` path opens (see `CUSTOM-DOMAIN-GUIDE.md`) |
 | 3 | Send me: **real name + WhatsApp digits + 6 prices** (Lite/Pro/Scale setup + care) | — | I run `node scripts/finalize.js --apply` → 73+ replacements → `test/run-tests.js` green → every placeholder gone |
 

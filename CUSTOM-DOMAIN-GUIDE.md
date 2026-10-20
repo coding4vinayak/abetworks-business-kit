@@ -64,15 +64,19 @@ Delete the `kit` DNS record → subdomain falls back to the wildcard; the `githu
 
 ---
 
-## 5 · SIDE-ALERT: main site 520 (separate issue, yours)
+## 5 · SIDE-ALERT: main site 520 — VERIFIED diagnosis (2026-10-20 live test)
 
-`https://abetworks.in` and the wildcard subdomains are returning Cloudflare **520 = the origin answered with garbage/died**. Since apex is proxied to (probably) Render:
+Public signals tested: `abetworks-website.onrender.com` → **HTTP 200, healthy** (origin fine!) while `abetworks.in` AND `www` → 520 via Cloudflare edge; `hub.abetworks.in` → timed out at the edge.
+**Conclusion: Render is up — the break is inside the Cloudflare zone config. Do NOT restart Render.**
 
-1. Log in to **Render** → is `abetworks-website` service **running** or suspended? Free tier sleeps — but 520 ≠ sleep (sleep is a slow 200). 
-2. If the service was suspended (free instance hours exhausted or billing), restart/upgrade it.
-3. Once it serves normally, `abetworks.in` recovers on its own — no DNS change needed.
+Cloudflare console, in order:
+1. **DNS → open the `abetworks.in` record (apex) and `www`** → read each record's HIDDEN TARGET:
+   - if it is NOT `abetworks-website.onrender.com` → set it exactly to that (CNAME; apex flattening is automatic; keep proxy orange for these two — grey is only for the GitHub pages subdomain)
+2. **SSL/TLS → Overview → set mode Full (strict)** (Render's cert is valid; "Flexible" or "Off" can 520-loop)
+3. **`hub.abetworks.in`**: its record's target is likely stale/dead (edge timeout) → retarget to `abetworks-website.onrender.com` or delete the dead record
+4. Wait 60s → verify: `curl -I https://abetworks.in` → expected 200
 
-I cannot see your Render dashboard from here — this is a you-click. Do it **before** sending any link with `abetworks.in` in it to a prospect.
+If the record targets ARE right and Full (strict) is already set → then paste the targets here for the agent to reason about further.
 
 ## FAQ
 
