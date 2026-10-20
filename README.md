@@ -60,6 +60,7 @@ Plus the **web funnel**: `WEBSITE/` — 14 pages: allied offer (EN+हिंद�
 | `WEBSITE/report-generator.html` | ops tool: brandable monthly report PDF + WA summary per client — the care-plan deliverable |
 | `WEBSITE/proposal-generator.html` | ops: branded proposal PDF + WA message per prospect (same verified ROI math) |
 | `scripts/finalize.js` | ONE command finalizes name + WhatsApp + all prices across the kit (dry-run default, `--apply` writes, then runs the harness) |
+| `LAUNCH-RUNBOOK.md` | THE day-1-to-first-pilot runbook: 5 steps, daily checklist, engine-misfire moves |
 | `CUSTOM-DOMAIN-GUIDE.md` | serve the kit on kit.abetworks.in (Cloudflare, click-by-click; diagnosis included) |
 | `test/run-tests.js` | the 79-check harness (run before any push; `--live` adds URL pings) |
 | `.github/workflows/ci.yml` | GitHub Actions: 79 checks every push + weekly live drift check |
