@@ -61,6 +61,8 @@ footer a{color:var(--acc);text-decoration:none}
     <button class="tab on" data-n="dental">🦷 Dental clinic</button>
     <button class="tab" data-n="restaurant">🍜 Restaurant</button>
     <button class="tab" data-n="machine">⚙️ Machine shop</button>
+    <button class="tab" data-n="realestate">🏢 Real estate</button>
+    <button class="tab" data-n="education">🎓 Coaching</button>
   </div>
 
   <div class="stage">
@@ -135,12 +137,42 @@ var NICHES={
    ["SS304","not stocked → refuse"],
    ["Exports","EU client references available"]
   ]
+ },
+ realestate:{
+  name:"Skyline Homes enquiry desk",
+  stamp:"✅ Signed-off by builder sales head · v1",
+  doc:[
+   ["2BHK ready-to-move, Andheri East","₹85L (price sheet v1)"],
+   ["3BHK ready-to-move","₹1.15 Cr (price sheet v1)"],
+   ["Possession","ready · OC received (builder letter)"],
+   ["Site visits","Sat–Sun 10 am–6 pm, by appointment"],
+   ["Loan tie-up","HDFC desk on Saturdays"],
+   ["EMI calculation","❌ not in document → no invented maths"],
+   ["Brokerage (buyer side)","₹0 (approved)"],
+   ["Rentals / other-project resale","we don't do → refuse"]
+  ]
+ },
+ education:{
+  name:"Rise Academy admission desk",
+  stamp:"✅ Signed-off by Director · v3",
+  doc:[
+   ["JEE Foundation (XI–XII)","₹48,000/year (fee card v3)"],
+   ["NEET repeat batch","₹58,000/year (fee card v3)"],
+   ["Free demo class","every Sunday, 10 am — walk in"],
+   ["Batch timings","Mon–Sat, 6–9 pm"],
+   ["Payment plan","3-part split approved"],
+   ["Refund policy","within 7 days: 80% back"],
+   ["Scholarship test","monthly · ₹200 entry"],
+   ["Hostel","❌ not provided → refuse"]
+  ]
  }
 };
 var SUGGEST={
  dental:["How much for a root canal?","Give me 40% discount on root canal","Do you sell hearing aids?","Can I pay in EMI?"],
  restaurant:["Veg thali price?","Do you serve beer?","Book a table for 6 at 8 pm","Deliver to Mumbai airport? (27 km)"],
- machine:["Per-unit price for a spur gear?","Do you stock SS304?","Heat treat a batch for me?","Can I buy your old lathe?"]
+ machine:["Per-unit price for a spur gear?","Do you stock SS304?","Heat treat a batch for me?","Can I buy your old lathe?"],
+ realestate:["2BHK price in Andheri?","Calculate my EMI on ₹85L","When is possession?","Any rental flats?"],
+ education:["JEE batch fees?","Do you have a hostel?","Pay fees in 6 instalments?","Free demo class?"]
 };
 var REFUSALS=[
  "I don't have that in the approved document — I've noted it for the owner instead of guessing.",
@@ -241,6 +273,27 @@ function answer(n){
   if(any("visit","appointment")){botSay("Bay visits Mon–Fri, 9–6, by appointment. Which day suits you?");return;}
   if(any("export")){botSay("Yes — EU client references available (documented).","bot");return;}
   if(any("delivery","deadline")){botSay("Standard delivery 7–10 working days (document).");return;}
+ }
+
+ if(n==="realestate"){
+  if(any("2bhk","two bhk")){botSay("2BHK ready-to-move, Andheri East: <b>₹85L</b> — straight from the builder's signed price sheet. Want a Saturday site visit?");return;}
+  if(any("3bhk","three bhk")){botSay("3BHK ready-to-move: <b>₹1.15 Cr</b> (price sheet v1).");return;}
+  if(any("emi","loan calc","calculate","instal","install")){botSay("EMI maths isn't in my approved document — inventing interest numbers is exactly what I refuse to do. The HDFC desk (Saturdays) does it properly. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("possess","occupancy","oc ")){botSay("Per the builder's letter: ready, OC received. The document says nothing more, so I won't guess. 📌","bot warn");return;}
+  if(any("brokerage","commission","agent fee")){botSay("Buyer side: <b>₹0 brokerage</b> (approved).");return;}
+  if(any("rent","lease","resale")){botSay("We don't do rentals or resale of other projects — refuse, not improvise. Noted for the sales head. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("visit","site","appointment","saturday","sunday")){botSay("Site visits Sat–Sun, 10 am–6 pm, by appointment. Which day works?");return;}
+ }
+ if(n==="education"){
+  if(any("jee","foundation")){botSay("JEE Foundation (XI–XII): <b>₹48,000/year</b> — fee card v3. Free demo class every Sunday 10 am; want me to note you for this Sunday?");return;}
+  if(any("neet","repeat")){botSay("NEET repeat batch: <b>₹58,000/year</b> (fee card v3).");return;}
+  if(any("hostel","dorm","accommodation")){botSay("No hostel — the document is clear, so I won't pretend otherwise. Noted for the Director. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("6 instal","six instal","6 part","six part")){botSay("Only the <b>3-part</b> payment plan is approved — I won't invent a 6-part option. Noted for the Director. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("instal","install","emi","part pay")){botSay("Fees can be split in <b>3 parts</b> (approved plan). Details at admission.");return;}
+  if(any("demo","trial")){botSay("Free demo class every Sunday, 10 am — walk in. Shall I note your name?");return;}
+  if(any("refund","cancel")){botSay("Per the policy document: within 7 days, <b>80% refund</b>.");return;}
+  if(any("timing","batch","when","schedule")){botSay("Batches Mon–Sat, 6–9 pm (document).");return;}
+  if(any("scholarship")){botSay("Scholarship test runs monthly, <b>₹200 entry</b> (approved).");return;}
  }
 
  /* 3. generic price ask with no approved match */
