@@ -25,3 +25,8 @@
 ## v1.1.3 — 2026-10-20
 - **Interactive front-desk demo live** (`WEBSITE/demo-front-desk.html` + `docs/`): pick a niche (dental / restaurant / machine shop), chat against the visible "owner-approved document" — approved prices answered instantly, discounts/unlisted prices/refusals demonstrated, lead-capture strip. Coded refusals + syntax-tested with node.
 - Portal gained the demo card (6 cards); allied pages (both copies) link it as proof asset in the free-tools strip.
+## v1.1.4 — 2026-10-20
+- **Client dashboard is now multi-client**: `CLIENTS` registry in `WEBSITE/client-dashboard.html` (one block per client, fully separate data: niche, plan, stats, quality verdict, leads table, 3 conversations, upgrades).
+- Private per-client links `client-dashboard.html?c=slug` · no/unknown slug → chooser screen (cards) · header switcher ( 🌐 All clients… ) for the manager view · contact card hidden on chooser.
+- Wired: `onclick` refs moved to `CUR.*`; contact card tagged for hiding; portal card copy updated.
+- Tests: node syntax OK + runtime-load OK + DOM-stub render paths all green (no slug / rafi-dental / madrasi-table / precision-gears / unknown).

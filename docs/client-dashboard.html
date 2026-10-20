@@ -51,58 +51,143 @@ td{padding:.55rem .6rem;border-bottom:1px solid var(--line)}
 .convo{border-left:3px solid var(--acc2);padding:.4rem 0 .4rem .8rem;margin-bottom:.7rem;font-size:.88rem}
 .convo span{display:block;color:var(--mut);font-size:.78rem;margin-top:.15rem}
 footer{padding:1.4rem 0 2.4rem;text-align:center;color:var(--mut);font-size:.78rem}
+#chooser{padding-top:1.2rem}
+#chooser .choose-title{margin:1.4rem 0 .3rem}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:1rem}
+.cgrid a.card{display:block;color:var(--ink)}
+.pick{margin-left:auto;background:#1b253f;color:#cdd6f5;border:1px solid #2c3554;border-radius:8px;padding:.3rem .5rem;font-size:.8rem}
 @media print{.noprint{display:none!important}body{background:#fff}.metrics{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:720px){.metrics{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <script>
-/* ================= ⚙ CONFIG — EDIT ONLY THIS PER CLIENT ================= */
-const CLIENT = {
-  business: "Rafi Dental Clinic",            // ⚙ client name
-  plan: "Pro",                               // ⚙ Lite / Pro / Scale
-  liveSince: "01 Nov 2026",                  // ⚙ go-live date
-  whatsapp: "919000000000",                  // ⚙ YOUR number, digits only
-  botLink:  "https://your-bot-shareable-link",  // ⚙ Botpress webchat shareable link
-  sheetLink:"https://docs.google.com/spreadsheets/d/XXXX",  // ⚙ their lead sheet
-  stats: { chats: 412, leads: 38, hoursSaved: 20.5, avgReply: "<1 sec" },  // ⚙ update monthly
-  quality: { passPct: "93", adversarial: "9/10", lastRetest: "08 Nov 2026" }, // ⚙ paste from eval-suite.html verdict
-  conversations: [                           // ⚙ pick 3 real ones from transcripts
-    { q: "Teeth cleaning price?", a: "Answered from approved price list · booked slot for Sat 6pm", t: "02 Nov, 10:47 PM" },
-    { q: "Do you do braces for adults?", a: "Captured contact → staff called back next morning → consult booked", t: "04 Nov, 1:52 AM" },
-    { q: "Are you open Friday?", a: "Answered from approved hours · no staff effort", t: "08 Nov, 11:38 PM" }
-  ],
-  upgrades: [                                // ⚙ tailor per niche
-    ["WhatsApp channel (Meta-approved templates)", "from ₹9,999"],
-    ["No-show reminders (WhatsApp)", "₹6,999 setup"],
-    ["Second language", "₹2,499"],
-    ["Instagram DM channel", "₹3,499"]
-  ]
+/* ================= ⚙ CLIENTS REGISTRY — one block per client =================
+   ADD A NEW CLIENT: copy any block below, change its key ("a-new-clinic")
+   and the values. Give the client THEIR private link only:
+   client-dashboard.html?c=a-new-clinic      (no ?c= → chooser screen)
+   Everything is separate per client: name, plan, numbers, links, stats,
+   quality verdict, leads table, 3 conversations, upgrade list.
+   ============================================================================ */
+const CLIENTS = {
+  "rafi-dental": {
+    niche: "🦷 Dental", business: "Rafi Dental Clinic", plan: "Pro", liveSince: "01 Nov 2026",
+    whatsapp: "919000000000", botLink: "https://your-bot-shareable-link", sheetLink: "https://docs.google.com/spreadsheets/d/XXXX",
+    stats: { chats: 412, leads: 38, hoursSaved: 20.5, avgReply: "<1 sec" },
+    quality: { passPct: "93", adversarial: "9/10", lastRetest: "08 Nov 2026" },
+    conversations: [
+      { q: "Teeth cleaning price?", a: "Answered from approved price list · booked slot for Sat 6pm", t: "02 Nov, 10:47 PM" },
+      { q: "Do you do braces for adults?", a: "Captured contact → staff called back next morning → consult booked", t: "04 Nov, 1:52 AM" },
+      { q: "Are you open Friday?", a: "Answered from approved hours · no staff effort", t: "08 Nov, 11:38 PM" }
+    ],
+    leads: [
+      ["Rafiq A.", "98XXXXXX12", "Cleaning price", "10:47 PM", "New"],
+      ["Mira S.", "97XXXXXX45", "Braces (adult)", "1:52 AM", "Won"],
+      ["Siam K.", "91XXXXXX77", "Open Friday?", "11:38 PM", "New"],
+      ["Priya D.", "98XXXXXX03", "Root canal cost", "2:14 AM", "Contacted"]
+    ],
+    upgrades: [
+      ["WhatsApp channel (Meta-approved templates)", "from ₹9,999"],
+      ["No-show reminders (WhatsApp)", "₹6,999 setup"],
+      ["Second language", "₹2,499"],
+      ["Instagram DM channel", "₹3,499"]
+    ]
+  },
+  "madrasi-table": {
+    niche: "🍜 Restaurant", business: "Madrasi Table", plan: "Lite", liveSince: "12 Oct 2026",
+    whatsapp: "919000000001", botLink: "https://your-bot-shareable-link", sheetLink: "https://docs.google.com/spreadsheets/d/XXXX",
+    stats: { chats: 366, leads: 51, hoursSaved: 18, avgReply: "<1 sec" },
+    quality: { passPct: "91", adversarial: "10/10", lastRetest: "14 Oct 2026" },
+    conversations: [
+      { q: "Veg thali price?", a: "Answered from approved menu card · party-order line mentioned, nothing invented", t: "13 Oct, 7:12 PM" },
+      { q: "Book a table for 6 at 8pm", a: "Booking recorded → owner's WhatsApp ping with details instantly", t: "15 Oct, 9:40 AM" },
+      { q: "Deliver to airport (27 km)?", a: "Refused politely (5 km policy) → contact captured for a custom-order quote", t: "17 Oct, 11:05 PM" }
+    ],
+    leads: [
+      ["Kazim J.", "98XXXXXX21", "Thali catering order", "7:12 PM", "New"],
+      ["Divya R.", "97XXXXXX38", "Biryani ×40 bulk", "1:10 PM", "Won"],
+      ["Mahesh T.", "91XXXXXX45", "Delivery, out-of-zone", "11:05 PM", "Contacted"],
+      ["Anitha P.", "98XXXXXX11", "Table booking Fri", "8:26 PM", "New"]
+    ],
+    upgrades: [
+      ["Instagram DM channel", "₹3,499"],
+      ["WhatsApp broadcast scheduler", "₹2,999"],
+      ["Party-order flow (24h notice)", "₹4,999"],
+      ["Second language", "₹2,499"]
+    ]
+  },
+  "precision-gears": {
+    niche: "⚙️ Manufacturing", business: "Precision Gears", plan: "Scale", liveSince: "20 Oct 2026",
+    whatsapp: "919000000002", botLink: "https://your-bot-shareable-link", sheetLink: "https://docs.google.com/spreadsheets/d/XXXX",
+    stats: { chats: 173, leads: 9, hoursSaved: 12.5, avgReply: "<1 sec" },
+    quality: { passPct: "96", adversarial: "10/10", lastRetest: "19 Oct 2026" },
+    conversations: [
+      { q: "Per-unit price for 200 spur gears?", a: "From-price stated + spec (EN19, module) captured → quote drafted same day", t: "01 Oct, 4:22 PM" },
+      { q: "Do you stock SS304?", a: "Honest 'no — EN8/EN19/20MnCr5 only' — zero invention", t: "06 Oct, 10:31 AM" },
+      { q: "Can I visit the bay tomorrow?", a: "Appointment booked Mon 11 am from approved visit rules", t: "10 Oct, 6:57 PM" }
+    ],
+    leads: [
+      ["R. Sunder", "98XXXXXX70", "Spur gear EN19 ×200", "4:22 PM", "Won"],
+      ["D. Patil", "97XXXXXX26", "Heat-treat liaison", "2:02 PM", "Contacted"],
+      ["F. Weber", "91XXXXXX33", "Export references", "9:15 AM", "New"]
+    ],
+    upgrades: [
+      ["Email enquiry triage", "₹5,999"],
+      ["Quote-desk assistant", "₹7,999"],
+      ["Quote follow-up nudges (weekly)", "₹1,999"],
+      ["Second language", "₹2,499"]
+    ]
+  }
 };
-/* ================= END CONFIG — page renders itself ================= */
-document.addEventListener('DOMContentLoaded', () => {
-  const $ = id => document.getElementById(id);
-  $('biz').textContent = CLIENT.business;
-  $('plan').textContent = CLIENT.plan;
-  $('live').textContent = "Live since " + CLIENT.liveSince;
-  $('chats').textContent = CLIENT.stats.chats.toLocaleString('en-IN');
-  $('leads').textContent = CLIENT.stats.leads;
-  $('hours').textContent = CLIENT.stats.hoursSaved + " hrs";
-  $('reply').textContent = CLIENT.stats.avgReply;
-  $('quality').textContent = CLIENT.quality ? CLIENT.quality.passPct + "% · adv " + CLIENT.quality.adversarial + " · " + CLIENT.quality.lastRetest : "—";
-  const rows = [
-    ["Rafiq A.", "98XXXXXX12", "Cleaning price", "10:47 PM", "New"],
-    ["Mira S.",  "97XXXXXX45", "Braces (adult)", "1:52 AM", "Won"],
-    ["Siam K.",  "91XXXXXX77", "Open Friday?", "11:38 PM", "New"],
-    ["Priya D.", "98XXXXXX03", "Root canal cost", "2:14 AM", "Contacted"]
-  ];
-  $('leadsbody').innerHTML = rows.map(r =>
+/* ================= END REGISTRY — pages render from here ================= */
+const params = new URLSearchParams(location.search);
+const slug = params.get("c");
+const $ = id => document.getElementById(id);
+let CUR = null;
+
+function render(C) {
+  CUR = C;
+  $('biz').textContent = C.business;
+  $('plan').textContent = C.plan;
+  $('live').textContent = "Live since " + C.liveSince;
+  $('chats').textContent = C.stats.chats.toLocaleString('en-IN');
+  $('leads').textContent = C.stats.leads;
+  $('hours').textContent = C.stats.hoursSaved + " hrs";
+  $('reply').textContent = C.stats.avgReply;
+  $('quality').textContent = C.quality ? C.quality.passPct + "% · adv " + C.quality.adversarial + " · " + C.quality.lastRetest : "—";
+  $('leadsbody').innerHTML = C.leads.map(r =>
     `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><span class="${r[4] === 'Won' ? 'won' : 'new'}">${r[4]}</span></td></tr>`
   ).join('');
-  $('convo').innerHTML = CLIENT.conversations.map(c =>
+  $('convo').innerHTML = C.conversations.map(c =>
     `<div class="convo"><b>“${c.q}”</b> → ${c.a}<span>${c.t}</span></div>`).join('');
-  $('upgrades').innerHTML = CLIENT.upgrades.map(u =>
+  $('upgrades').innerHTML = C.upgrades.map(u =>
     `<li>${u[0]}<b>${u[1]}</b></li>`).join('');
+}
+
+function showChooser() {
+  document.body.classList.add('choose');
+  var mains = document.querySelectorAll('.wrap');
+  if (mains[1]) mains[1].style.display = 'none';
+  var cc = document.getElementById('contactcard');
+  if (cc) cc.style.display = 'none';
+  $('cgrid').innerHTML = Object.keys(CLIENTS).map(k =>
+    `<a class="card" href="client-dashboard.html?c=${k}"><b>${CLIENTS[k].niche} ${CLIENTS[k].business}</b><br>
+     <span class="small">${CLIENTS[k].plan} plan · live since ${CLIENTS[k].liveSince} · ${CLIENTS[k].stats.chats} chats / ${CLIENTS[k].stats.leads} leads<br>Open this client's private dashboard →</span></a>`
+  ).join('');
+  $('chooser').style.display = 'block';
+  $('biz').textContent = "All clients";
+  $('plan').textContent = ""; $('live').textContent = "";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const keys = Object.keys(CLIENTS);
+  const sel = $('clientpick');
+  sel.innerHTML = '<option value="">🌐 All clients…</option>' +
+    keys.map(k => `<option value="${k}"${k === slug ? ' selected' : ''}>${CLIENTS[k].niche} ${CLIENTS[k].business}</option>`).join('');
+  sel.onchange = () => { location.search = sel.value ? ("?c=" + sel.value) : ""; };
+  const C = slug && CLIENTS[slug];
+  if (!C) { showChooser(); return; }
+  render(C);
 });
 </script>
 
@@ -112,9 +197,19 @@ document.addEventListener('DOMContentLoaded', () => {
     <b id="biz" style="font-size:1.05rem"></b>
     <span style="color:#aebade;font-size:.8rem" id="plan"></span>
     <span style="color:#6ee7a8;font-size:.8rem" id="live"></span>
+    <select id="clientpick" class="pick noprint" aria-label="Switch client"></select>
     <span class="brand">Abet<span>works</span> · AI Front Desk</span>
   </div>
 </header>
+
+<div id="chooser" style="display:none">
+  <div class="wrap" style="padding-top:1.2rem">
+    <h2 class="choose-title">Client dashboards — one private view per client</h2>
+    <p class="small">Every client gets their own private link — <b>client-dashboard.html?c=their-slug</b> — with completely separate numbers, leads, conversations and reports. Add a new client in the CONFIG registry in ~5 minutes. Below: demo clients.</p>
+    <div id="cgrid" class="cgrid"></div>
+    <p class="small" style="margin-top:1rem">Open one → you're inside that client's private dashboard (a switcher appears in the header).</p>
+  </div>
+</div>
 
 <div class="wrap">
   <div class="metrics">
@@ -129,8 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
     <h2>Try your assistant right here</h2>
     <div class="card">
       <p class="small" style="margin-bottom:.8rem">Open the live assistant — this is exactly what your customers see:</p>
-      <a class="btn p" id="botbtn" target="_blank" href="#" onclick="this.href=CLIENT.botLink">Open live assistant ↗</a>
-      <a class="btn" target="_blank" href="#" onclick="this.href=CLIENT.sheetLink">Open the leads sheet ↗</a>
+      <a class="btn p" id="botbtn" target="_blank" href="#" onclick="this.href=CUR.botLink">Open live assistant ↗</a>
+      <a class="btn" target="_blank" href="#" onclick="this.href=CUR.sheetLink">Open the leads sheet ↗</a>
     </div>
   </section>
 
@@ -169,9 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
   </section>
 
   <section class="noprint">
-    <div class="card" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+    <div class="card" id="contactcard" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
       <b>Need an update or an issue?</b>
-      <a class="btn wa" target="_blank" href="#" onclick="this.href='https://wa.me/'+CLIENT.whatsapp+'?text=Hi%20Abet%20Works%20—%20I%20need%20a%20change%20on%20my%20AI%20front%20desk'">💬 WhatsApp your updates</a>
+      <a class="btn wa" target="_blank" href="#" onclick="this.href='https://wa.me/'+CUR.whatsapp+'?text=Hi%20Abet%20Works%20—%20I%20need%20a%20change%20on%20my%20AI%20front%20desk'">💬 WhatsApp your updates</a>
       <span class="small">Replies within 24h · admin@abetworks.in</span>
     </div>
   </section>
