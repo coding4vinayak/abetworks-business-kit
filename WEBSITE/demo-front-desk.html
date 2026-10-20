@@ -149,7 +149,8 @@ var REFUSALS=[
 var LEAD="📝 Captured as a lead (demo). Real system: name + number WhatsApped to the owner instantly.";
 var cur="dental";
 
-function bubble(txt,cls){
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function bubble(txt,cls){ /* txt already trusted (bot strings) or pre-escaped (user) */
  var l=document.getElementById("log");
  var d=document.createElement("div");
  d.className="b "+cls;
@@ -192,7 +193,7 @@ function sendMsg(q){
  var s=(q||"").trim();
  if(!s)return;
  var input=document.getElementById("q");
- bubble(s,"me");
+ bubble(esc(s),"me"); /* user text escaped — no HTML injection from chat box */
  if(input){input.value="";}
  typing(420,function(){answer(cur,s);});
 }

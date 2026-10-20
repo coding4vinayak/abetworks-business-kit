@@ -43,3 +43,8 @@
 - **Client kick-off generator** (`WEBSITE/client-generator.html` + docs/): internal op-tool — form (5 niche presets, stats, quality with pipe-format to protect 9/10 values, optional raw leads rows piped) → ① downloads a fully standalone `dashboard-<slug>.html` for the client + ② registry block ready to paste into the multi-client dashboard. Chooser grid gained the "➕ Add a new client" card (both copies).
 - Pipeline tests in node: GEN syntax OK; standalone file parses; store render verified with DOM stub (biz/chats/quality/lead rows/convos/wa link/year); seed-row + raw-rows paths; registry block format exact.
 - Bugs caught & fixed by the tests: unescaped quote in generated leads-map string; missing leads field (seed fallback added); quality 9/10 delimiters.
+## v1.2.2 — 2026-10-20 · BULLETPROOF PASS
+- **Permanent test harness** `test/run-tests.js` (69 checks: structure · embedded-JS via node vm · JSON-LD validity · link resolution · mirror discipline · artifact scan · placeholder info · optional --live URLs). Exit code CI-ready.
+- **GitHub Actions CI** `.github/workflows/ci.yml`: full suite on every push/PR + weekly `--live` drift check (Mondays).
+- Hardening: demobot chat input HTML-escaped (no injection from visitor text); generator JSON payload has `<`→unicode escape (kills </script> breakout in standalone files).
+- First full run: **69 passed · 0 failed** (24.5k-char eval-suite script validated).
