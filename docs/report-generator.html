@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Monthly report generator — Abetworks ops tool</title>
+<meta name="description" content="Internal op: a client's month (chats, leads, hours saved, retest score, best conversations) → branded report page (print to PDF) + WhatsApp summary message. The care-plan deliverable.">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1020px;margin:0 auto;padding:36px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:.8rem 0}
+p.lead{color:var(--mut);max-width:66ch;margin:.6rem 0 1.6rem}
+form{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 12px}
+label{font-size:.76rem;color:var(--mut);display:block;margin-bottom:.25rem;letter-spacing:.03em}
+input,select{width:100%;background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.5rem .6rem;font-size:.9rem}
+input:focus,select:focus{border-color:var(--acc);outline:none}
+.full{grid-column:1/-1}
+h2{font-size:1rem;margin:1.6rem 0 .6rem}
+h3{font-size:.9rem;margin:.8rem 0 .4rem;color:var(--acc)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.7rem 1.2rem;font-weight:800;cursor:pointer;font-size:.95rem}
+button.sec{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.k{color:var(--good)}
+.out{display:none;margin-top:1.2rem}
+pre{background:#0e1530;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:.78rem;max-height:240px;color:#cdd6ee;white-space:pre-wrap}
+.tin{width:100%;font-size:.82rem}
+footer{margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--acc);text-decoration:none}
+@media(max-width:680px){form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← kit site</a>
+  <h1>Monthly report generator <span style="color:var(--mut);font-size:.85rem">(ops tool)</span></h1>
+  <p class="lead">The care-plan deliverable: month-end numbers → <b class="k">①</b> branded report (Ctrl+P → PDF → WhatsApp/email) and <b class="k">②</b> the summary message to the owner. Repeated proof month over month is what makes a retainer renew itself.</p>
+
+  <form id="f" onsubmit="return false">
+    <div><label>Client / business name</label><input id="r_biz" placeholder="Shreeji Dental Care" required></div>
+    <div><label>Plan</label><select id="r_plan"><option>Lite</option><option selected>Pro</option><option>Scale</option></select></div>
+    <div><label>Report month</label><input id="r_month" placeholder="October 2026"></div>
+    <div><label>Chats handled</label><input id="r_chats" type="number" value="0"></div>
+    <div><label>Leads captured</label><input id="r_leads" type="number" value="0"></div>
+    <div><label>Staff hours saved</label><input id="r_hours" type="number" step="0.5" value="0"></div>
+    <div><label>Refusals logged (out-of-scope asks)</label><input id="r_refusals" type="number" value="0"></div>
+    <div><label>Zero-hallucination retest — pass% | adversarial | date</label><input id="r_q" placeholder="94 | 10/10 | 18 Oct 2026" required></div>
+    <div><label>After-hours captures (count)</label><input id="r_after" type="number" value="0"></div>
+    <div class="full"><label>Best conversation 1 — question | answer | time</label><input id="r_c1" placeholder="Braces cost? | answered ₹500 consult from approved list | 02 Nov, 10:47 PM"></div>
+    <div class="full"><label>Best conversation 2</label><input id="r_c2" placeholder="Do you take card? | YES — card & UPI up to ₹2k | 08 Nov 1:12 AM"></div>
+    <div class="full"><label>Best conversation 3</label><input id="r_c3" placeholder="Open Sunday? | answered from hours doc; slot booked | 15 Nov 11:38 PM"></div>
+    <div class="full"><label>Next-month focus (one line)</label><input id="r_next" placeholder="Add WhatsApp broadcast templates + 2nd language pilot"></div>
+    <div><label>Your name (signature)</label><input id="r_owner" placeholder="[YOUR NAME]"></div>
+    <div><label>Your WhatsApp digits</label><input id="r_wa" placeholder="919XXXXXXXXX"></div>
+    <div><label>&nbsp;</label><button class="sec" id="preset" style="width:100%">Autofill demo values</button></div>
+  </form>
+
+  <div class="actions"><button id="gen">Generate → ① report page + ② message</button></div>
+
+  <div class="out" id="out">
+    <h2>① Report page ready</h2>
+    <p class="lead" style="margin:.3rem 0 .8rem"><span id="fname" class="k"></span> — downloads automatically. Open → Ctrl+P → PDF → send in WhatsApp.</p>
+    <button class="sec" id="redl">↻ Download again</button>
+    <h3>Numbers sanity check</h3>
+    <pre id="pulse"></pre>
+    <h2>② WhatsApp summary to the owner</h2>
+    <pre id="msg" class="tin"></pre>
+    <button class="sec" id="copym">Copy message</button>
+  </div>
+
+  <footer>
+    <span>© 2026 Abet Works · internal tool</span>
+    <a href="proposal-generator.html">proposal generator</a>
+    <a href="client-generator.html">kick-off generator</a>
+    <a href="weekly-scorecard.html">weekly scorecard</a>
+    <a href="client-dashboard.html">client dashboard</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ===================== GEN-BEGIN — pure builders (testable) ====================== */
+var PLANS={"Lite":"Front Desk Lite","Pro":"Front Desk Pro","Scale":"Revenue Ops Scale"};
+function inr(n){n=Math.round(n);if(!isFinite(n))return"—";return"₹"+n.toLocaleString("en-IN");}
+function parseTriple(t,d){
+ var p=String(t||"").split("|").map(function(x){return x.trim()});
+ return {q:p[0]||"",a:p[1]||"",t:p[2]||d};
+}
+function buildData(F){
+ var qp=String(F.q||"").split("|").map(function(x){return x.trim()});
+ var quality=(qp.filter(Boolean).length>=3&&/\d/.test(qp[0])&&/\d/.test(qp[1]))
+   ?{passPct:qp[0],adversarial:qp[1],lastRetest:qp[2]}:null;
+ return {
+  biz:F.biz, plan:PLANS[F.plan]||PLANS.Pro, month:F.month||new Date().toLocaleDateString("en-IN",{month:"long",year:"numeric"}),
+  chats:+F.chats||0, leads:+F.leads||0, hours:+F.hours||0, refusals:+F.refusals||0, afterHours:+F.after||0,
+  quality:quality,
+  convos:[F.c1,F.c2,F.c3].map(function(t){return parseTriple(t,"")}),
+  next:F.next||"Same channels; more languages on request.",
+  owner:F.owner||"[YOUR NAME]",
+  wa:F.wa, waLink:F.wa?("https://wa.me/"+String(F.wa).replace(/\D/g,"")):"",
+  d:new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})
+ };
+}
+function buildReport(D){ // FULL standalone html (print→PDF)
+ var J=JSON.stringify(D).replace(/</g,"\\u003c");
+ return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>Monthly report · Abetworks</title>\n<style>'
+ +':root{--bg:#f6f8fd;--card:#fff;--ink:#101a30;--mut:#5a657d;--acc:#2c4fd8;--good:#0e9f6e;--line:#dfe4f2}*{margin:0;padding:0;box-sizing:border-box}body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.wrap{max-width:880px;margin:0 auto;padding:0 18px}a{color:var(--acc)}header{background:var(--ink);color:#fff;padding:1rem 0}header .wrap{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}.live{background:rgba(14,159,110,.2);color:#6ee7a8;border-radius:999px;padding:.15rem .7rem;font-size:.75rem;font-weight:800}.brand{margin-left:auto;font-weight:800}.brand span{color:#8ea4ff}'+"\n"
+ +'h1{font-size:1.45rem;margin:1.2rem 0 .2rem}.sub{color:var(--mut);font-size:.85rem;margin-bottom:1.2rem}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.3rem}.m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem}.m b{display:block;font-size:1.6rem}.m span{color:var(--mut);font-size:.78rem;font-weight:600}'+"\n"
+ +'.m.hero{border-color:var(--good);background:rgba(14,159,110,.06)}.m.hero b{color:var(--good)}section{margin-bottom:1.4rem}h2{font-size:1.05rem;margin-bottom:.6rem}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem}ol{padding-left:1.2rem}ol li{margin:.45rem 0;font-size:.92rem}'+"\n"
+ +'.p2{display:flex;gap:12px;flex-wrap:wrap}.half{flex:1;min-width:260px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem}.half .t{font-size:.82rem;color:var(--mut)}.sig{border-top:1px solid var(--line);margin-top:1.5rem;padding-top:1rem;font-size:.9rem}'+"\n"
+ +'@media print{.noprint{display:none!important}body{background:#fff}}@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}}'+"\n"
+ +'</style>\n</head>\n<body>\n<header><div class="wrap"><span class="live">● LIVE</span><b style="font-size:1rem" data-bizn></b><span style="color:#aebade;font-size:.8rem" data-plan></span><span class="brand">Abet<span>works</span> · monthly report</span></div></header>\n'
+ +'<div class="wrap"><h1 data-title></h1><p class="sub">Report generated <span data-d></span> · you and your customers own this data — exportable any time.</p>\n'
+ +'<div class="grid">'
+ +'<div class="m"><b data-chats>—</b><span>customer chats handled</span></div>'
+ +'<div class="m"><b data-leads>—</b><span>leads captured to your sheet</span></div>'
+ +'<div class="m"><b data-hours>—</b><span>staff hours back to real work</span></div>'
+ +'<div class="m hero"><b data-q>—</b><span data-qsub style="color:#0e9f6e;font-weight:700">✅ zero-hallucination retest</span></div>'
+ +'<div class="m"><b data-after>—</b><span>after-hours enquiries answered (was lost)</span></div>'
+ +'<div class="m"><b data-refusals>—</b><span>out-of-scope asks refused &amp; logged — never invented</span></div>'
+ +'</div>\n'
+ +'<section><h2>3 real conversations from this month</h2><ol data-convo></ol></section>\n'
+ +'<div class="p2"><div class="half"><h2 style="margin-top:0">What it refused instead of guessing</h2><p class="t" data-refline></p></div>'
+ +'<div class="half"><h2 style="margin-top:0">Next month</h2><p data-next></p></div></div>\n'
+ +'<div class="sig"><b data-owner></b> · Abet Works <span data-wa></span><br><span style="color:var(--mut);font-size:.78rem">Your assistant answers ONLY from your signed document; changes go live within 24h of your WhatsApp. Retest runs weekly — score above is this month\'s latest.</span></div>\n'
+ +'<p class="noprint" style="padding:1rem 0 2rem;text-align:center"><button style="background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.6rem 1.2rem;font-weight:800;cursor:pointer" onclick="window.print()">🖨 Print / save as PDF</button></p>\n</div>\n'
+ +'<script>\nvar D='+J+';\n'
+ +'function q(s){return document.querySelector(s)}\n'
+ +'q("[data-bizn]").textContent=D.biz;q("[data-plan]").textContent=D.plan;\n'
+ +'q("[data-title]").textContent="Monthly report — "+D.biz+" · "+D.month;\n'
+ +'q("[data-d]").textContent=D.d;\n'
+ +'q("[data-chats]").textContent=D.chats.toLocaleString("en-IN");\n'
+ +'q("[data-leads]").textContent=D.leads.toLocaleString("en-IN");\n'
+ +'q("[data-hours]").textContent=D.hours.toLocaleString("en-IN")+" h";\n'
+ +'q("[data-after]").textContent=D.afterHours.toLocaleString("en-IN");\n'
+ +'q("[data-refusals]").textContent=D.refusals.toLocaleString("en-IN");\n'
+ +'q("[data-q]").textContent=D.quality?D.quality.passPct+"%":"—";\n'
+ +'q("[data-qsub]").textContent=D.quality?("adversarial "+D.quality.adversarial+" · retested "+D.quality.lastRetest):"(first retest pending)";\n'
+ +'q("[data-convo]").innerHTML=D.convos.filter(function(c){return c.q}).map(function(c){return "<li><b>\\""+c.q+"\\"</b> → "+c.a+" <span style=\\"color:#5a657d;font-size:.8rem\\">("+c.t+")</span></li>"}).join("")||"<li>(conversations to be filled)</li>";\n'
+ +'q("[data-refline]").textContent=D.refusals?D.refusals+" out-of-scope asks this month were captured as leads/callbacks instead of invented answers. Every one is still revenue-in-waiting — the desk books them for a human.":"No out-of-scope refuse logged this month."; \n'
+ +'q("[data-next]").textContent=D.next;\n'
+ +'q("[data-owner]").textContent=D.owner;\n'
+ +'q("[data-wa]").innerHTML=D.waLink?" · <a href=\'"+D.waLink+"\'>WhatsApp us</a>":"";\n'
+ +'document.title="Monthly report — "+D.biz+" · "+D.month;\n'
+ +'<\/'+'script>\n</body>\n</html>';
+}
+function buildMsg(D){
+ return "Namaste "+(D.biz)+",\n\n"
+ +"Month-end report for "+D.month+" is attached (1 page):\n"
+ +"• "+D.chats.toLocaleString("en-IN")+" customer chats handled\n"
+ +"• "+D.leads.toLocaleString("en-IN")+" leads captured to your sheet\n"
+ +"• "+D.hours+" staff hours given back\n"
+ +"• "+(D.quality?D.quality.passPct+"% pass on the zero-hallucination retest (adv "+D.quality.adversarial+")":"retest pending")+"\n"
+ +(D.refusals?("• "+D.refusals+" out-of-scope asks refused & logged — nothing invented, all captured\n"):"")
+ +"\nNext month focus: "+D.next+"\n"
+ +"Questions? One WhatsApp message.\n— "+D.owner+", Abet Works";
+}
+/* ===================== GEN-END ====================== */
+/* DOM layer */
+document.getElementById("r_c1").value="";
+document.getElementById("preset").onclick=function(){
+ document.getElementById("r_biz").value="Shreeji Dental Care";
+ document.getElementById("r_plan").value="Pro";
+ var d=new Date();
+ document.getElementById("r_month").value=d.toLocaleDateString("en-IN",{month:"long",year:"numeric"});
+ document.getElementById("r_chats").value=312;document.getElementById("r_leads").value=34;
+ document.getElementById("r_hours").value=16.5;document.getElementById("r_refusals").value=9;
+ document.getElementById("r_q").value="94 | 10/10 | "+d.toLocaleDateString("en-IN");
+ document.getElementById("r_after").value=41;
+ document.getElementById("r_c1").value="Braces consultation price? | answered ₹500 from approved list | 02 Oct, 22:47";
+ document.getElementById("r_c2").value="Do you accept card? | said from payments doc: card+UPI | 08 Oct, 01:12";
+ document.getElementById("r_c3").value="Open on Sunday? | answered from hours doc; slot booked | 15 Oct, 23:38";
+ document.getElementById("r_next").value="WhatsApp broadcast templates + Hindi/English mixed queries test";
+};
+function readForm(){
+ var v=function(id){return document.getElementById(id).value.trim()};
+ return {biz:v("r_biz"),plan:v("r_plan"),month:v("r_month"),chats:v("r_chats"),leads:v("r_leads"),
+  hours:v("r_hours"),refusals:v("r_refusals"),q:v("r_q"),after:v("r_after"),
+  c1:v("r_c1"),c2:v("r_c2"),c3:v("r_c3"),next:v("r_next"),owner:v("r_owner"),wa:v("r_wa")};
+}
+var LAST={file:"report.html",html:"",msg:"",pulse:""};
+document.getElementById("gen").onclick=function(){
+ var F=readForm();
+ if(!F.biz){alert("Client / business name required");return;}
+ var D=buildData(F);
+ LAST.html=buildReport(D);
+ LAST.file="report-"+D.biz.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)+"-"+D.month.replace(/\s+/g,"-").slice(0,10)+".html";
+ LAST.pulse=[
+  "biz    : "+D.biz+" · "+D.plan,
+  "month  : "+D.month,
+  "chats  : "+D.chats, "leads  : "+D.leads, "hours  : "+D.hours,
+  "refusals logged: "+D.refusals+" (each = refused, not invented)",
+  "retest : "+(D.quality?D.quality.passPct+"% | adv "+D.quality.adversarial+" | "+D.quality.lastRetest:"PENDING"),
+  "after-hours captures: "+D.afterHours
+ ].join("\n");
+ LAST.msg=buildMsg(D);
+ var blob=new Blob([LAST.html],{type:"text/html"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=LAST.file;a.click();
+ document.getElementById("fname").textContent=LAST.file;
+ document.getElementById("pulse").textContent=LAST.pulse;
+ document.getElementById("msg").textContent=LAST.msg;
+ document.getElementById("out").style.display="block";
+};
+document.getElementById("redl").onclick=function(){
+ var blob=new Blob([LAST.html],{type:"text/html"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=LAST.file;a.click();
+};
+document.getElementById("copym").onclick=function(){
+ navigator.clipboard.writeText(document.getElementById("msg").textContent).then(function(){alert("Summary copied — paste with the PDF")});
+};
+</script>
+</body>
+</html>

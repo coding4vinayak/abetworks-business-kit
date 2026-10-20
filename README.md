@@ -57,6 +57,7 @@ Plus the **web funnel**: `WEBSITE/` — 8 pages: allied offer · interactive dem
 | `MARKETING/hinglish-outreach.md` | same outreach machine in Hinglish (WA/IG/call scripts) — language routing rules included |
 | `MARKETING/assets-score.md` | LINK BANK (single source of all URLs) + 7-day launch plan + scoreboard |
 | `TEMPLATES/A11-leave-behind.md` | print A5 card (2-up A4) + QR discipline |
+| `WEBSITE/report-generator.html` | ops tool: brandable monthly report PDF + WA summary per client — the care-plan deliverable |
 | `WEBSITE/proposal-generator.html` | ops: branded proposal PDF + WA message per prospect (same verified ROI math) |
 | `scripts/finalize.js` | ONE command finalizes name + WhatsApp + all prices across the kit (dry-run default, `--apply` writes, then runs the harness) |
 | `CUSTOM-DOMAIN-GUIDE.md` | serve the kit on kit.abetworks.in (Cloudflare, click-by-click; diagnosis included) |
