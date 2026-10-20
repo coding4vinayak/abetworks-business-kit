@@ -48,6 +48,11 @@ footer{margin-top:2.2rem;border-top:1px solid var(--line);padding-top:1.2rem;col
 footer a{color:var(--acc);text-decoration:none}
 @media(max-width:860px){.stage{grid-template-columns:1fr}.doc{order:2}.chat{order:1}}
 body{font-family:"Noto Sans Devanagari",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.lb{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.lb input{flex:1;min-width:110px;background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.45rem .6rem;font-size:.85rem}
+.lb input:focus{border-color:var(--acc);outline:none}
+.lb input.err{border-color:var(--warn)}
+.lb button{background:var(--good);color:#04331a;border:0;border-radius:8px;padding:.45rem .8rem;font-weight:800;cursor:pointer}
 </style>
 </head>
 <body>
@@ -182,6 +187,8 @@ var REFUSALS=[
 ];
 var LEAD="📝 लीड रिकॉर्ड हुई (डेमो)। असली सिस्टम में नाम+नंबर तुरंत मालिक के WhatsApp पर।";
 var cur="dental";
+var lastQ="";
+var K_LEADS="abw_demo_leads";
 
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function bubble(txt,cls){
@@ -193,8 +200,23 @@ function bubble(txt,cls){
  l.scrollTop=l.scrollHeight;
  return d;
 }
-function botSay(txt,cls){bubble(txt,cls||"bot");}
+function botSay(txt,cls){var d=bubble(txt,cls||"bot");if(txt===LEAD)leadBox();return d;}
 function typing(ms,fn){var t=bubble("… लिख रहा हूं","typing");setTimeout(function(){t.remove();fn();},ms);}
+function leadBox(){
+ var d=bubble("<b>📝 नाम और नंबर छोड़िए (डेमो)</b><div class='lb'><input class='lbn' placeholder='आपका नाम'><input class='lbp' placeholder='फ़ोन / WhatsApp'><button class='lbs'>सेव करें (डेमो)</button></div><div class='lbd' style='margin-top:6px'></div>","bot leadform");
+ var nI=d.querySelector(".lbn"),pI=d.querySelector(".lbp"),bT=d.querySelector(".lbs");
+ bT.onclick=function(){
+  if(!nI.value.trim()){nI.classList.add("err");nI.focus();return;}
+  if(!pI.value.trim()){pI.classList.add("err");pI.focus();return;}
+  var rec={n:nI.value.trim(),p:pI.value.trim().replace(/[^0-9+]/g,""),q:lastQ,when:new Date().toLocaleString("en-IN")};
+  try{var a=JSON.parse(localStorage.getItem(K_LEADS)||"[]");a.push(rec);localStorage.setItem(K_LEADS,JSON.stringify(a.slice(-20)));}catch(e){}
+  d.innerHTML="✅ दर्ज हो गया (डेमो) — असली सिस्टम में इसी पल मालिक के WhatsApp पर: नाम + नंबर + आपका सवाल। न खोया, न बनाया।";
+  var info=document.createElement("div");
+  info.style.marginTop="4px";info.style.color="var(--good)";info.style.fontSize=".85rem";
+  info.textContent="→ "+rec.n+" · "+rec.p+(rec.q?" · सवाल: "+rec.q:"");
+  d.appendChild(info);bT.disabled=true;
+ };
+}
 
 function setNiche(n){
  cur=n;
@@ -227,7 +249,7 @@ function sendMsg(q){
  var s=(q||"").trim();
  if(!s)return;
  var input=document.getElementById("q");
- bubble(esc(s),"me");
+ lastQ=s; bubble(esc(s),"me");
  if(input){input.value="";}
  typing(420,function(){answer(cur,s);});
 }

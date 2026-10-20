@@ -1,6 +1,6 @@
 # 🚀 BUSINESS KIT — START HERE
 
-**Owner:** [YOUR NAME] · **Company:** Abet Works (Mumbai) · **Capital:** $0 · **Status: v1.2.5 — complete, sellable, manageable, CI-guarded (see CHANGELOG)**
+**Owner:** [YOUR NAME] · **Company:** Abet Works (Mumbai) · **Capital:** $0 · **Status: v1.5.1 — complete, sellable, manageable, CI-guarded (see CHANGELOG)**
 
 This folder is your entire business operating system: outreach engine, delivery templates, pricing/contracts, money rules, scaling plan, content lane, and the live website funnel. Nothing more needs building. What remains is execution + the placeholder replacements below.
 
@@ -25,7 +25,7 @@ Everything mirrors the website: **Lite / Pro / Scale** — one product map, sale
 | 3. Digital Products | CAD blocks, calculators, templates | 70%+ after month 4 | 03 |
 | 4. Outreach Engine | daily fuel for engines 1–2 | n/a | 04, A5, A8, A9 |
 
-Plus the **web funnel**: `WEBSITE/` — 8 pages: allied offer · interactive demo bot · ROI calculator · multi-client dashboard · kick-off generator · weekly scorecard · eval-ready gate + eval suite · one-pager.
+Plus the **web funnel**: `WEBSITE/` — 14 pages: allied offer (EN+हिंदी) · interactive demo bots (EN/हिंदी · 5 niches · live lead-capture) · ROI calculator · multi-client dashboard · kick-off generator · proposal generator · monthly-report generator · weekly scorecard · eval-ready gate + eval suite · one-pager.
 
 ## File index (open by problem, not in order)
 

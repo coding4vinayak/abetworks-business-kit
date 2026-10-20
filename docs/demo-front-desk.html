@@ -47,6 +47,11 @@ p.lead{color:var(--mut);max-width:64ch;margin:.8rem 0 1.6rem}
 footer{margin-top:2.2rem;border-top:1px solid var(--line);padding-top:1.2rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
 footer a{color:var(--acc);text-decoration:none}
 @media(max-width:860px){.stage{grid-template-columns:1fr}.doc{order:2}.chat{order:1}}
+.lb{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.lb input{flex:1;min-width:110px;background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.45rem .6rem;font-size:.85rem}
+.lb input:focus{border-color:var(--acc);outline:none}
+.lb input.err{border-color:var(--warn)}
+.lb button{background:var(--good);color:#04331a;border:0;border-radius:8px;padding:.45rem .8rem;font-weight:800;cursor:pointer}
 </style>
 </head>
 <body>
@@ -181,6 +186,8 @@ var REFUSALS=[
 ];
 var LEAD="📝 Captured as a lead (demo). Real system: name + number WhatsApped to the owner instantly.";
 var cur="dental";
+var lastQ="";
+var K_LEADS="abw_demo_leads";
 
 function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function bubble(txt,cls){ /* txt already trusted (bot strings) or pre-escaped (user) */
@@ -192,8 +199,23 @@ function bubble(txt,cls){ /* txt already trusted (bot strings) or pre-escaped (u
  l.scrollTop=l.scrollHeight;
  return d;
 }
-function botSay(txt,cls){bubble(txt,cls||"bot");}
+function botSay(txt,cls){var d=bubble(txt,cls||"bot");if(txt===LEAD)leadBox();return d;}
 function typing(ms,fn){var t=bubble("… typing","typing");setTimeout(function(){t.remove();fn();},ms);}
+function leadBox(){
+ var d=bubble("<b>📝 Leave your name &amp; number (demo)</b><div class='lb'><input class='lbn' placeholder='Your name'><input class='lbp' placeholder='Phone / WhatsApp'><button class='lbs'>Save (demo)</button></div><div class='lbd' style='margin-top:6px'></div>","bot leadform");
+ var nI=d.querySelector(".lbn"),pI=d.querySelector(".lbp"),bT=d.querySelector(".lbs");
+ bT.onclick=function(){
+  if(!nI.value.trim()){nI.classList.add("err");nI.focus();return;}
+  if(!pI.value.trim()){pI.classList.add("err");pI.focus();return;}
+  var rec={n:nI.value.trim(),p:pI.value.trim().replace(/[^0-9+]/g,""),q:lastQ,when:new Date().toLocaleString("en-IN")};
+  try{var a=JSON.parse(localStorage.getItem(K_LEADS)||"[]");a.push(rec);localStorage.setItem(K_LEADS,JSON.stringify(a.slice(-20)));}catch(e){}
+  d.innerHTML="✅ Saved (demo) — real system: the owner's WhatsApp pings instantly with name + number + your question. Nothing lost, nothing invented.";
+  var info=document.createElement("div");
+  info.style.marginTop="4px";info.style.color="var(--good)";info.style.fontSize=".85rem";
+  info.textContent="→ "+rec.n+" · "+rec.p+(rec.q?" · asked: "+rec.q:"");
+  d.appendChild(info);bT.disabled=true;
+ };
+}
 
 function setNiche(n){
  cur=n;
@@ -226,7 +248,7 @@ function sendMsg(q){
  var s=(q||"").trim();
  if(!s)return;
  var input=document.getElementById("q");
- bubble(esc(s),"me"); /* user text escaped — no HTML injection from chat box */
+ lastQ=s;bubble(esc(s),"me"); /* user text escaped — no HTML injection from chat box */
  if(input){input.value="";}
  typing(420,function(){answer(cur,s);});
 }
