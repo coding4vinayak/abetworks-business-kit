@@ -95,3 +95,17 @@ If your current bot (or your missed calls) scare you even a little, I'll build a
 ---
 
 *Prices in the offer page are placeholders — finalize before paid campaigns. Bio + posts are safe to publish today.*
+
+## 7 · Vernacular variants (day-1, for Hindi-first audiences)
+
+Use when the audience/group runs in Hindi-Hinglish. Same one-link rule. The HI demo is the CTA — refusals (EMI, hostel, delivery-radius) show in the audience's own language.
+
+### WhatsApp / group announcement — Hinglish
+---
+Ek cheez banayi hai jo chhote businesses (clinic · restaurant · machine shop · builder · coaching) ke liye hai. Grahak raat 11 baje bhi "kitne ka?" poochh le — jawab deta hai AI, par sirf maalik ki likhi hui list se. Demo kholiye aur TRY kijiye galat daam bolwana — inkar karega: https://coding4vinayak.github.io/abetworks-business-kit/demo-front-desk-hi.html
+---
+
+### LinkedIn — Hindi-audience post (English frame, Hindi CTA)
+---
+Clinics, restaurants, machine shops — the businesses that keep India's high streets alive — lose their after-hours enquiries to silence. We built an AI front desk that answers only from the owner's signed document and refuses to invent prices. In Hinglish, for the owners who think in it: https://coding4vinayak.github.io/abetworks-business-kit/demo-front-desk-hi.html
+---
