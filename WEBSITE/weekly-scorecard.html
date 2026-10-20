@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly scorecard — outreach funnel health | Abetworks ops</title>
+<meta name="description" content="Internal ops: enter this week's funnel counts (touches → replies → demo opens → discovery invites → pilots), get conversion ratios, red flags and the ONE move for next week. Saved on device.">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066;--bad:#ff6b6b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:940px;margin:0 auto;padding:36px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+h1{font-size:clamp(1.4rem,3.4vw,2rem);margin:.8rem 0}
+p.lead{color:var(--mut);max-width:66ch;margin:.6rem 0 1.4rem}
+.week{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.week label{font-size:.8rem;color:var(--mut)}
+.week input{background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.45rem .6rem;font-size:.9rem}
+.funnel{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.2rem}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stage label{display:block;font-size:.74rem;color:var(--mut);margin-bottom:.3rem;min-height:2.6em}
+.stage input{width:100%;background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.55rem .6rem;font-size:1.05rem;font-weight:800;text-align:center}
+.stage input:focus{border-color:var(--acc);outline:none}
+.ratios{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.2rem}
+.r{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.r b{display:block;font-size:1.45rem}
+.r span{color:var(--mut);font-size:.76rem}
+.flag{font-size:.78rem;margin-top:.3rem;display:block}
+.g{color:var(--good)} .w{color:var(--warn)} .x{color:var(--bad)}
+.move{border:1px dashed rgba(46,230,168,.4);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:1.4rem}
+.move h2{font-size:.95rem;margin-bottom:.4rem;color:var(--good)}
+.move p{font-size:.92rem;color:#cdd6ee}
+.hist{margin-bottom:1.2rem}
+.hist table{width:100%;border-collapse:collapse;font-size:.85rem}
+.hist th{text-align:left;color:var(--mut);font-size:.7rem;text-transform:uppercase;padding:.4rem .5rem;border-bottom:1px solid var(--line)}
+.hist td{padding:.4rem .5rem;border-bottom:1px solid var(--line)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.6rem 1.1rem;font-weight:800;cursor:pointer}
+button.sec{background:transparent;border:1px solid var(--line);color:var(--txt)}
+footer{margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--acc);text-decoration:none}
+@media print{.noprint{display:none!important}body{background:#fff;color:#101a30}.stage,.r{border-color:#c8d0e8;background:#fff}p.lead,.back,.btns,footer{display:none}}
+@media(max-width:760px){.funnel{grid-template-columns:repeat(2,1fr)}.ratios{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← kit site</a>
+  <h1>Weekly scorecard <span style="color:var(--mut);font-size:.85rem">(ops tool)</span></h1>
+  <p class="lead">Sunday 30-min ritual: paste the week's five numbers → conversion ratios, red flags, and THE one move for next week. History saves on this device.</p>
+
+  <div class="week noprint">
+    <label>Week of</label><input id="wk" type="date">
+    <button class="sec" onclick="save()">💾 Save</button>
+    <button class="sec" onclick="clearAll()">🗑 Reset all weeks</button>
+  </div>
+
+  <div class="funnel">
+    <div class="stage"><label>Outreach touches (WA+email+IG+groups)</label><input id="f1" type="number" min="0" value="0"></div>
+    <div class="stage"><label>Replies received</label><input id="f2" type="number" min="0" value="0"></div>
+    <div class="stage"><label>Demo opens (by anyone)</label><input id="f3" type="number" min="0" value="0"></div>
+    <div class="stage"><label>Discovery calls booked</label><input id="f4" type="number" min="0" value="0"></div>
+    <div class="stage"><label>Pilots signed</label><input id="f5" type="number" min="0" value="0"></div>
+  </div>
+
+  <div class="ratios">
+    <div class="r"><b id="r1">—</b><span>reply rate (target ≥7%)</span><em class="flag" id="r1f"></em></div>
+    <div class="r"><b id="r2">—</b><span>demo opens / replies (target ≥40%)</span><em class="flag" id="r2f"></em></div>
+    <div class="r"><b id="r3">—</b><span>calls / demo opens (target ≥20%)</span><em class="flag" id="r3f"></em></div>
+    <div class="r"><b id="r4">—</b><span>pilots / calls (target ≥25%)</span><em class="flag" id="r4f"></em></div>
+  </div>
+
+  <div class="move">
+    <h2>▶ THE one move for next week</h2>
+    <p id="move">Fill the five numbers to get your prescription.</p>
+  </div>
+
+  <div class="hist">
+    <h2 style="font-size:1rem;margin-bottom:.5rem">Saved weeks</h2>
+    <table><thead><tr><th>Week of</th><th>Touches</th><th>Replies</th><th>Opens</th><th>Calls</th><th>Pilots</th></tr></thead><tbody id="hb"></tbody></table>
+  </div>
+
+  <div class="btns noprint">
+    <button onclick="window.print()">🖨 Print scorecard</button>
+    <a class="back" href="client-generator.html">ops cluster → client generator</a>
+    <a class="back" href="roi-calculator.html">ops cluster → ROI calculator</a>
+  </div>
+
+  <footer>
+    <span>© 2026 Abet Works · internal tool</span>
+    <a href="https://github.com/coding4vinayak/abetworks-business-kit">source</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+var K="abw_scorecard_v1";
+function $(id){return document.getElementById(id)}
+function load(){try{return JSON.parse(localStorage.getItem(K))||[]}catch(e){return []}}
+function save(){
+ var w=$("wk").value||new Date().toISOString().slice(0,10);
+ var rec={w:w,n:[+$("f1").value||0,+$("f2").value||0,+$("f3").value||0,+$("f4").value||0,+$("f5").value||0]};
+ var a=load().filter(function(x){return x.w!==w});a.push(rec);a.sort(function(p,q){return p.w<q.w?1:-1});
+ localStorage.setItem(K,JSON.stringify(a.slice(0,8)));renderHist();alert("Saved week of "+w);
+}
+function clearAll(){if(confirm("Delete all saved weeks?")){localStorage.removeItem(K);renderHist();}}
+function renderHist(){
+ var a=load(),tb=$("hb");tb.innerHTML=a.map(function(x){return "<tr><td>"+x.w+"</td><td>"+x.n[0]+"</td><td>"+x.n[1]+"</td><td>"+x.n[2]+"</td><td>"+x.n[3]+"</td><td>"+x.n[4]+"</td></tr>"}).join("")||"<tr><td colspan='6'>nothing saved yet</td></tr>";
+}
+function pct(a,b){return b>0?Math.round(a/b*1000)/10:null}
+function upd(){
+ var t=+$("f1").value||0,rep=+$("f2").value||0,op=+$("f3").value||0,cal=+$("f4").value||0,pil=+$("f5").value||0;
+ var set=(id,val,flag,cls)=>{$(id).textContent=(val===null?"—":val+"%");var f=$(id+"f");f.textContent=flag;f.className="flag "+cls;};
+ var rr=pct(rep,t),dd=pct(op,rep),cc=pct(cal,op),pp=pct(pil,cal);
+ set("r1",rr, rr===null?"need touches":rr>=7?"✅ healthy":"⚠️ below 7% — switch to demo-first openers (W-2/ID-2)", rr===null||rr>=7?"g":"w");
+ set("r2",dd, dd===null?"need replies":dd>=40?"✅ the demo is carrying":"⚠️ below 40% — lead EVERY message with the demo link", dd===null||dd>=40?"g":"w");
+ set("r3",cc, cc===null?"need opens":cc>=20?"✅ conversion quality":"⚠️ below 20% — objection #2: ask them to OPEN it live on a 5-min call", cc===null||cc>=20?"g":"w");
+ set("r4",pp, pp===null?"need calls":pp>=25?"✅ close rate real":"⚠️ below 25% — objection #1 + #14; price is scope, never a discount", pp===null||pp>=25?"g":"w");
+ var mv=$("move");
+ if(!t&&!op&&!cal&&!pil){mv.textContent="Fill the five numbers to get your prescription.";return;}
+ var pres;
+ if(rr===null||rr<7)pres="OPENERS: switch 100% of first-touch messages to W-2/ID-2 (the demo-challenge). Fewer words, link in line 1.";
+ else if(dd===null||dd<40)pres="PLACEMENT: every follow-up now LEADS with the demo link + one sentence. Demo is the pitch.";
+ else if(cc===null||cc<20)pres="OBJECTION #2 on live calls: 'open the demo right now together' — shared-screen demo converts opens into calls.";
+ else if(pp===null||pp<25)pres="CLOSING: objection #1 (cost vs their quoted pain number) + pilot framing (1 week, one report, no renewal pressure).";
+ else pres="COMPOUND: raise touches 20% and keep everything else constant — the machine works, feed it.";
+ mv.textContent=pres;
+}
+document.querySelectorAll(".stage input").forEach(function(i){i.addEventListener("input",upd)});
+(function(){var d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));$("wk").valueAsDate=d;})();
+document.addEventListener("DOMContentLoaded",function(){upd();renderHist();});
+</script>
+</body>
+</html>

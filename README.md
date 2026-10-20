@@ -1,6 +1,6 @@
 # 🚀 BUSINESS KIT — START HERE
 
-**Owner:** [YOUR NAME] · **Company:** Abet Works (Mumbai) · **Capital:** $0 · **Status: v1.1 — complete, sellable, manageable (see CHANGELOG)**
+**Owner:** [YOUR NAME] · **Company:** Abet Works (Mumbai) · **Capital:** $0 · **Status: v1.2.5 — complete, sellable, manageable, CI-guarded (see CHANGELOG)**
 
 This folder is your entire business operating system: outreach engine, delivery templates, pricing/contracts, money rules, scaling plan, content lane, and the live website funnel. Nothing more needs building. What remains is execution + the placeholder replacements below.
 
@@ -25,7 +25,7 @@ Everything mirrors the website: **Lite / Pro / Scale** — one product map, sale
 | 3. Digital Products | CAD blocks, calculators, templates | 70%+ after month 4 | 03 |
 | 4. Outreach Engine | daily fuel for engines 1–2 | n/a | 04, A5, A8, A9 |
 
-Plus the **web funnel**: `WEBSITE/` (allied-services page + one-pager + client dashboard).
+Plus the **web funnel**: `WEBSITE/` — 8 pages: allied offer · interactive demo bot · ROI calculator · multi-client dashboard · kick-off generator · weekly scorecard · eval-ready gate + eval suite · one-pager.
 
 ## File index (open by problem, not in order)
 
@@ -50,6 +50,14 @@ Plus the **web funnel**: `WEBSITE/` (allied-services page + one-pager + client d
 | `WEBSITE/outbound-onepager.html` | print → PDF offer sheet (A4) |
 | `WEBSITE/client-dashboard.html` | per-client owner dashboard — the retention weapon |
 | `WEBSITE/README-integration.md` | deploy + UTM + nav wiring |
+| `MARKETING/launch-copy.md` | paste-ready announcements (LinkedIn / WA / X) |
+| `MARKETING/outreach-bank.md` | every cold channel pre-written + daily quota + 14-day targets |
+| `MARKETING/social-bank.md` | 30-day content calendar + post templates + reel scripts |
+| `MARKETING/objection-book.md` | discovery script + 15 objections + cadence + kill signals |
+| `MARKETING/assets-score.md` | LINK BANK (single source of all URLs) + 7-day launch plan + scoreboard |
+| `TEMPLATES/A11-leave-behind.md` | print A5 card (2-up A4) + QR discipline |
+| `test/run-tests.js` | the 79-check harness (run before any push; `--live` adds URL pings) |
+| `.github/workflows/ci.yml` | GitHub Actions: 79 checks every push + weekly live drift check |
 | `RESEARCH/competitive-gap-analysis.md` | market map, THE GAP per product, P0/P1/P2 features, 12-item build-order backlog |
 | `RESEARCH/spec-front-desk-voice.md` · `spec-whatsapp-reachability.md` | 2 product build specs (voice receptionist · verified-reachability field) |
 | `trackers/*.csv` + `README-import.md` | import-ready Google Sheets trackers (2-min setup, formulas included) |
