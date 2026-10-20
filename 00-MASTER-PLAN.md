@@ -31,6 +31,12 @@
 | RESEARCH/spec-front-desk-voice.md | product spec: AI phone receptionist (India/Hinglish) — architecture, compliance, unit economics, pilot plan |
 | RESEARCH/spec-whatsapp-reachability.md | product spec: LeadWorks verified-reachability field — schema, consent-first pipeline, honest tiers |
 | WEBSITE/eval-suite.html + A10 | ⚙ the hallucination eval suite (built!) — pre-delivery test + monthly retest scoring |
+| MARKETING/launch-copy.md | paste-ready announcements: LinkedIn, WhatsApp broadcast, X thread, bios, DM script |
+| MARKETING/outreach-bank.md | cold outreach pack: WhatsApp 4-message sequence, email bank, IG DM script, groups, daily quota |
+| MARKETING/social-bank.md | 30-day content calendar (4 themes) + post templates (LinkedIn/X/WA status/IG) + 3 reel scripts |
+| MARKETING/objection-book.md | 20-min discovery script + 15-objection library with proof assets + follow-up cadence + kill signals |
+| MARKETING/assets-score.md | LINK BANK (single source) + launch checklist + 7-day launch plan + weekly scoreboard targets |
+| TEMPLATES/A11-leave-behind.md | print-ready A5 leave-behind card (2-up A4), QR rules, distribution discipline |
 
 TASK-FLOW: daily → 06 · weekly → 00 · when stuck → the file that matches the problem.
 

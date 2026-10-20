@@ -30,3 +30,12 @@
 - Private per-client links `client-dashboard.html?c=slug` · no/unknown slug → chooser screen (cards) · header switcher ( 🌐 All clients… ) for the manager view · contact card hidden on chooser.
 - Wired: `onclick` refs moved to `CUR.*`; contact card tagged for hiding; portal card copy updated.
 - Tests: node syntax OK + runtime-load OK + DOM-stub render paths all green (no slug / rafi-dental / madrasi-table / precision-gears / unknown).
+## v1.2.0 — 2026-10-20 · FULL LAUNCH MATERIAL SUITE
++-5 files, 523 lines, every channel pre-written:
+- `MARKETING/outreach-bank.md` — WhatsApp 4-message cold sequence ×2 openers, cold-email subject bank (6) + proof-first body, IG DM script, group-comment rule, daily quota + 14-day funnel targets.
+- `MARKETING/social-bank.md` — 30-day calendar (Prove/Teach/Shock/Close rotation), LinkedIn ×3 + X ×3 + WA-status ×5 + IG ×3 templates, 3 reel scripts, hard rules (one-link-per-post).
+- `MARKETING/objection-book.md` — 20-min discovery script (quantify-pain close), 15-objection library each with reply + asset to send, 0-2-7-14-30 cadence, kill signals.
+- `MARKETING/assets-score.md` — LINK BANK (9 canonical URLs), pre-paid-campaign checklist, 7-day launch plan, weekly scoreboard with red flags.
+- `TEMPLATES/A11-leave-behind.md` — A5 card (2-up A4 print) with QR-to-demo discipline + 2 copy variants.
+- 00-MASTER-PLAN file index extended (7 rows). Artifact sweeps: clean (CJK/Arabic/typos). Master-plan index says read order.
+- Still pending user inputs: real name · WhatsApp number · price decision · logo/QR.
