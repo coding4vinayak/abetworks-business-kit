@@ -106,7 +106,7 @@ function buildData(F){ // F = flat form object
  };
 }
 function buildDashboard(data){ // returns FULL standalone html string (client's own file)
- var D=JSON.stringify(data).replace(/</g,"\\u003c"); /* < > escaped inside JSON — kills </script> breakouts */
+ var D=JSON.stringify(data).replace(/</g,"\\u003c"); /* < > escaped inside JSON — kills script-tag breakout escape */
  return '<!DOCTYPE html>\n<html lang="en"'+">\n<head>\n"+'<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>'+data.business+' — AI Front Desk dashboard</title>\n<style>'
  +':root{--bg:#f6f8fd;--card:#fff;--ink:#101a30;--mut:#5a657d;--acc:#2c4fd8;--acc2:#0e9f6e;--line:#dfe4f2}*{margin:0;padding:0;box-sizing:border-box}body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.wrap{max-width:960px;margin:0 auto;padding:0 16px}a{color:var(--acc);text-decoration:none}header{background:var(--ink);color:#fff;padding:.9rem 0}header .wrap{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}'+"\n"
  +'.live{background:rgba(14,159,110,.2);color:#6ee7a8;border-radius:999px;padding:.15rem .7rem;font-size:.75rem;font-weight:800}header .brand{margin-left:auto;font-weight:800;font-size:.85rem}header .brand span{color:#8ea4ff}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:1.4rem 0}.metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem}.metric b{display:block;font-size:1.7rem}.metric span{color:var(--mut);font-size:.8rem;font-weight:600}'+"\n"

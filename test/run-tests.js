@@ -15,15 +15,33 @@ const bad = (id, extra) => { fail++; console.log("  FAIL " + id + (extra ? " —
 /* ---------- helpers ---------- */
 function htmlFiles(dir) { return fs.readdirSync(dir).filter(f => f.endsWith(".html")); }
 function extractScripts(html) {
-  // returns [{kind:'js'|'json', src, note}] from every <script>…</script>
-  const out = []; const re = /<script([^>]*)>([\s\S]*?)<\/script>/gi; let m, i = 0;
-  while ((m = re.exec(html))) {
-    i++; const attrs = (m[1] || ""), src = m[2];
-    if (attrs.includes("application/ld+json")) out.push({ kind: "json", src, note: "ld#json-" + i });
-    else if (/^\s*<|document\.getElementById\('y'\)/.test(src) && src.length < 200) { /* tiny inline */ }
-    else if (attrs.trim() === "" || attrs === "") out.push({ kind: "js", src, note: "script-" + i });
-    else out.push({ kind: "json", src, note: "other-attrs-" + i });
+  /* LINE-anchored parser: real script blocks here always open `<script>` (or ld+json)
+     alone on their own line. `<script>` bytes INSIDE JS template strings (like the
+     generator's standalone-file builders) are therefore never mis-detected. */
+  const lines = html.split("\n");
+  const out = []; let cur = null; let orphans = 0;
+  for (const line of lines) {
+    const t = line.trim();
+    if (cur) {
+      if (t === "<\/script>") { // genuine closer
+        cur.src = cur.lines.join("\n");
+        if (cur.kind === "js" && cur.src.trim().length > 40) out.push(cur);
+        else if (cur.kind === "json") out.push(cur);
+        cur = null;
+      } else {
+        if (cur.kind === "js" && line.includes("<\/script")) { // raw closer bytes INSIDE a js line
+          out.push({ kind: "RAWBREAK", src: line.slice(0, 200), note: "raw </script bytes inside js — page breaks in every browser" });
+          cur = null; continue;
+        }
+        cur.lines.push(line);
+      }
+    } else {
+      if (t === "<script>") cur = { kind: "js", src: "", lines: [], note: "script-block" };
+      else if (/^<script type="application\/ld\+json">$/i.test(t)) cur = { kind: "json", src: "", lines: [], note: "ld#json" };
+      else if (t.includes("<script") || t.includes("<\/script")) { /* inline one-liners / template bytes: skipped */ }
+    }
   }
+  out.orphans = orphans;
   return out;
 }
 function checkSyntaxJs(name, src) {
@@ -44,10 +62,12 @@ function scripts(f) {
     if (s.kind === "json") {
       try { JSON.parse(s.src); ok(`${base} ⊨ ${s.note}`); }
       catch (e) { bad(`${base} ⊨ ${s.note}`, e.message); }
+    } else if (s.kind === "RAWBREAK") {
+      bad(`${base} 💥 ${s.note}`, s.src);
     } else {
       const e = checkSyntaxJs(`${base}(${s.note})`, s.src);
       if (e) bad(`${base} ⊨ ${s.note}`, e.message.split("\n")[0]);
-      else if (s.src.trim().length > 40) ok(`${base} ⊨ ${s.note}`, s.src.trim().length + " chars");
+      else ok(`${base} ⊨ ${s.note}`, s.src.trim().length + " chars");
     }
   });
 }
