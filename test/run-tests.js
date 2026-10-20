@@ -157,10 +157,11 @@ console.log("\n== 6b. product-map coherence (5 niches everywhere) ==");
 /* ---------- 6c. no orphan pages ---------- */
 console.log("\n== 6c. no orphan pages (each docs page linked from somewhere) ==");
 (() => {
-  const dirFiles = fs.readdirSync(SITE).filter(f => f.endsWith(".html") && f !== "index.html"); // index = the entry point itself
-  dirFiles.forEach(target => {
+  const all = fs.readdirSync(SITE).filter(f => f.endsWith(".html"));
+  const targets = all.filter(f => f !== "index.html"); // index = the entry point itself
+  targets.forEach(target => {
     let refs = 0;
-    dirFiles.forEach(src => {
+    all.forEach(src => {
       if (src === target) return;
       if (fs.readFileSync(path.join(SITE, src), "utf8").includes('href="' + target)) refs++;
     });
