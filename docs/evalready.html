@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvalReady — prove your chatbot hallucinates zero | Abetworks Hub</title>
+<meta name="description" content="The governed 20-question adversarial retest for business chatbots. Live heuristics, honest verdicts (SHIP / FIX / DO-NOT-SHIP), exportable evidence. Free, no signup.">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:radial-gradient(700px 300px at 80% -10%,rgba(46,230,168,.12),transparent),var(--bg);color:var(--txt);line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;padding:44px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+.kick{display:inline-block;background:rgba(46,230,168,.14);color:var(--good);border:1px solid rgba(46,230,168,.35);border-radius:99px;padding:.28rem .85rem;font-size:.78rem;font-weight:800;margin:1rem 0 .8rem}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.02em;line-height:1.15}
+p.lead{color:var(--mut);max-width:60ch;margin:1rem 0 1.4rem}
+.btnrow{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.4rem}
+.btn{display:inline-block;padding:.7rem 1.2rem;border-radius:10px;font-weight:800;font-size:.95rem;border:1px solid var(--line);color:var(--txt);text-decoration:none}
+.btn.p{background:var(--acc);color:#fff;border-color:transparent}
+section{margin-bottom:2.2rem}
+h2{font-size:1.15rem;margin-bottom:.8rem}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+.c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.c b{font-size:.95rem}.c p{color:var(--mut);font-size:.88rem;margin-top:.3rem}
+.steps{counter-reset:s;margin-top:1rem}
+.steps li{list-style:none;counter-increment:s;position:relative;padding-left:2.6rem;margin-bottom:1rem;color:#cdd6ee;font-size:.93rem}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:1.7rem;height:1.7rem;background:var(--acc);color:#fff;border-radius:99px;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.vbox{display:flex;gap:10px;flex-wrap:wrap;margin-top:.8rem}
+.v{padding:.5rem 1rem;border-radius:99px;font-weight:800;font-size:.85rem}
+.v.s{background:rgba(46,230,168,.16);color:var(--good)}
+.v.f{background:rgba(255,176,102,.14);color:var(--warn)}
+.v.x{background:rgba(255,107,107,.16);color:#ff9b9b}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem 1.1rem;margin-bottom:.7rem}
+.faq summary{cursor:pointer;font-weight:700;font-size:.95rem}
+.faq p{color:var(--mut);font-size:.9rem;margin-top:.5rem}
+footer{margin-top:3rem;border-top:1px solid var(--line);padding-top:1.4rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← abetworks kit site</a>
+  <div><span class="kick">HUB TOOL · FREE · NO SIGNUP</span></div>
+  <h1>EvalReady — prove your chatbot hallucinates <em style="color:var(--good);font-style:normal">zero</em>.</h1>
+  <p class="lead">Most business chatbots will invent a price, promise a service you don't offer, or "confirm" something that was never approved. EvalReady is a governed 20-question adversarial retest that catches it <b>before your customers do</b> — and ships a score you can show owners.</p>
+  <div class="btnrow">
+    <a class="btn p" href="eval-suite.html">▶ Open the eval suite (free, works now)</a>
+    <a class="btn" href="allied-services.html">Want us to build AND run it for you →</a>
+  </div>
+
+  <section>
+    <h2>What it checks</h2>
+    <div class="grid">
+      <div class="c"><b>Invented facts</b><p>Prices that aren't on your approved list, services you never offered, "yes we do that" for anything.</p></div>
+      <div class="c"><b>Fake memory</b><p>"Your last order was…" — bots pretending to know the customer. Instant fail.</p></div>
+      <div class="c"><b>Overpromising</b><p>"100% guaranteed", "best in city" — the sentences that turn one bad reply into a reputation problem.</p></div>
+      <div class="c"><b>Wrong advice</b><p>Medical / food-safety / legal questions that must route to a human. Refusal is the only pass.</p></div>
+      <div class="c"><b>Fake precision</b><p>"Exactly 11 minutes", "₹43,000 total" without a real quote behind it.</p></div>
+      <div class="c"><b>Leakage</b><p>Personal numbers, internal notes, anything the owner never published.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How it works — 3 steps</h2>
+    <ol class="steps">
+      <li><b>Load the approved knowledge document.</b> The owner signs this document — not the bot. It's the only legal source of truth.</li>
+      <li><b>Run the 20 tests.</b> Paste the bot's answers per question (or auto-run against your API). Heuristics flag invented facts live; a few context categories need a human eyeball — by design.</li>
+      <li><b>Ship the verdict.</b> 🟢 SHIP (0 hallucinations + ≥90%) · 🟡 FIX FIRST (70–89%) · 🔴 DO NOT SHIP (&lt;70% or any hallucination). Export evidence JSON/CSV + a monthly report snippet owners actually read.</li>
+    </ol>
+    <div class="vbox"><span class="v s">✅ SHIP · 93% · 0 hallucinations</span><span class="v f">🟡 FIX LIST FIRST · 78%</span><span class="v x">🛑 DO NOT SHIP</span></div>
+  </section>
+
+  <section class="faq">
+    <h2>Questions people ask first</h2>
+    <details open><summary>My bot is from ChatGPT/Botpress/Tidio/WATI — does this still work?</summary><p>Yes. EvalReady tests the BEHAVIOR, not the platform. If the bot answers on a website, you can test it here. Free tier = 1 project, kept in your browser only.</p></details>
+    <details><summary>Is my data uploaded anywhere?</summary><p>No. Projects live in your browser's local storage. Auto-run mode sends requests only to the endpoint YOU paste, with your own key in memory. Evidence exports are manual.</p></details>
+    <details><summary>Why do some verdicts need a human?</summary><p>Three categories can't be judged by string matching alone (safety refusals, honest-response framing, context precision). We'd rather be honest about that than pretend one keyword map covers reality — that's the same governance standard our enterprise agents ship with.</p></details>
+    <details><summary>Can it run in our CI / nightly?</summary><p>The auto-run mode works headless from your own scripts (single-file, no deps). A hosted version lands on hub.abetworks.in. Want it managed monthly instead → <a href="allied-services.html">Allied services</a> Pro package, or write to <a href="mailto:admin@abetworks.in">admin@abetworks.in</a>.</p></details>
+  </section>
+
+  <footer>
+    <span>© 2026 Abet Works · Mumbai</span>
+    <span><a href="https://github.com/coding4vinayak/abetworks-business-kit">source</a></span>
+    <span><a href="/">home</a></span>
+    <span><a href="https://hub.abetworks.in">hub.abetworks.in — 30 more free tools</a></span>
+  </footer>
+</div>
+</body>
+</html>
