@@ -22,3 +22,6 @@
 - Landing portal gained the EvalReady card (5 cards now: offer, eval suite, dashboard, EvalReady, one-pager).
 - `MARKETING/launch-copy.md`: paste-ready LinkedIn post, WhatsApp broadcast, X post + thread, bio lines, outbound DM, 4-week build-in-public cadence.
 - Tested: all 6 pages 200, internal links resolve, structure + artifact sweep clean.
+## v1.1.3 — 2026-10-20
+- **Interactive front-desk demo live** (`WEBSITE/demo-front-desk.html` + `docs/`): pick a niche (dental / restaurant / machine shop), chat against the visible "owner-approved document" — approved prices answered instantly, discounts/unlisted prices/refusals demonstrated, lead-capture strip. Coded refusals + syntax-tested with node.
+- Portal gained the demo card (6 cards); allied pages (both copies) link it as proof asset in the free-tools strip.

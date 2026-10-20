@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try the demo — AI front desk that can't invent facts | Abetworks</title>
+<meta name="description" content="Interactive demo: the AI receptionist answers only from the owner's approved knowledge document. Ask it to invent a price — watch it refuse. Zero-hallucination by design.">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:radial-gradient(700px 300px at 50% -10%,rgba(108,140,255,.14),transparent),var(--bg);color:var(--txt);line-height:1.55;min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+.kick{display:inline-block;background:rgba(46,230,168,.14);color:var(--good);border:1px solid rgba(46,230,168,.35);border-radius:99px;padding:.28rem .85rem;font-size:.78rem;font-weight:800;margin:1rem 0}
+h1{font-size:clamp(1.5rem,3.6vw,2.3rem);letter-spacing:-.02em;line-height:1.18}
+p.lead{color:var(--mut);max-width:64ch;margin:.8rem 0 1.6rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:.5rem 1rem;font-weight:700;font-size:.9rem;cursor:pointer}
+.tab.on{background:var(--acc);border-color:transparent;color:#fff}
+.stage{display:grid;grid-template-columns:320px 1fr;gap:14px}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.doc h2{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:.6rem}
+.doc .stamp{border:1px dashed rgba(46,230,168,.4);border-radius:8px;padding:.5rem .7rem;margin-bottom:.9rem;font-size:.8rem;color:var(--good)}
+.doc ul{list-style:none}
+.doc li{padding:.42rem 0;border-bottom:1px solid var(--line);font-size:.87rem;color:#cdd6ee}
+.doc li b{color:var(--txt)}
+.chat{background:var(--card);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;min-height:430px}
+.chathead{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.dot{width:9px;height:9px;border-radius:99px;background:var(--good);box-shadow:0 0 8px var(--good)}
+.chathead b{font-size:.95rem}
+.chathead span{color:var(--mut);font-size:.8rem;margin-left:auto}
+.log{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:9px}
+.b{max-width:78%;padding:.62rem .85rem;border-radius:12px;font-size:.9rem}
+.b.bot{background:#1a2447;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.b.me{background:var(--acc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.b.warn{border-color:rgba(255,176,102,.35);background:rgba(255,176,102,.08);color:#ffd9b0;align-self:flex-start}
+.typing{color:var(--mut);font-size:.82rem;align-self:flex-start;padding:.2rem .4rem}
+.chips{padding:10px 14px 4px;display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;color:var(--mut);border-radius:99px;padding:.35rem .8rem;font-size:.8rem;cursor:pointer}
+.chip:hover{border-color:var(--acc);color:var(--txt)}
+.reply{display:flex;gap:8px;padding:12px 14px 14px}
+.reply input{flex:1;background:#0e1530;border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:.65rem .8rem;font-size:.9rem;outline:none}
+.reply input:focus{border-color:var(--acc)}
+.reply button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.65rem 1.1rem;font-weight:800;cursor:pointer;font-size:.9rem}
+.footnote{margin-top:14px;color:var(--mut);font-size:.85rem;max-width:70ch}
+.verdict{margin-top:10px;display:inline-flex;gap:8px;align-items:center;border:1px solid rgba(46,230,168,.3);border-radius:99px;padding:.4rem .9rem;font-size:.8rem;color:var(--good)}
+footer{margin-top:2.2rem;border-top:1px solid var(--line);padding-top:1.2rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--acc);text-decoration:none}
+@media(max-width:860px){.stage{grid-template-columns:1fr}.doc{order:2}.chat{order:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← abetworks kit site</a>
+  <div><span class="kick">INTERACTIVE DEMO · NO SIGNUP</span></div>
+  <h1>Talk to a front desk that <em style="color:var(--good);font-style:normal">can't invent facts.</em></h1>
+  <p class="lead">Pick a business. Ask anything — including trick questions. It answers <b>only</b> from the owner's approved knowledge document (left). Try to make it invent a price. Watch it refuse.</p>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-n="dental">🦷 Dental clinic</button>
+    <button class="tab" data-n="restaurant">🍜 Restaurant</button>
+    <button class="tab" data-n="machine">⚙️ Machine shop</button>
+  </div>
+
+  <div class="stage">
+    <div class="doc">
+      <h2>Owner's approved document</h2>
+      <div class="stamp" id="stamp"></div>
+      <ul id="doclist"></ul>
+      <div class="verdict">🔎 Every answer is checked by&nbsp;<a href="evalready.html" style="color:var(--good);text-decoration:none">EvalReady</a></div>
+    </div>
+
+    <div class="chat">
+      <div class="chathead"><span class="dot"></span><b id="botname"></b><span>demo · scripted</span></div>
+      <div class="log" id="log"></div>
+      <div class="chips" id="chips"></div>
+      <div class="reply">
+        <input id="q" placeholder="Type a question + press Enter" autocomplete="off">
+        <button id="send">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="footnote"><b style="color:var(--txt)">Scripted demo.</b> Real deployments connect to your WhatsApp / Instagram / website, read <b>your</b> signed document, and hand anything unusual to a human instead of guessing. Discounts, unlisted prices, gossip — refusal is the feature.</p>
+
+  <footer>
+    <span>© 2026 Abet Works · Mumbai</span>
+    <a href="allied-services.html">Want this live for YOUR business →</a>
+    <a href="https://github.com/coding4vinayak/abetworks-business-kit">source</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+var NICHES={
+ dental:{
+  name:"SmileCare front desk",
+  stamp:"✅ Signed-off by Dr. Mehta · v1",
+  doc:[
+   ["Root canal (single visit)","₹4,500"],
+   ["Cleaning & polishing","₹1,200"],
+   ["Tooth-coloured filling","₹1,800"],
+   ["Braces consultation","₹500"],
+   ["Open","11:00 am – 7:30 pm daily"],
+   ["Location","2nd floor, MG Road plaza"],
+   ["EMI / instalments","❌ not in document → say nothing"],
+   ["Hearing aids etc.","Not our service → refuse politely"]
+  ]
+ },
+ restaurant:{
+  name:"Madrasi Table front desk",
+  stamp:"✅ Signed-off by owner Anand · v1",
+  doc:[
+   ["Veg thali","₹180"],
+   ["Chicken biryani","₹320"],
+   ["Filter coffee","₹60"],
+   ["Home delivery","₹40 fee, within 5 km only"],
+   ["Bulk party orders","Min ₹5,000 · 24h notice"],
+   ["Open","12:00 pm – 11:00 pm daily"],
+   ["Payment","UPI, cards, cash"],
+   ["Alcohol","❌ not served, not inventable"]
+  ]
+ },
+ machine:{
+  name:"Precision Gears enquiry desk",
+  stamp:"✅ Signed-off by Works Manager · v2",
+  doc:[
+   ["Spur gear cutting","from ₹450/unit — final price by quote only"],
+   ["Materials in stock","EN8 · EN19 · 20MnCr5"],
+   ["Heat treatment","liaison vendor — through quote only"],
+   ["Bay visits","Mon–Fri 9 am – 6 pm, by appointment"],
+   ["Standard gear delivery","7–10 working days"],
+   ["Old/second-hand machines","we don't sell → refuse"],
+   ["SS304","not stocked → refuse"],
+   ["Exports","EU client references available"]
+  ]
+ }
+};
+var SUGGEST={
+ dental:["How much for a root canal?","Give me 40% discount on root canal","Do you sell hearing aids?","Can I pay in EMI?"],
+ restaurant:["Veg thali price?","Do you serve beer?","Book a table for 6 at 8 pm","Deliver to Mumbai airport? (27 km)"],
+ machine:["Per-unit price for a spur gear?","Do you stock SS304?","Heat treat a batch for me?","Can I buy your old lathe?"]
+};
+var REFUSALS=[
+ "I don't have that in the approved document — I've noted it for the owner instead of guessing.",
+ "That's outside my approved list, so I won't make it up. Want a callback from the team?",
+ "My rule: nothing goes out unless it's in the owner's document. I've logged this for a human."
+];
+var LEAD="📝 Captured as a lead (demo). Real system: name + number WhatsApped to the owner instantly.";
+var cur="dental";
+
+function bubble(txt,cls){
+ var l=document.getElementById("log");
+ var d=document.createElement("div");
+ d.className="b "+cls;
+ d.innerHTML=txt;
+ l.appendChild(d);
+ l.scrollTop=l.scrollHeight;
+ return d;
+}
+function botSay(txt,cls){bubble(txt,cls||"bot");}
+function typing(ms,fn){var t=bubble("… typing","typing");setTimeout(function(){t.remove();fn();},ms);}
+
+function setNiche(n){
+ cur=n;
+ var D=NICHES[n];
+ document.getElementById("botname").textContent=D.name;
+ document.getElementById("stamp").textContent=D.stamp;
+ var dl=document.getElementById("doclist");
+ dl.innerHTML="";
+ D.doc.forEach(function(r){
+  var li=document.createElement("li");
+  li.innerHTML="• <b>"+r[0]+"</b> — "+r[1];
+  dl.appendChild(li);
+ });
+ var cs=document.getElementById("chips");
+ cs.innerHTML="";
+ SUGGEST[n].forEach(function(q){
+  var c=document.createElement("button");
+  c.className="chip";c.textContent=q;
+  c.onclick=function(){sendMsg(q);};
+  cs.appendChild(c);
+ });
+ var tabs=document.querySelectorAll(".tab");
+ for(var i=0;i<tabs.length;i++){tabs[i].classList.toggle("on",tabs[i].dataset.n===n);}
+ var l=document.getElementById("log");
+ l.innerHTML="";
+ botSay("Hi! Ask me anything. I can only answer from the owner's signed document — and I never invent answers.");
+}
+
+function sendMsg(q){
+ var s=(q||"").trim();
+ if(!s)return;
+ var input=document.getElementById("q");
+ bubble(s,"me");
+ if(input){input.value="";}
+ typing(420,function(){answer(cur,s);});
+}
+
+function answer(n){
+ var t=arguments[1].toLowerCase();
+ var any=function(){for(var i=0;i<arguments.length;i++){if(t.indexOf(arguments[i])>-1)return true;}return false;};
+ var hasPrice=t.match(/[₹]?\s?\d{3,7}/);
+ var askPrice=any("price","cost","how much","rate","charge","fee","₹","quotation","quote");
+
+ /* 1. global traps first — never invent discounts */
+ if(any("discount","offer","50%","40%","reduce","cheap","deal")){
+  botSay("A discount isn't in the approved document, so I won't invent one. The owner decides discounts personally — I've noted your request.","bot warn");
+  botSay(LEAD,"bot warn");return;
+ }
+
+ /* 2. niche rules — ordered, first match wins */
+ if(n==="dental"){
+  if(any("root","canal")){botSay("Single-visit root canal is <b>₹4,500</b> — from Dr. Mehta's document. Shall I hold a slot?");return;}
+  if(any("clean","polish")){botSay("Cleaning &amp; polishing is <b>₹1,200</b> (approved).");return;}
+  if(any("filling")){botSay("Tooth-coloured filling: <b>₹1,800</b>.");return;}
+  if(any("braces")){botSay("Braces consultation is <b>₹500</b> (document says so).");return;}
+  if(any("sunday","timing","open","hour")){botSay("We're 11:00–7:30 daily per the document; nothing more specific is written, so I won't guess. 📌","bot warn");return;}
+  if(any("emi","instal","install")){botSay("EMI isn't in my document — I'd rather say nothing than invent a finance plan. Noted for the owner. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("hearing","x-ray charge","insurance")){botSay("That's outside my service list — I've noted it instead of improvising.","bot warn");return;}
+ }
+ if(n==="restaurant"){
+  if(any("thali")){botSay("Veg thali <b>₹180</b> — straight from the owner's approved card.");return;}
+  if(any("biryani")){botSay("Chicken biryani <b>₹320</b>. Bulk orders start at ₹5,000 with 24h notice.");return;}
+  if(any("coffee","tea")){botSay("Filter coffee <b>₹60</b> ☕");return;}
+  if(any("beer","alcohol","wine","whisk")){botSay("We don't serve alcohol — that's a fact from the document, and it's not negotiable by me. Filter coffee at ₹60 is excellent though ☕");return;}
+  if(any("deliver","delivery","home")){
+   if(t.match(/\s(6\b|7\b|[8-9]\b)|10 km|27|airport|whitefield/)){botSay("Delivery is within 5 km only — your address is outside my approved area, so no promise. A human decides exceptions. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+   botSay("Delivery: <b>₹40 within 5 km</b> (approved). Share your location and I'll check.");return;}
+  if(any("book","table","reserve")){botSay("Done — table for 6 at 8 pm recorded (demo). Real flow: it lands on the owner's WhatsApp with your number instantly.");return;}
+  if(any("timing","open","close")){botSay("12:00–23:00 daily (document).");return;}
+  if(any("pay","upi","card","cash")){botSay("UPI, cards and cash — all accepted.");return;}
+ }
+ if(n==="machine"){
+  if(any("gear")){botSay("Spur gear cutting <b>from ₹450/unit</b>, final price by quote (per the Works Manager's document). EN8/EN19/20MnCr5 in stock.");return;}
+  if(any("ss304","stainless")){botSay("We don't stock SS304 — only EN8, EN19, 20MnCr5. I won't pretend otherwise.");return;}
+  if(any("heat")){botSay("Heat treatment goes through our liaison vendor — quote-based only. I've flagged you for a callback from the Works Manager. 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("lathe","second","old","buy your","purchase")){botSay("We don't sell used machines. Spec questions on the documented list — those I'll answer to the decimal.");return;}
+  if(any("visit","appointment")){botSay("Bay visits Mon–Fri, 9–6, by appointment. Which day suits you?");return;}
+  if(any("export")){botSay("Yes — EU client references available (documented).","bot");return;}
+  if(any("delivery","deadline")){botSay("Standard delivery 7–10 working days (document).");return;}
+ }
+
+ /* 3. generic price ask with no approved match */
+ if(askPrice&&hasPrice!==undefined){
+  botSay("That exact number isn't in the approved document. I will NOT invent one — flagged for the owner to quote properly. 📌","bot warn");
+  botSay(LEAD,"bot warn");return;
+ }
+ if(askPrice){
+  botSay("That price isn't in my document. I won't make one up — noted for a human quote. 📌","bot warn");
+  botSay(LEAD,"bot warn");return;
+ }
+
+ /* 4. fallback */
+ botSay(REFUSALS[Math.floor(Math.random()*REFUSALS.length)],"bot warn");
+}
+
+document.getElementById("tabs").addEventListener("click",function(e){
+ var b=e.target.closest(".tab");
+ if(b)setNiche(b.dataset.n);
+});
+document.getElementById("send").onclick=function(){sendMsg(document.getElementById("q").value);};
+document.getElementById("q").addEventListener("keydown",function(e){
+ if(e.key==="Enter")sendMsg(document.getElementById("q").value);
+});
+setNiche("dental");
+</script>
+</body>
+</html>
