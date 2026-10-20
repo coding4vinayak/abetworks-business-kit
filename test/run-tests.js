@@ -132,12 +132,34 @@ console.log("\n== 6. placeholder registry (informational) ==");
   console.log(`  INFO [YOUR NAME] remaining: ${name} · (real-name input gates this)`);
 })();
 
+/* ---------- 6b. product-map coherence (demo == generator == eval-suite) ---------- */
+console.log("\n== 6b. product-map coherence (5 niches everywhere) ==");
+(() => {
+  const demoFiles = ["WEBSITE/demo-front-desk.html", "WEBSITE/demo-front-desk-hi.html"];
+  const genSrc = fs.readFileSync(path.join(ROOT, "WEBSITE/client-generator.html"), "utf8");
+  const evalSrc = fs.readFileSync(path.join(ROOT, "WEBSITE/eval-suite.html"), "utf8") +
+                  fs.readFileSync(path.join(ROOT, "WEBSITE/evalready.html"), "utf8");
+  const EVAL_KEY = { dental: "dental", restaurant: "restaurant", machine: "machine", realestate: "realestate", education: "coaching" };
+  demoFiles.forEach(f => {
+    const s = fs.readFileSync(path.join(ROOT, f), "utf8");
+    const tabs = new Set([...s.matchAll(/data-n="(\w+)"/g)].map(m => m[1]));
+    const rules = new Set([...s.matchAll(/if\(n==="(\w+)"\)/g)].map(m => m[1]));
+    ok(f + " — 5 tabs", tabs.size === 5 ? [...tabs].join(",") : "GOT " + tabs.size + ": " + [...tabs].join(","));
+    const missingRules = [...tabs].filter(k => !rules.has(k));
+    ok(f + " — tab↔rules in sync", missingRules.length ? "rules missing: " + missingRules.join(",") : [...rules].join(","));
+    const missGen = [...tabs].filter(k => !new RegExp("\\b" + k + ":\\{niche:").test(genSrc));
+    ok(f + " — generator presets cover", missGen.length ? "missing: " + missGen.join(",") : "all " + tabs.size);
+    const missEval = [...tabs].filter(k => !evalSrc.toLowerCase().includes((EVAL_KEY[k] || k).toLowerCase()));
+    ok(f + " — eval-suite scaffolds cover", missEval.length ? "missing: " + missEval.join(",") : "all " + tabs.size);
+  });
+})();
+
 /* ---------- live suite (optional) ---------- */
 if (process.argv.includes("--live")) {
   console.log("\n== 7. live URLs ==");
   const https = require("https");
   const B = "https://coding4vinayak.github.io/abetworks-business-kit/";
-  const pages = ["", "allied-services.html", "demo-front-desk.html", "client-dashboard.html", "client-dashboard.html?c=madrasi-table", "evalready.html", "eval-suite.html", "outbound-onepager.html", "client-generator.html"];
+  const pages = ["", "allied-services.html", "allied-services-hi.html", "demo-front-desk.html", "client-dashboard.html", "client-dashboard.html?c=madrasi-table", "evalready.html", "eval-suite.html", "outbound-onepager.html", "client-generator.html"];
   const get = u => new Promise(res => {
     const t0 = Date.now();
     https.get(u, r => { res({ code: r.statusCode, ms: Date.now() - t0 }); r.resume(); })

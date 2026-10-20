@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI फ्रंट डेस्क — आपके ग्राहकों के सवालों के जवाब, बिना झूठ | Abetworks</title>
+<meta name="description" content="AI रिसेप्शनिस्ट आपकी साइन की हुई डॉक्यूमेंट से जवाब देता है — कीमत, समय, सर्विस। जो डॉक्यूमेंट में नहीं, वह इंसान को सौंपता है। 1-हफ़्ते पायलट से शुरू करें।">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans Devanagari",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(700px 300px at 20% -10%,rgba(108,140,255,.14),transparent),var(--bg);color:var(--txt);line-height:1.6}
+.wrap{max-width:960px;margin:0 auto;padding:40px 20px}
+.topnav{display:flex;justify-content:space-between;font-size:.85rem}
+.topnav a{color:var(--mut);text-decoration:none}
+h1{font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.02em;margin:1.2rem 0 .4rem}
+.lead{color:var(--mut);max-width:62ch;font-size:1.02rem}
+.kick{display:inline-block;background:rgba(46,230,168,.14);color:var(--good);border:1px solid rgba(46,230,168,.35);border-radius:99px;padding:.28rem .9rem;font-size:.78rem;font-weight:800;margin-top:1rem}
+.pain{margin:1.8rem 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem}
+.p b{display:block;color:var(--good);font-size:1.05rem;margin-bottom:.2rem}
+.p span{color:var(--mut);font-size:.84rem}
+h2{font-size:1.2rem;margin:2rem 0 .7rem}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.2rem}
+.plan.hot{border-color:rgba(46,230,168,.4);position:relative}
+.ribbon{position:absolute;top:-10px;right:14px;background:var(--good);color:#04331a;border-radius:99px;font-size:.68rem;font-weight:800;padding:.2rem .7rem}
+.plan .who{color:var(--mut);font-size:.75rem}
+.plan h3{font-size:1.15rem;margin:.2rem 0}
+.plan .price{font-size:1.35rem;font-weight:800;color:var(--good)}
+.plan .per{color:var(--mut);font-size:.8rem;margin-bottom:.6rem}
+.plan ul{padding-left:1.1rem;font-size:.86rem}
+.plan li{margin:.3rem 0}
+.pilot{border:1px dashed rgba(46,230,168,.4);border-radius:14px;padding:1.1rem 1.2rem;margin:1.6rem 0}
+.pilot h2{margin:0 0 .5rem}
+.pilot li{margin:.4rem 0}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:1.4rem 0}
+.btn{display:inline-block;padding:.75rem 1.25rem;border-radius:10px;font-weight:800;font-size:.95rem;border:1px solid var(--line);color:var(--txt);text-decoration:none}
+.btn.p{background:var(--acc);color:#fff;border-color:transparent}
+.note{color:var(--mut);font-size:.82rem;max-width:70ch;border-left:3px solid var(--warn);padding-left:.9rem;margin:1.4rem 0}
+footer{margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1.2rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--mut)}
+@media(max-width:760px){.pain,.plans{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="/">← abetworks kit site</a>
+    <a href="allied-services.html">English version →</a>
+  </div>
+
+  <div><span class="kick">AI फ्रंट डेस्क · 1-हफ़्ते पायलट · कोई मजबूरी नहीं</span></div>
+  <h1>आपके ग्राहक मैसेज करते हैं — जवाब देता है AI,<br>जो <em style="color:var(--good);font-style:normal">झूठ बोल ही नहीं सकता।</em></h1>
+  <p class="lead">रात को 11 बजे ग्राहक पूछता है "फ़ीस कितनी है?" — आप सो रहे होते हैं, वह आपका प्रतियोगी के पास चला जाता है। हमारा बॉट आपकी अप्रूव की हुई डॉक्यूमेंट (कीमत, समय, सर्विस) से तुरंत जवाब देता है — और जो बात डॉक्यूमेंट में नहीं, वह बनाकर नहीं बोलता। आपका नंबर + पूछा हुआ सवाल, आपके WhatsApp पर।</p>
+
+  <div class="pain">
+    <div class="p"><b>रात के मैसेज = खोए ग्राहक</b><span>आधी-अधूरी रात का ग्राहक सुबह तक ठंडा हो जाता है। बॉट 24×7 जवाब देता है।</span></div>
+    <div class="p"><b>फ़ीस बनाना = मुसीबत</b><span>चैटबॉट गलत दाम बताते हैं — वादा टूटता है। यह सिर्फ़ आपकी लिखी बात बताता है।</span></div>
+    <div class="p"><b>स्टाफ़ का समय = बर्बाद</b><span>हर दिन वही सवाल: टाइम? दाम? लोकेशन? बॉट करे, आपका स्टाफ़ असली काम करे।</span></div>
+  </div>
+
+  <h2>प्लान</h2>
+  <div class="plans">
+    <div class="plan">
+      <span class="who">एक दुकान / क्लिनिक</span><h3>Lite</h3>
+      <div class="price">from ₹14,999</div><div class="per">एकमुश्त सेटअप + ₹1,999/महीना केयर</div>
+      <ul><li>वेबसाइट चैट + WhatsApp बुनियादी</li><li>सिर्फ़ अप्रूव्ड डॉक्यूमेंट से जवाब</li><li>हर इनक्वायरी लीड-शीट में</li><li>हफ़्ते में टेस्ट — झूठ साबित हो तो ठीक मुफ़्त</li></ul>
+    </div>
+    <div class="plan hot">
+      <span class="ribbon">सबसे ज़्यादा चुना</span>
+      <span class="who">फ्रंट डेस्क + पाइपलाइन</span><h3>Pro</h3>
+      <div class="price">from ₹34,999</div><div class="per">एकमुश्त सेटअप + ₹4,999/महीना केयर</div>
+      <ul><li>Lite का सब कुछ</li><li>लीड स्कोरिंग — कौन गरम है, दिखता है</li><li>बुकिंग फ़्लो + स्टाफ़ हैंडओवर</li><li>लाइव डैशबोर्ड (महीने की रिपोर्ट)</li><li>+1 भाषा (हिंदी/मराठी में भी)</li></ul>
+    </div>
+    <div class="plan">
+      <span class="who">कई शाखाएँ / टीमें</span><h3>Scale</h3>
+      <div class="price">from ₹89,999</div><div class="per">एकमुश्त सेटअप + ₹14,999/महीना केयर</div>
+      <ul><li>Pro का सब कुछ</li><li>कई शाखा/ब्रांड, एक डेस्क</li><li>ईमेल ट्रायज + कोट-डेस्क असिस्टेंट</li><li>हफ़्तेवार रिव्यू + टीम ट्रेनिंग</li></ul>
+    </div>
+  </div>
+
+  <div class="pilot">
+    <h2>▶ पहले 1 हफ़्ते का पायलट — फिर फ़ैसला आपका</h2>
+    <ul>
+      <li><b>दिन 1–2:</b> आपकी टीम के साथ बैठकर एक डॉक्यूमेंट बनती है (सर्विस, दाम, समय) — वही बॉट की ज़ुबान बनती है। एक चैनल पर लाइव।</li>
+      <li><b>दिन 3–7:</b> बॉट असली ग्राहकों के जवाब देता है; डॉक्यूमेंट से बाहर का हर सवाल पकड़ा जाता है, अंदाज़ा नहीं लगता।</li>
+      <li><b>दिन 7:</b> एक रिपोर्ट — कितने चैट, कितनी लीड, झूठ-टेस्ट स्कोर। <b>फिर आप तय करें। कोई रिन्यूअल-प्रेशर नहीं।</b></li>
+    </ul>
+  </div>
+
+  <div class="btns">
+    <a class="btn p" href="demo-front-desk-hi.html">डेमो ख़ुद ट्राई करें (हिंदी) →</a>
+    <a class="btn" href="roi-calculator.html">आपका नुक़सान हिसाब करें</a>
+    <a class="btn" href="demo-front-desk.html">English demo</a>
+  </div>
+
+  <p class="note"><b>ईमानदारी का ब्लॉक:</b> ऊपर के नंबर हमारी तय कीमत-सूची (ladder) से हैं — डिस्कवरी कॉल के बाद लिखित फ़ाइनल कोट देते हैं, वही हुकूमत करेगा। नुक़सान/बचत के अंदाज़े आपके दिए नंबरों × छपे हुए गणित से आते हैं; पायलट की लॉग-रिपोर्ट ही असली सबूत है। हम बॉट दें या पैमाना — बनाए हुए आँकड़े किसी को नहीं बेचते।</p>
+
+  <footer>
+    <span>© 2026 Abet Works · मुंबई · admin@abetworks.in</span>
+    <a href="https://github.com/coding4vinayak/abetworks-business-kit">source</a>
+  </footer>
+</div>
+</body>
+</html>

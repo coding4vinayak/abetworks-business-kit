@@ -10,6 +10,7 @@
 | Asset | URL | Use it as |
 |---|---|---|
 | 🏠 Landing portal | /abetworks-business-kit/ | bio link, DM sign-off |
+| 🇮🇳 Hindi offer page | /abetworks-business-kit/allied-services-hi.html | Hindi-first prospects: forward in WhatsApp groups |
 | 🤖 Interactive demo (THE asset) | /abetworks-business-kit/demo-front-desk.html | every first touch |
 | 💰 ROI calculator | /abetworks-business-kit/roi-calculator.html | warm leads + discovery calls (§ objection #1/close) |
 | 📄 Offer page (allied services) | /abetworks-business-kit/allied-services.html | LinkedIn + serious leads |
