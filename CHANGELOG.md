@@ -16,3 +16,9 @@
 - Pushed to GitHub `abetworks-business-kit` (private)
 ## v1.1.1 — 2026-10-18
 - **GitHub Pages live site:** `coding4vinayak.github.io/abetworks-business-kit` — landing portal + allied page + eval suite + client dashboard + one-pager, hosted free from the `docs/` folder (source of truth stays in `/WEBSITE`).
+## v1.1.2 — 2026-10-20
+- **EvalReady product page live** (`WEBSITE/evalready.html` + `docs/` mirror): what it catches, 3-step flow, SHIP/FIX/DO-NOT-SHIP verdicts, FAQ — Hub tool #31 promoted from a stub to a page with a working app behind it.
+- Allied-services pages (both copies) gained a 4th free-tool card (EvalReady — the only one visitors can actually try).
+- Landing portal gained the EvalReady card (6 cards now).
+- `MARKETING/launch-copy.md`: paste-ready LinkedIn post, WhatsApp broadcast, X post + thread, bio lines, outbound DM, 4-week build-in-public cadence.
+- Tested: all 6 pages 200, internal links resolve, structure + artifact sweep clean.
