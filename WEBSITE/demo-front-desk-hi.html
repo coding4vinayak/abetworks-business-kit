@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>डेमो ट्राई करें — ऐसा फ्रंट डेस्क जो झूठ नहीं बोलता | Abetworks</title>
+<meta name="description" content="इंटरैक्टिव डेमो: AI रिसेप्शनिस्ट सिर्फ मालिक की अप्रूव्ड डॉक्यूमेंट से जवाब देता है। कीमत बनवाने की कोशिश कीजिए — मना करेगा। ज़ीरो-हॉलुसिनेशन, डिज़ाइन से ही।">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:radial-gradient(700px 300px at 50% -10%,rgba(108,140,255,.14),transparent),var(--bg);color:var(--txt);line-height:1.55;min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+.kick{display:inline-block;background:rgba(46,230,168,.14);color:var(--good);border:1px solid rgba(46,230,168,.35);border-radius:99px;padding:.28rem .85rem;font-size:.78rem;font-weight:800;margin:1rem 0}
+h1{font-size:clamp(1.5rem,3.6vw,2.3rem);letter-spacing:-.02em;line-height:1.18}
+p.lead{color:var(--mut);max-width:64ch;margin:.8rem 0 1.6rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:.5rem 1rem;font-weight:700;font-size:.9rem;cursor:pointer}
+.tab.on{background:var(--acc);border-color:transparent;color:#fff}
+.stage{display:grid;grid-template-columns:320px 1fr;gap:14px}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.doc h2{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-bottom:.6rem}
+.doc .stamp{border:1px dashed rgba(46,230,168,.4);border-radius:8px;padding:.5rem .7rem;margin-bottom:.9rem;font-size:.8rem;color:var(--good)}
+.doc ul{list-style:none}
+.doc li{padding:.42rem 0;border-bottom:1px solid var(--line);font-size:.87rem;color:#cdd6ee}
+.doc li b{color:var(--txt)}
+.chat{background:var(--card);border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;min-height:430px}
+.chathead{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.dot{width:9px;height:9px;border-radius:99px;background:var(--good);box-shadow:0 0 8px var(--good)}
+.chathead b{font-size:.95rem}
+.chathead span{color:var(--mut);font-size:.8rem;margin-left:auto}
+.log{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:9px}
+.b{max-width:78%;padding:.62rem .85rem;border-radius:12px;font-size:.9rem}
+.b.bot{background:#1a2447;border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.b.me{background:var(--acc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.b.warn{border-color:rgba(255,176,102,.35);background:rgba(255,176,102,.08);color:#ffd9b0;align-self:flex-start}
+.typing{color:var(--mut);font-size:.82rem;align-self:flex-start;padding:.2rem .4rem}
+.chips{padding:10px 14px 4px;display:flex;gap:7px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;color:var(--mut);border-radius:99px;padding:.35rem .8rem;font-size:.8rem;cursor:pointer}
+.chip:hover{border-color:var(--acc);color:var(--txt)}
+.reply{display:flex;gap:8px;padding:12px 14px 14px}
+.reply input{flex:1;background:#0e1530;border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:.65rem .8rem;font-size:.9rem;outline:none}
+.reply input:focus{border-color:var(--acc)}
+.reply button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.65rem 1.1rem;font-weight:800;cursor:pointer;font-size:.9rem}
+.footnote{margin-top:14px;color:var(--mut);font-size:.85rem;max-width:70ch}
+.verdict{margin-top:10px;display:inline-flex;gap:8px;align-items:center;border:1px solid rgba(46,230,168,.3);border-radius:99px;padding:.4rem .9rem;font-size:.8rem;color:var(--good)}
+footer{margin-top:2.2rem;border-top:1px solid var(--line);padding-top:1.2rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--acc);text-decoration:none}
+@media(max-width:860px){.stage{grid-template-columns:1fr}.doc{order:2}.chat{order:1}}
+body{font-family:"Noto Sans Devanagari",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← abetworks kit site</a>
+  <a class="back" style="float:right" href="demo-front-desk.html">English version →</a>
+  <div><span class="kick">इंटरैक्टिव डेमो · बिना साइनअप</span></div>
+  <h1>बात कीजिए ऐसे फ्रंट डेस्क से जो <em style="color:var(--good);font-style:normal">झूठ बोल ही नहीं सकता।</em></h1>
+  <p class="lead">बिज़नेस चुनिए। कुछ भी पूछिए — ट्रिक सवाल भी। यह सिर्फ <b>मालिक की अप्रूव की हुई डॉक्यूमेंट</b> (बाईं ओर) से जवाब देता है। इससे कीमत बनवाने की कोशिश कीजिए — देखिए, यह मना कर देता है।</p>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-n="dental">🦷 डेंटल क्लिनिक</button>
+    <button class="tab" data-n="restaurant">🍜 रेस्टोरेंट</button>
+    <button class="tab" data-n="machine">⚙️ मशीन शॉप</button>
+  </div>
+
+  <div class="stage">
+    <div class="doc">
+      <h2>मालिक की अप्रूव्ड डॉक्यूमेंट</h2>
+      <div class="stamp" id="stamp"></div>
+      <ul id="doclist"></ul>
+      <div class="verdict">🔎 हर जवाब जाँचा जाता है —&nbsp;<a href="evalready.html" style="color:var(--good);text-decoration:none">EvalReady</a></div>
+    </div>
+
+    <div class="chat">
+      <div class="chathead"><span class="dot"></span><b id="botname"></b><span>डेमो · स्क्रिप्टेड</span></div>
+      <div class="log" id="log"></div>
+      <div class="chips" id="chips"></div>
+      <div class="reply">
+        <input id="q" placeholder="सवाल लिखिए + Enter दबाइए" autocomplete="off">
+        <button id="send">भेजें</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="footnote"><b style="color:var(--txt)">यह स्क्रिप्टेड डेमो है।</b> असली डिप्लॉयमेंट में यह आपके WhatsApp / Instagram / website से जुड़ता है, <b>आपकी</b> साइन की हुई डॉक्यूमेंट पढ़ता है, और जो समझ नहीं आता वह इंसान को सौंप देता है — अंदाज़ा नहीं लगाता। डिस्काउंट, बिना-लिस्ट कीमतें, गपशप — इनका मना करना ही फ़ीचर है।</p>
+
+  <footer>
+    <span>© 2026 Abet Works · Mumbai</span>
+    <a href="allied-services.html">अपने बिज़नेस के लिए यह लाइव चाहिए? →</a>
+    <a href="https://github.com/coding4vinayak/abetworks-business-kit">source</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+var NICHES={
+ dental:{
+  name:"SmileCare रिसेप्शन",
+  stamp:"✅ डॉ. मेहता द्वारा साइन-ऑफ़ · v1",
+  doc:[
+   ["रूट कैनाल (एक विज़िट)","₹4,500"],
+   ["क्लीनिंग और पॉलिश","₹1,200"],
+   ["टूथ-कलर्ड फ़िलिंग","₹1,800"],
+   ["ब्रेसेस कंसल्टेशन","₹500"],
+   ["खुला","रोज़ सुबह 11 – शाम 7:30"],
+   ["पता","MG Road plaza, दूसरा फ़्लोर"],
+   ["EMI","❌ डॉक्यूमेंट में नहीं → कुछ नहीं कहूंगा"],
+   ["हियरिंग एड आदि","हमारी सर्विस नहीं → साफ़ मना"]
+  ]
+ },
+ restaurant:{
+  name:"Madrasi Table रिसेप्शन",
+  stamp:"✅ मालिक आनंद द्वारा साइन-ऑफ़ · v1",
+  doc:[
+   ["वेज थाली","₹180"],
+   ["चिकन बिरयानी","₹320"],
+   ["फ़िल्टर कॉफ़ी","₹60"],
+   ["होम डिलीवरी","₹40 फ़ीस, सिर्फ 5 km तक"],
+   ["पार्टी ऑर्डर","न्यूनतम ₹5,000 · 24 घंटे नोटिस"],
+   ["खुला","रोज़ दोपहर 12 – रात 11"],
+   ["पेमेंट","UPI, कार्ड, नक़द"],
+   ["शराब","❌ सर्व नहीं करते, बनाई भी नहीं जाती"]
+  ]
+ },
+ machine:{
+  name:"Precision Gears इनक्वायरी डेस्क",
+  stamp:"✅ वर्क्स मैनेजर द्वारा साइन-ऑफ़ · v2",
+  doc:[
+   ["स्पर गियर कटिंग","₹450/पीस से शुरू — फ़ाइनल सिर्फ कोट से"],
+   ["स्टॉक में","EN8 · EN19 · 20MnCr5"],
+   ["हीट ट्रीटमेंट","वेंडर लाइज़न — सिर्फ कोट के ज़रिए"],
+   ["बे विज़िट","सोम–शुक्र, सुबह 9 – शाम 6, अपॉइंटमेंट से"],
+   ["स्टैंडर्ड डिलीवरी","7–10 वर्किंग डेज़"],
+   ["पुरानी मशीन बिक्री","नहीं बेचते → मना"],
+   ["SS304","स्टॉक नहीं → मना"],
+   ["एक्सपोर्ट","EU क्लाइंट रेफ़रेंस उपलब्ध"]
+  ]
+ }
+};
+var SUGGEST={
+ dental:["रूट कैनाल का रेट?","40% डिस्काउंट लगा दो भाई","हियरिंग एड बिकता है?","EMI का चांस?"],
+ restaurant:["वेज थाली की कीमत?","बीयर मिलेगी?","6 लोग की टेबल 8 बजे","एयरपोर्ट तक डिलीवरी? (27 km)"],
+ machine:["स्पर गियर, पर पीस रेट?","SS304 स्टॉक है?","बैच हीट ट्रीट करवाना है","आपकी पुरानी लेथ मशीन ख़रीदूं?"]
+};
+var REFUSALS=[
+ "यह अप्रूव्ड डॉक्यूमेंट में नहीं है — मैं अंदाज़ा नहीं बनाऊंगा; मालिक के लिए नोट कर दिया है।",
+ "यह मेरी लिस्ट से बाहर है, इसलिए मैं बनाकर नहीं बोलूंगा। कॉलबैक बुक कर दूं?",
+ "मेरा नियम: जो मालिक की डॉक्यूमेंट में नहीं, वह बाहर नहीं जाती। इंसान के लिए लॉग कर दिया।"
+];
+var LEAD="📝 लीड रिकॉर्ड हुई (डेमो)। असली सिस्टम में नाम+नंबर तुरंत मालिक के WhatsApp पर।";
+var cur="dental";
+
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function bubble(txt,cls){
+ var l=document.getElementById("log");
+ var d=document.createElement("div");
+ d.className="b "+cls;
+ d.innerHTML=txt;
+ l.appendChild(d);
+ l.scrollTop=l.scrollHeight;
+ return d;
+}
+function botSay(txt,cls){bubble(txt,cls||"bot");}
+function typing(ms,fn){var t=bubble("… लिख रहा हूं","typing");setTimeout(function(){t.remove();fn();},ms);}
+
+function setNiche(n){
+ cur=n;
+ var D=NICHES[n];
+ document.getElementById("botname").textContent=D.name;
+ document.getElementById("stamp").textContent=D.stamp;
+ var dl=document.getElementById("doclist");
+ dl.innerHTML="";
+ D.doc.forEach(function(r){
+  var li=document.createElement("li");
+  li.innerHTML="• <b>"+r[0]+"</b> — "+r[1];
+  dl.appendChild(li);
+ });
+ var cs=document.getElementById("chips");
+ cs.innerHTML="";
+ SUGGEST[n].forEach(function(q){
+  var c=document.createElement("button");
+  c.className="chip";c.textContent=q;
+  c.onclick=function(){sendMsg(q);};
+  cs.appendChild(c);
+ });
+ var tabs=document.querySelectorAll(".tab");
+ for(var i=0;i<tabs.length;i++){tabs[i].classList.toggle("on",tabs[i].dataset.n===n);}
+ var l=document.getElementById("log");
+ l.innerHTML="";
+ botSay("नमस्ते! कुछ भी पूछिए। मैं सिर्फ मालिक की साइन की डॉक्यूमेंट से जवाब दूंगा — और कभी भी जवाब नहीं बनाता।");
+}
+
+function sendMsg(q){
+ var s=(q||"").trim();
+ if(!s)return;
+ var input=document.getElementById("q");
+ bubble(esc(s),"me");
+ if(input){input.value="";}
+ typing(420,function(){answer(cur,s);});
+}
+
+function answer(n){
+ var t=arguments[1].toLowerCase();
+ var any=function(){for(var i=0;i<arguments.length;i++){if(t.indexOf(arguments[i])>-1)return true;}return false;};
+ var askPrice=any("price","cost","kitna","rate","कीमत","charge","fee","paisa","quotation","quote","₹");
+
+ /* 1. ग्लोबल ट्रैप — डिस्काउंट कभी नहीं बनता */
+ if(any("discount","छूट","40%","50%","kam kar","deal")){
+  botSay("डिस्काउंट अप्रूव्ड डॉक्यूमेंट में नहीं है, इसलिए मैं कोई नंबर नहीं बनाऊंगा। डिस्काउंट का फ़ैसला सिर्फ मालिक करते हैं — आपकी बात नोट कर ली।","bot warn");
+  botSay(LEAD,"bot warn");return;
+ }
+
+ /* 2. निश-नियम */
+ if(n==="dental"){
+  if(any("root","canal","आर")){botSay("एक-विज़िट रूट कैनाल <b>₹4,500</b> — डॉ. मेहता की डॉक्यूमेंट से। स्लॉट रोक दूं?");return;}
+  if(any("clean","polish","सफ़ाई")){botSay("क्लीनिंग और पॉलिश <b>₹1,200</b> (अप्रूव्ड)।");return;}
+  if(any("filling","भरना")){botSay("टूथ-कलर्ड फ़िलिंग: <b>₹1,800</b>।");return;}
+  if(any("braces")){botSay("ब्रेसेस कंसल्टेशन <b>₹500</b> — डॉक्यूमेंट में यही लिखा है।");return;}
+  if(any("sunday","रवि","timing","timing","खुल","open","घंट")){botSay("रोज़ 11–7:30, डॉक्यूमेंट में इससे आगे कुछ नहीं — अनुमान नहीं लगाऊंगा। 📌","bot warn");return;}
+  if(any("emi","क़िस्त")){botSay("EMI डॉक्यूमेंट में नहीं — बनाने के बजाय मालिक के लिए नोट कर दिया। 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("hearing","एड")){botSay("यह हमारी सर्विस नहीं — इम्प्रोवाइज़ करने के बजाय नोट कर दिया।","bot warn");return;}
+ }
+ if(n==="restaurant"){
+  if(any("thali","थाली")){botSay("वेज थाली <b>₹180</b> — मालिक के अप्रूव्ड कार्ड से सीधा।");return;}
+  if(any("biryani","बिरयानी")){botSay("चिकन बिरयानी <b>₹320</b>। पार्टी ऑर्डर ₹5,000 से, 24 घंटे नोटिस।");return;}
+  if(any("coffee","tea","चाय","कॉफ़ी")){botSay("फ़िल्टर कॉफ़ी <b>₹60</b> ☕");return;}
+  if(any("beer","शराब","wine","whisk","बीयर")){botSay("हम शराब सर्व नहीं करते — डॉक्यूमेंट में लिखा है और यह बात मैं नहीं बदलता। फ़िल्टर कॉफ़ी ₹60 कमाल की है ☕");return;}
+  if(any("deliver","delivery","डिलीवरी","घर")){
+   if(t.match(/\s(6\b|7\b|[8-9]\b)|27|airport|एयरपोर्ट|कि\.मी\./)){botSay("डिलीवरी सिर्फ 5 km तक (अप्रूव्ड)। आपका पता बाहर है — वादा नहीं करूंगा; एक्सेप्शन मालिक तय करेंगे। 📌","bot warn");botSay(LEAD,"bot warn");return;}
+   botSay("डिलीवरी: <b>₹40, 5 km तक</b> (अप्रूव्ड)। लोकेशन भेजिए, चेक कर लूंगा।");return;}
+  if(any("book","table","टेबल","booking")){botSay("हो गया — 6 लोग, 8 बजे टेबल रिकॉर्ड (डेमो)। असली फ़्लो: मालिक के WhatsApp पर आपका नंबर और डिटेल तुरंत।");return;}
+  if(any("timing","खुल","open","बंद")){botSay("रोज़ 12–23 (डॉक्यूमेंट)।");return;}
+  if(any("pay","upi","card","नक़द","cash")){botSay("UPI, कार्ड और नक़द — सब चलता है।");return;}
+ }
+ if(n==="machine"){
+  if(any("gear","गियर")){botSay("स्पर गियर कटिंग <b>₹450/पीस</b> से, फ़ाइनल कोट से (वर्क्स मैनेजर की डॉक्यूमेंट)। EN8/EN19/20MnCr5 स्टॉक में।");return;}
+  if(any("ss304","stainless","स्टेनलेस")){botSay("SS304 स्टॉक नहीं — सिर्फ EN8, EN19, 20MnCr5। झूठ नहीं बोलूंगा।");return;}
+  if(any("heat","हीट")){botSay("हीट ट्रीटमेंट वेंडर-लाइज़न, कोट-बेस्ड ही। वर्क्स मैनेजर की कॉल के लिए नोट कर दिया। 📌","bot warn");botSay(LEAD,"bot warn");return;}
+  if(any("lathe","लेथ","purani","पुरानी","ख़रीद")){botSay("हम इस्तेमाल की मशीन नहीं बेचते। डॉक्यूमेंट वाली स्पेक सवालों के जवाब पूरे दूंगा।");return;}
+  if(any("visit","appointment","विज़िट","अपॉइंट")){botSay("बे विज़िट सोम–शुक्र, 9–6, अपॉइंटमेंट से। किस दिन आइए?");return;}
+  if(any("export","एक्सपोर्ट")){botSay("हाँ — EU क्लाइंट रेफ़रेंस उपलब्ध (डॉक्यूमेंट में)।","bot");return;}
+  if(any("delivery","deadline","डिलीवरी","डेडलाइन")){botSay("स्टैंडर्ड डिलीवरी 7–10 वर्किंग डेज़ (डॉक्यूमेंट)।");return;}
+ }
+
+ /* 3. कोई अप्रूव्ड कीमत नहीं मिली */
+ if(askPrice){
+  botSay("यह नंबर अप्रूव्ड डॉक्यूमेंट में नहीं है। मैं कोई कीमत नहीं बनाऊंगा — इंसान से ठीक कोट ही आएगा। 📌","bot warn");
+  botSay(LEAD,"bot warn");return;
+ }
+
+ /* 4. फ़ॉलबैक */
+ botSay(REFUSALS[Math.floor(Math.random()*REFUSALS.length)],"bot warn");
+}
+
+document.getElementById("tabs").addEventListener("click",function(e){
+ var b=e.target.closest(".tab");
+ if(b)setNiche(b.dataset.n);
+});
+document.getElementById("send").onclick=function(){sendMsg(document.getElementById("q").value);};
+document.getElementById("q").addEventListener("keydown",function(e){
+ if(e.key==="Enter")sendMsg(document.getElementById("q").value);
+});
+setNiche("dental");
+</script>
+</body>
+</html>
