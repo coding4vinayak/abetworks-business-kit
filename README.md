@@ -57,6 +57,7 @@ Plus the **web funnel**: `WEBSITE/` — 8 pages: allied offer · interactive dem
 | `MARKETING/assets-score.md` | LINK BANK (single source of all URLs) + 7-day launch plan + scoreboard |
 | `TEMPLATES/A11-leave-behind.md` | print A5 card (2-up A4) + QR discipline |
 | `WEBSITE/proposal-generator.html` | ops: branded proposal PDF + WA message per prospect (same verified ROI math) |
+| `scripts/finalize.js` | ONE command finalizes name + WhatsApp + all prices across the kit (dry-run default, `--apply` writes, then runs the harness) |
 | `CUSTOM-DOMAIN-GUIDE.md` | serve the kit on kit.abetworks.in (Cloudflare, click-by-click; diagnosis included) |
 | `test/run-tests.js` | the 79-check harness (run before any push; `--live` adds URL pings) |
 | `.github/workflows/ci.yml` | GitHub Actions: 79 checks every push + weekly live drift check |
