@@ -39,3 +39,7 @@
 - `TEMPLATES/A11-leave-behind.md` — A5 card (2-up A4 print) with QR-to-demo discipline + 2 copy variants.
 - 00-MASTER-PLAN file index extended (7 rows). Artifact sweeps: clean (CJK/Arabic/typos). Master-plan index says read order.
 - Still pending user inputs: real name · WhatsApp number · price decision · logo/QR.
+## v1.2.1 — 2026-10-20
+- **Client kick-off generator** (`WEBSITE/client-generator.html` + docs/): internal op-tool — form (5 niche presets, stats, quality with pipe-format to protect 9/10 values, optional raw leads rows piped) → ① downloads a fully standalone `dashboard-<slug>.html` for the client + ② registry block ready to paste into the multi-client dashboard. Chooser grid gained the "➕ Add a new client" card (both copies).
+- Pipeline tests in node: GEN syntax OK; standalone file parses; store render verified with DOM stub (biz/chats/quality/lead rows/convos/wa link/year); seed-row + raw-rows paths; registry block format exact.
+- Bugs caught & fixed by the tests: unescaped quote in generated leads-map string; missing leads field (seed fallback added); quality 9/10 delimiters.

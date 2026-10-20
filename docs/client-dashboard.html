@@ -173,7 +173,8 @@ function showChooser() {
   $('cgrid').innerHTML = Object.keys(CLIENTS).map(k =>
     `<a class="card" href="client-dashboard.html?c=${k}"><b>${CLIENTS[k].niche} ${CLIENTS[k].business}</b><br>
      <span class="small">${CLIENTS[k].plan} plan · live since ${CLIENTS[k].liveSince} · ${CLIENTS[k].stats.chats} chats / ${CLIENTS[k].stats.leads} leads<br>Open this client's private dashboard →</span></a>`
-  ).join('');
+  ).join('') +
+    '<a class="card" href="client-generator.html"><b>➕ Add a new client</b><br><span class="small">Open the kick-off generator — form in, standalone dashboard file + registry block out. No code needed.</span></a>';
   $('chooser').style.display = 'block';
   $('biz').textContent = "All clients";
   $('plan').textContent = ""; $('live').textContent = "";

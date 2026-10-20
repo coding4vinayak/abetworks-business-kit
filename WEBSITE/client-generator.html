@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Client kick-off generator — Abetworks ops tool</title>
+<meta name="description" content="Internal op: paste a client's details, get a standalone dashboard HTML file + a registry block. No code, no hosting changes.">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1020px;margin:0 auto;padding:36px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:.8rem 0}
+p.lead{color:var(--mut);max-width:66ch;margin:.6rem 0 1.6rem}
+form{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 12px}
+label{font-size:.76rem;color:var(--mut);display:block;margin-bottom:.25rem;letter-spacing:.03em}
+input,select{width:100%;background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.5rem .6rem;font-size:.9rem}
+input:focus,select:focus{border-color:var(--acc);outline:none}
+.full{grid-column:1/-1}
+h2{font-size:1rem;margin:1.6rem 0 .6rem}
+h3{font-size:.9rem;margin:.8rem 0 .4rem;color:var(--acc)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.7rem 1.2rem;font-weight:800;cursor:pointer;font-size:.95rem}
+button.sec{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.k{color:var(--good)}
+.out{display:none;margin-top:1.2rem}
+pre{background:#0e1530;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:.78rem;max-height:320px;color:#cdd6ee}
+footer{margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--acc);text-decoration:none}
+@media(max-width:680px){form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← kit site</a>
+  <h1>Client kick-off generator <span style="color:var(--mut);font-size:.85rem">(ops tool)</span></h1>
+  <p class="lead">Fill once → get <b class="k">①</b> a downloadable <b>standalone dashboard file</b> (email it / host it anywhere) and <b class="k">②</b> a registry block to paste into <code>client-dashboard.html</code>. No hosting changes, no code edits.</p>
+
+  <form id="f" onsubmit="return false">
+    <div><label>Client key (slug, no spaces)</label><input id="k_slug" placeholder="dr-sharma-dental" required></div>
+    <div><label>Niche preset</label><select id="k_niche">
+      <option value="dental">🦷 Dental</option><option value="restaurant">🍜 Restaurant</option>
+      <option value="machine">⚙️ Machine shop</option><option value="realestate">🏢 Real estate</option>
+      <option value="education">🎓 Coaching</option></select></div>
+    <div><label>Business name</label><input id="k_biz" placeholder="Dr. Sharma Dental Care" required></div>
+    <div><label>Plan</label><select id="k_plan"><option>Lite</option><option selected>Pro</option><option>Scale</option></select></div>
+    <div><label>Live since (auto-today)</label><input id="k_live" type="date"></div>
+    <div><label>Your WhatsApp, digits only</label><input id="k_wa" placeholder="919XXXXXXXXX"></div>
+    <div><label>Bot shareable link</label><input id="k_bot" placeholder="https://bot.webchat…"></div>
+    <div><label>Their leads sheet link</label><input id="k_sheet" placeholder="https://docs.google.com/…"></div>
+    <div><label>Chats handled (month)</label><input id="k_chats" type="number" value="0"></div>
+    <div><label>Leads captured</label><input id="k_leads" type="number" value="0"></div>
+    <div><label>Staff hours saved (est.)</label><input id="k_hours" type="number" step="0.5" value="0"></div>
+    <div><label>Eval pass % | adversarial | last retest</label><input id="k_q" placeholder="93 | 9/10 | 20 Oct 2026"></div>
+    <div class="full"><label>3 best conversations — one per line: question | answer | date</label><input id="k_c1" placeholder="Cleaning price? | from approved list, Sat 6pm booked | 02 Nov, 10:47 PM"></div>
+    <div class="full"><input id="k_c2" placeholder="Braces for adults? | contact captured, called back | 04 Nov, 1:52 AM"></div>
+    <div class="full"><input id="k_c3" placeholder="Open Friday? | answered from approved hours | 08 Nov, 11:38 PM"></div>
+    <div class="full"><label>Leads rows (optional, one per line: Name | Phone | Asked | Time | Status — empty = seeded starter row)</label><input id="k_lraw" placeholder="Divya R | 97XXXXXX38 | Biryani ×40 bulk | 1:10 PM | Won"></div>
+    <div class="actions"><button id="gen">Generate → ① file + ② block</button><button class="sec" id="preset">Autofill demo values</button></div>
+  </form>
+
+  <div class="out" id="out">
+    <h2>① Standalone dashboard ready</h2>
+    <p class="lead" style="margin:.3rem 0 .8rem"><span id="fname"></span> — it downloads automatically. Send THIS file to the client (email/WhatsApp) or drop it on any static host. Everything the client sees is inside.</p>
+    <button class="sec" id="redl">↻ Download again</button>
+    <h2>② Registry block (paste into client-dashboard.html · CLIENTS = { … })</h2>
+    <pre id="block"></pre>
+    <button class="sec" id="copyb">Copy block</button>
+  </div>
+
+  <footer>
+    <span>© 2026 Abet Works · internal tool</span>
+    <a href="client-dashboard.html">multi-client dashboard</a>
+    <a href="allied-services.html">offer page</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ===================== GEN-BEGIN — pure builder (testable) ====================== */
+var PRESETS={
+ dental:{niche:"🦷 Dental",upgrades:[["WhatsApp channel (Meta-approved templates)","from ₹9,999"],["No-show reminders (WhatsApp)","₹6,999 setup"],["Second language","₹2,499"],["Instagram DM channel","₹3,499"]]},
+ restaurant:{niche:"🍜 Restaurant",upgrades:[["Instagram DM channel","₹3,499"],["WhatsApp broadcast scheduler","₹2,999"],["Party-order flow (24h notice)","₹4,999"],["Second language","₹2,499"]]},
+ machine:{niche:"⚙️ Manufacturing",upgrades:[["Email enquiry triage","₹5,999"],["Quote-desk assistant","₹7,999"],["Quote follow-up nudges (weekly)","₹1,999"],["Second language","₹2,499"]]},
+ realestate:{niche:"🏢 Real estate",upgrades:[["Ad-click speed-to-lead (WhatsApp)","₹5,999"],["Site-visit scheduler","₹4,999"],["Buyer-dream-sheet capture","₹3,499"],["Second language","₹2,499"]]},
+ education:{niche:"🎓 Coaching",upgrades:[["Admission FAQ bot (bilingual)","₹5,999"],["Fee-cycle reminders (WhatsApp)","₹3,999"],["Batch-enquiry triage","₹2,999"],["Instagram DM channel","₹3,499"]]}
+};
+function parseTriple(t,d){ // "q | a | date"
+ var p=(t||"").split("|").map(function(x){return x.trim()});
+ return {q:p[0]||"",a:p[1]||"",t:p[2]||d};
+}
+function buildData(F){ // F = flat form object
+ return {
+  slot_key:F.slug,
+  niche:PRESETS[F.niche].niche, business:F.biz, plan:F.plan, liveSince:F.live,
+  whatsapp:F.wa, botLink:F.bot, sheetLink:F.sheet,
+  stats:{chats:F.chats,leads:F.leads,hoursSaved:F.hours,avgReply:"<1 sec"},
+  quality:(function(t){var p=String(t||"").split("|").map(function(x){return x.trim()});
+   return (p.filter(Boolean).length>=3&&/\d/.test(p[0])&&/\d/.test(p[1]))
+     ?{passPct:p[0],adversarial:p[1],lastRetest:p[2]}:null;})(F.q),
+  conversations:[F.c1,F.c2,F.c3].map(function(t){return parseTriple(t,F.live)}),
+  leads:(F.leadsRaw||"").trim()
+    ? F.leadsRaw.trim().split("\n").map(function(line){var p=line.split("|").map(function(x){return x.trim()});return [p[0]||"—",p[1]||"—",p[2]||"—",p[3]||"—",p[4]||"New"];})
+    : [["(first lead lands here)","92XXXXXX0000","Awaiting first enquiry","launch day","New"]],
+  upgrades:PRESETS[F.niche].upgrades
+ };
+}
+function buildDashboard(data){ // returns FULL standalone html string (client's own file)
+ var D=JSON.stringify(data);
+ return '<!DOCTYPE html>\n<html lang="en"'+">\n<head>\n"+'<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>'+data.business+' — AI Front Desk dashboard</title>\n<style>'
+ +':root{--bg:#f6f8fd;--card:#fff;--ink:#101a30;--mut:#5a657d;--acc:#2c4fd8;--acc2:#0e9f6e;--line:#dfe4f2}*{margin:0;padding:0;box-sizing:border-box}body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.wrap{max-width:960px;margin:0 auto;padding:0 16px}a{color:var(--acc);text-decoration:none}header{background:var(--ink);color:#fff;padding:.9rem 0}header .wrap{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}'+"\n"
+ +'.live{background:rgba(14,159,110,.2);color:#6ee7a8;border-radius:999px;padding:.15rem .7rem;font-size:.75rem;font-weight:800}header .brand{margin-left:auto;font-weight:800;font-size:.85rem}header .brand span{color:#8ea4ff}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:1.4rem 0}.metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem}.metric b{display:block;font-size:1.7rem}.metric span{color:var(--mut);font-size:.8rem;font-weight:600}'+"\n"
+ +'section{margin-bottom:1.6rem}h2{font-size:1.05rem;margin-bottom:.7rem}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem}table{width:100%;border-collapse:collapse;font-size:.88rem}th{text-align:left;color:var(--mut);font-size:.72rem;text-transform:uppercase;padding:.5rem .6rem;border-bottom:1px solid var(--line)}td{padding:.55rem .6rem;border-bottom:1px solid var(--line)}'+"\n"
+ +'.new{background:#0e9f6e;color:#fff;border-radius:99px;padding:.05rem .6rem;font-size:.7rem;font-weight:800}.won{background:#2c4fd8;color:#fff;border-radius:99px;padding:.05rem .6rem;font-size:.7rem;font-weight:800}.btn{display:inline-block;padding:.55rem 1rem;border-radius:10px;font-weight:700;font-size:.88rem;border:1px solid var(--line)}.btn.p{background:var(--acc);color:#fff;border-color:transparent}.wa{background:#25d366;color:#04331a;border-color:transparent}#quality{color:#0e9f6e;font-weight:700}'+"\n"
+ +'@media print{.noprint{display:none!important}}@media (max-width:720px){.metrics{grid-template-columns:repeat(2,1fr)}}'+"\n"
+ +'</style>\n</head>\n<body>\n<header><div class="wrap"><span class="live">● LIVE</span><b data-biz style="font-size:1.05rem"></b><span data-plan style="color:#aebade;font-size:.8rem"></span><span data-live style="color:#6ee7a8;font-size:.8rem"></span><span class="brand">Abet<span>works</span> · AI Front Desk</span></div></header>\n'
+ +'<div class="wrap"><div class="metrics">'
+ +'<div class="metric"><b data-chats>—</b><span>chats handled this month</span></div><div class="metric"><b data-leads>—</b><span>leads captured</span></div><div class="metric"><b data-hours>—</b><span>staff time saved (est.)</span></div><div class="metric"><b data-reply>—</b><span>avg first reply time</span></div>'+"\n"
+ +'<div class="metric"><b data-quality>—</b><span style="color:#0e9f6e;font-weight:700">✅ zero-hallucination retest</span></div></div>\n'
+ +'<section class="noprint"><h2>Try your assistant right here</h2><div class="card"><p style="margin-bottom:.8rem;font-size:.83rem;color:#5a657d">Open the live assistant — this is what your customers see:</p><a class="btn p" data-bot target="_blank" href="#">Open live assistant ↗</a> <a class="btn" data-sheet target="_blank" href="#">Open the leads sheet ↗</a></div></section>\n'
+ +'<section><h2>Leads captured (latest)</h2><div class="card"><table><thead><tr><th>Name</th><th>Phone</th><th>Asked about</th><th>Time</th><th>Status</th></tr></thead><tbody data-leadsbody></tbody></table><p style="margin-top:.7rem;font-size:.82rem;color:#5a657d">💡 Reply to every <span class="new">New</span> lead within 15 minutes. Data is YOURS — exportable any time.</p></div></section>\n'
+ +'<section><div style="display:grid;grid-template-columns:1.2fr 1fr;gap:1rem"><div class="card"><h2>3 best conversations this month</h2><div data-convo></div><button class="btn noprint" style="float:right;border:1px solid var(--line);background:#fff;border-radius:10px;cursor:pointer" onclick="window.print()">🖨 Print / save report</button></div><div class="card"><h2>What your assistant knows</h2><p style="font-size:.82rem;color:#5a657d" data-knows>Hours &amp; address · full services/price list · booking flow · escalation to staff · languages. It answers ONLY from this approved document — anything else, it collects contact instead of guessing.</p><p style="margin-top:.8rem;font-size:.82rem;color:#5a657d">Need a change? One WhatsApp message → updated within 24h.</p></div></div></section>\n'
+ +'<section class="noprint"><div class="card" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center"><b>Need an update or an issue?</b><a class="btn wa" data-wa target="_blank" href="#">💬 WhatsApp us</a><span style="font-size:.82rem;color:#5a657d">Replies within 24h</span></div></section>\n'
+ +'</div>\n<footer style="padding:1.4rem 0 2.4rem;text-align:center;color:#5a657d;font-size:.78rem">© <span data-y></span> Abet Works · Your data stays yours\n'
+ +'<script>\nvar C='+D+';\n'
+ +'function q(s){return document.querySelector(s)}\n'
+ +'q("[data-biz]").textContent=C.business;q("[data-plan]").textContent=C.plan;q("[data-live]").textContent="Live since "+C.liveSince;\n'
+ +'q("[data-chats]").textContent=C.stats.chats.toLocaleString("en-IN");q("[data-leads]").textContent=C.stats.leads;q("[data-hours]").textContent=C.stats.hoursSaved+" hrs";q("[data-reply]").textContent=C.stats.avgReply;\n'
+ +'q("[data-quality]").textContent=C.quality?C.quality.passPct+"% · adv "+C.quality.adversarial+" · "+C.quality.lastRetest:"— (first retest pending)";\n'
+ +'var bs=q("[data-bot]");bs.href=C.botLink;var ss=q("[data-sheet]");ss.href=C.sheetLink;var w=q("[data-wa]");w.href="https://wa.me/"+C.whatsapp;\n'
+ +'var lb=q("[data-leadsbody]");lb.innerHTML=C.leads.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td><td>"+r[2]+"</td><td>"+r[3]+\'</td><td><span class=\'+(r[4]==="Won"?"won":"new")+\'>\'+r[4]+"</span></td></tr>"}).join("");\n'
+ +'q("[data-convo]").innerHTML=C.conversations.map(function(c){return \'<div style="border-left:3px solid #0e9f6e;padding:.4rem 0 .4rem .8rem;margin-bottom:.7rem;font-size:.88rem"><b>"\'+c.q+\'"</b>→ \'+c.a+\'<span style="display:block;color:#5a657d;font-size:.78rem;margin-top:.15rem">\'+c.t+"</span></div>"}).join("");\n'
+ +'q("[data-y]").textContent=new Date().getFullYear();\n'
+ +'<\/'+'script>\n</body>\n</html>';
+}
+function buildBlock(data){ // registry-style paste block for client-dashboard.html
+ return '  "'+data.slot_key+'": '+JSON.stringify(data,null,2)+",\n";
+}
+/* ===================== GEN-END ====================== */
+/* DOM layer */
+var FSTATE={};
+document.getElementById("k_live").valueAsDate=new Date();
+document.getElementById("preset").onclick=function(){
+ var b=new Date();b.setDate(b.getDate()-7);
+ document.getElementById("k_slug").value="demo-sam-clinic";
+ document.getElementById("k_biz").value="Dr. Sam's Clinic";
+ document.getElementById("k_chats").value="280";document.getElementById("k_leads").value="22";document.getElementById("k_hours").value="14";
+ document.getElementById("k_q").value="92 | 9/10 | "+b.toLocaleDateString("en-IN");
+ document.getElementById("k_c1").value="Fee for full checkup? | answered from fee card | "+b.toLocaleDateString("en-IN",[""])||"";
+ document.getElementById("k_c1").value="Fee for full checkup? | answered from fee card | 02 Nov, 10:47 PM";
+ document.getElementById("k_c2").value="Do you do home visits? | outside document — contact captured | 04 Nov, 1:52 AM";
+ document.getElementById("k_c3").value="Open Sunday? | answered from hours | 08 Nov, 11:38 AM";
+};
+function readForm(){
+ var v=function(id){return document.getElementById(id).value.trim()};
+ return {slug:v("k_slug"),niche:v("k_niche"),biz:v("k_biz"),plan:v("k_plan"),
+  live:v("k_live").split("-").reverse().join(" "),wa:v("k_wa"),bot:v("k_bot")||"https://your-bot-shareable-link",
+  sheet:v("k_sheet")||"https://docs.google.com/spreadsheets/d/XXXX",chats:+v("k_chats")||0,leads:+v("k_leads")||0,
+  hours:+v("k_hours")||0,q:v("k_q"),c1:v("k_c1"),c2:v("k_c2"),c3:v("k_c3"),leadsRaw:document.getElementById("k_lraw").value};
+}
+var LAST={file:"dashboard.html",html:"",block:""};
+document.getElementById("gen").onclick=function(){
+ var F=readForm();
+ if(!F.slug||!F.biz){alert("Client key + business name required");return;}
+ var data=buildData(F);
+ LAST.html=buildDashboard(data);
+ LAST.file="dashboard-"+F.slug.replace(/[^a-z0-9-]/gi,"-")+".html";
+ LAST.block=buildBlock(data);
+ var blob=new Blob([LAST.html],{type:"text/html"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=LAST.file;a.click();
+ document.getElementById("fname").textContent=LAST.file;
+ document.getElementById("block").textContent=LAST.block;
+ document.getElementById("out").style.display="block";
+};
+document.getElementById("redl").onclick=function(){
+ var blob=new Blob([LAST.html],{type:"text/html"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=LAST.file;a.click();
+};
+document.getElementById("copyb").onclick=function(){
+ navigator.clipboard.writeText(document.getElementById("block").textContent).then(function(){alert("Block copied — paste into CLIENTS = { … }")});
+};
+</script>
+</body>
+</html>
