@@ -18,6 +18,7 @@
 | 📊 Client dashboard demo | /abetworks-business-kit/client-dashboard.html | retention email moments; full client screen (chooser) |
 | 🖨 One-pager (print→PDF) | /abetworks-business-kit/outbound-onepager.html | WhatsApp files, print leave-behind |
 | 💻 Source/log | https://github.com/coding4vinayak/abetworks-business-kit | build-in-public proof |
+| 🧾 Proposal generator (ops) | /abetworks-business-kit/proposal-generator.html | after discovery: biz name + THEIR numbers → PDF proposal + WA message |
 | 📈 Weekly scorecard (ops) | /abetworks-business-kit/weekly-scorecard.html | Sunday 30-min review: ratios + red flags + THE move |
 | 📬 Funnel page (company site) | https://abetworks-website.onrender.com/ | only for serious qualification links |
 

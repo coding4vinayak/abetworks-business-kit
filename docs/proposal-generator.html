@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Proposal generator — Abetworks ops tool</title>
+<meta name="description" content="Internal op: client name + their pain numbers + a plan → downloadable branded proposal page (print to PDF) + a WhatsApp follow-up message. Uses the same verified math as the ROI calculator.">
+<style>
+:root{--bg:#0b1020;--card:#121a36;--line:rgba(255,255,255,.09);--txt:#e8ecf8;--mut:#9aa6c8;--acc:#6c8cff;--good:#2ee6a8;--warn:#ffb066}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1020px;margin:0 auto;padding:36px 20px}
+.back{color:var(--mut);font-size:.85rem;text-decoration:none}
+h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:.8rem 0}
+p.lead{color:var(--mut);max-width:66ch;margin:.6rem 0 1.6rem}
+form{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 12px}
+label{font-size:.76rem;color:var(--mut);display:block;margin-bottom:.25rem;letter-spacing:.03em}
+input,select{width:100%;background:#0e1530;border:1px solid var(--line);border-radius:8px;color:var(--txt);padding:.5rem .6rem;font-size:.9rem}
+input:focus,select:focus{border-color:var(--acc);outline:none}
+.full{grid-column:1/-1}
+h2{font-size:1rem;margin:1.6rem 0 .6rem}
+h3{font-size:.9rem;margin:.8rem 0 .4rem;color:var(--acc)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.7rem 1.2rem;font-weight:800;cursor:pointer;font-size:.95rem}
+button.sec{background:transparent;border:1px solid var(--line);color:var(--txt)}
+.k{color:var(--good)}
+.out{display:none;margin-top:1.2rem}
+pre{background:#0e1530;border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:.78rem;max-height:260px;color:#cdd6ee;white-space:pre-wrap}
+.tin{width:100%;font-size:.82rem}
+footer{margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1rem;color:var(--mut);font-size:.8rem;display:flex;gap:1rem;flex-wrap:wrap}
+footer a{color:var(--acc);text-decoration:none}
+@media(max-width:680px){form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← kit site</a>
+  <h1>Proposal generator <span style="color:var(--mut);font-size:.85rem">(ops tool)</span></h1>
+  <p class="lead">Fill once → get <b class="k">①</b> a branded <b>proposal page</b> (download → print to PDF → attach anywhere) built on the same verified math as the ROI calculator, and <b class="k">②</b> the WhatsApp message to send with it. Personal, specific, zero invented figures.</p>
+
+  <form id="f" onsubmit="return false">
+    <div><label>Business name (required)</label><input id="p_biz" placeholder="Dr. Sharma Dental Care" required></div>
+    <div><label>Contact person</label><input id="p_contact" placeholder="Dr. Sharma"></div>
+    <div><label>Niche preset</label><select id="p_niche">
+      <option value="dental">🦷 Dental</option><option value="restaurant">🍜 Restaurant</option>
+      <option value="machine">⚙️ Machine shop</option><option value="realestate">🏢 Real estate</option>
+      <option value="education">🎓 Coaching</option></select></div>
+
+    <div><label>Enquiries / day</label><input id="p_e" type="number" value="30" min="0"></div>
+    <div><label>% outside working hours</label><input id="p_h" type="number" value="35" min="0" max="100"></div>
+    <div><label>% of those never answered</label><input id="p_u" type="number" value="85" min="0" max="100"></div>
+    <div><label>Close rate on enquiries (%)</label><input id="p_c" type="number" value="10" min="0" max="100"></div>
+    <div><label>Average ticket (₹)</label><input id="p_t" type="number" value="2000" min="0"></div>
+    <div><label>Staff min/day on repeats</label><input id="p_m" type="number" value="150" min="0"></div>
+    <div><label>Staff hourly cost (₹)</label><input id="p_w" type="number" value="120" min="0"></div>
+    <div><label>Working days / month</label><input id="p_d" type="number" value="26" min="1" max="31"></div>
+
+    <div><label>Plan</label><select id="p_plan"><option>Lite</option><option selected>Pro</option><option>Scale</option></select></div>
+    <div><label>Setup price ₹ (ladder default — <a style="color:var(--warn);text-decoration:none" href="/abetworks-business-kit/#readme">finalize before real sends</a>)</label><input id="p_price" type="number" value="34999"></div>
+    <div><label>Valid for (days)</label><input id="p_valid" type="number" value="7" min="1" max="60"></div>
+
+    <div><label>Your name (who signs this)</label><input id="p_owner" placeholder="[YOUR NAME] — real name kills this placeholder"></div>
+    <div><label>Your WhatsApp, digits only</label><input id="p_wa" placeholder="919XXXXXXXXX"></div>
+    <div><label>&nbsp;</label><button class="sec" id="preset" style="width:100%">Autofill demo values</button></div>
+  </form>
+
+  <div class="actions"><button id="gen">Generate → ① proposal page + ② message</button></div>
+
+  <div class="out" id="out">
+    <h2>① Proposal page ready</h2>
+    <p class="lead" style="margin:.3rem 0 .8rem"><span id="fname" class="k"></span> — downloads automatically. Open it → Ctrl+P → save as PDF → attach in WhatsApp/email. Recompute after the discovery call if their numbers change.</p>
+    <button class="sec" id="redl">↻ Download again</button>
+    <h3>Numbers this proposal shows (sanity check)</h3>
+    <pre id="pulse"></pre>
+    <h2>② WhatsApp message to send with the file</h2>
+    <pre id="msg" class="tin"></pre>
+    <button class="sec" id="copym">Copy message</button>
+  </div>
+
+  <footer>
+    <span>© 2026 Abet Works · internal tool</span>
+    <a href="roi-calculator.html">ROI calculator (same math)</a>
+    <a href="client-generator.html">kick-off generator</a>
+    <a href="weekly-scorecard.html">weekly scorecard</a>
+    <a href="allied-services.html">offer page</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ===================== GEN-BEGIN — pure builders (testable) ====================== */
+var PLANS={
+ "Lite":{label:"Front Desk Lite",setup:14999,care:1999,who:"Single location, one owner-operator",
+  bullets:["AI assistant on your website (webchat) + WhatsApp basic channel","Answers ONLY from your signed approved document — prices, hours, services","Every enquiry captured to a leads sheet with time-stamp — nothing dies in the DMs","Weekly zero-hallucination retest against your question bank"]},
+ "Pro":{label:"Front Desk Pro",setup:34999,care:4999,who:"Front Desk + Pipeline (most chosen)",
+  bullets:["Everything in Lite","NuCRM pipeline: captured leads scored & routed — you see who's hot","Booking / visit flow with staff handover for complex asks","Live client dashboard (monthly report of chats, leads, saved hours)","1 additional client-facing language"]},
+ "Scale":{label:"Revenue Ops Scale",setup:89999,care:14999,who:"Multi-location / teams",
+  bullets:["Everything in Pro","Multi-room / multi-brand operation under one desk","Integrations: email enquiry triage, quote-desk assistant, follow-up nudges","Weekly ops review + team training on the lead sheet"]}
+};
+var NICHE_SCOPE={
+ dental:"Website chat + WhatsApp assistant reading your signed fee-card & hours document; after-hours enquiries captured with number + question; booking requests routed to staff.",
+ restaurant:"Website chat + WhatsApp assistant reading your signed menu & hours document; table requests and party orders captured with details; delivery-radius asks answered from the doc only.",
+ machine:"Website chat + email enquiry assistant reading your signed capability & materials document; RFQs structured into the quote desk; site visits booked from approved slots.",
+ realestate:"Website chat + WhatsApp speed-to-lead on ad clicks; buyer requirement captured into the pipeline; site-visit scheduler from your approved slots — no invented listings.",
+ education:"Website chat + WhatsApp admission-FAQ assistant reading your signed courses & fees document; batch enquiries triaged; demo-class bookings routed to Counselling."};
+function inr(n){n=Math.round(n);if(!isFinite(n))return"—";return"₹"+n.toLocaleString("en-IN");}
+function calcPain(F){
+ var E=+F.e||0,H=Math.min(100,Math.max(0,+F.h||0)),U=Math.min(100,Math.max(0,+F.u||0)),
+     C=Math.min(100,Math.max(0,+F.c||0)),T=+F.t||0,M=+F.m||0,W=+F.w||0,D=+F.d||22;
+ var perMonth=E*D, outOfHours=perMonth*H/100, unanswered=outOfHours*U/100,
+     lostCustomers=unanswered*C/100,
+     loss=lostCustomers*T,           // monthly revenue left on the table
+     gain=loss*0.75,                 // conservative recovery (75% of recoverable)
+     timeCost=M*D*(W/60),            // staff cost reclaimed on repetitive answering
+     total=gain+timeCost;
+ return {perMonth:perMonth,outOfHours:outOfHours,unanswered:unanswered,lostCust:lostCustomers,
+         loss:loss,gain:gain,timeCost:timeCost,total:total};
+}
+function buildData(F){
+ var plan=PLANS[F.plan]||PLANS.Pro, price=+F.price||plan.setup, P=calcPain(F);
+ var today=new Date(), vd=new Date(); vd.setDate(vd.getDate()+(+F.valid||7));
+ return {
+  biz:F.biz, contact:F.contact||F.biz, niche:NICHE_SCOPE[F.niche]||NICHE_SCOPE.dental,
+  planName:plan.label, planWho:plan.who, bullets:plan.bullets, setup:price, care:plan.care,
+  careNote:"₹"+price.toLocaleString("en-IN")+" one-time build (current ladder) + ₹"+plan.care.toLocaleString("en-IN")+"/month care",
+  owner:F.owner||"[YOUR NAME]", wa:F.wa, waLink:F.wa?("https://wa.me/"+F.wa.replace(/\D/g,"")):"",
+  today:today.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}),
+  validUntil:vd.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}),
+  pain:{loss:P.loss,gain:P.gain,timeCost:P.timeCost,total:P.total,perMonth:P.perMonth,
+        h:F.h,u:F.u,c:F.c,t:F.t,d:F.d}
+ };
+}
+function buildProposal(D){ // FULL standalone html string (client-facing, print→PDF)
+ var J=JSON.stringify(D).replace(/</g,"\\u003c"); /* kills script-tag breakout inside JSON */
+ return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<title>Proposal · Abetworks</title>\n<style>'
+ +':root{--bg:#f6f8fd;--card:#fff;--ink:#101a30;--mut:#5a657d;--acc:#2c4fd8;--good:#0e9f6e;--warn:#b45309;--line:#dfe4f2}*{margin:0;padding:0;box-sizing:border-box}body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}.wrap{max-width:860px;margin:0 auto;padding:0 18px}a{color:var(--acc)}header{background:var(--ink);color:#fff;padding:1rem 0}header .wrap{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}header .brand{margin-left:auto;font-weight:800}header .brand span{color:#8ea4ff}'+"\n"
+ +'h1{font-size:1.5rem;margin:1.2rem 0 .2rem}*.dateline{color:var(--mut);font-size:.85rem}.grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1rem 0 1.4rem}.m{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem}.m b{display:block;font-size:1.5rem}.m.big{border-color:var(--good);background:rgba(14,159,110,.06)}.m.big b{color:var(--good)}'+"\n"
+ +'section{margin-bottom:1.5rem}h2{font-size:1.05rem;margin-bottom:.55rem}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem}ul{padding-left:1.2rem}li{margin:.3rem 0}'+"\n"
+ +'.dp{display:flex;gap:.8rem;flex-wrap:wrap;padding:.8rem 0 0;font-size:.85rem}.pill{background:rgba(14,159,110,.12);color:#0b5c40;border:1px solid #bfe8d4;border-radius:99px;padding:.2rem .8rem;font-weight:700;font-size:.8rem}'+"\n"
+ +'.note{color:var(--mut);font-size:.82rem;margin-top:.6rem}.sig{border-top:1px solid var(--line);margin-top:1.6rem;padding-top:1rem;font-size:.9rem}'+"\n"
+ +'@media print{.noprint{display:none!important}body{background:#fff}}@media(max-width:720px){.grid2{grid-template-columns:1fr}}'+"\n"
+ +'</style>\n</head>\n<body>\n<header><div class="wrap"><b style="font-size:1rem">Abetworks · AI Front Desk Engineering</b><span class="brand">Mumbai · abetworks.in<span></span></span></div></header>\n'
+ +'<div class="wrap">\n<h1 data-biz></h1><p class="dateline">Proposal dated <span data-today></span> · valid until <span data-valid></span> · prepared by <span data-owner></span></p>\n'
+ +'<div class="grid2"><div class="m"><b data-loss>—</b><span style="color:var(--mut);font-size:.78rem;font-weight:600">left on the table / month — your own numbers</span></div>'
+ +'<div class="m big"><b data-total>—</b><span style="color:var(--mut);font-size:.78rem;font-weight:600">monthly recovery: conservative</span></div>'
+ +'<div class="m"><b data-time>—</b><span style="color:var(--mut);font-size:.78rem;font-weight:600">staff cost reclaimed / month</span></div></div>\n'
+ +'<p class="note" data-assump></p>\n'
+ +'<section><h2>What we propose: <span data-plan></span></h2><div class="card"><ul data-bullets></ul><p style="margin-top:.7rem"><b data-care></b></p></div></section>\n'
+ +'<section><h2>Build scope for your business</h2><div class="card"><p data-scope style="font-size:.92rem"></p></div></section>\n'
+ +'<section><h2>Start with a 1-week pilot (then decide)</h2><div class="card"><ul><li><b>Days 1–2:</b> we sit with your team, sign the one approved document (services, prices, hours), go live on one channel.</li><li><b>Days 3–7:</b> it answers real customer traffic; every out-of-scope ask is captured and escalated, never guessed.</li><li><b>Day 7:</b> one report — chats handled, leads captured, zero-hallucination retest score. <b>Then you decide. No renewal pressure.</b></li></ul><div class="dp"><span class="pill">✓ answers only from your doc</span><span class="pill">✓ every missed ask captured</span><span class="pill">✓ retested weekly</span></div></div></section>\n'
+ +'<section><h2>How the numbers above hold</h2><div class="card"><p style="font-size:.88rem;color:var(--mut)">They are <b>your</b> figures × published, fixed assumptions (75% conservative recovery of out-of-hours demand). We treat bots and proposals the same way we treat your assistant: <b>no invented figures</b>. The 1-week pilot exists to verify this math with logged reality before any longer commitment.</p></div></section>\n'
+ +'<div class="sig"><b data-owner2></b><br>Abet Works · admin@abetworks.in <span data-wa></span><br><span style="color:var(--mut);font-size:.78rem">Prices are from our current public ladder; your written fixed quote after discovery governs. This document is an offer to start the pilot, not an invoice.</span></div>\n'
+ +'<p class="noprint" style="padding:1rem 0 2rem;text-align:center"><button class="btn" style="background:var(--acc);color:#fff;border:0;border-radius:10px;padding:.6rem 1.2rem;font-weight:800;cursor:pointer" onclick="window.print()">🖨 Print / save as PDF</button></p>\n</div>\n'
+ +'<script>\nvar P='+J+';\n'
+ +'function q(s){return document.querySelector(s)}\n'
+ +'q("[data-biz]").textContent="Proposal — "+P.biz;\n'
+ +'document.title="Proposal — "+P.biz+" · Abetworks";\n'
+ +'q("[data-today]").textContent=P.today;q("[data-valid]").textContent=P.validUntil;q("[data-owner]").textContent=P.owner;\n'
+ +'q("[data-loss]").textContent="₹"+Math.round(P.pain.loss).toLocaleString("en-IN");\n'
+ +'q("[data-total]").textContent="₹"+Math.round(P.pain.total).toLocaleString("en-IN");\n'
+ +'q("[data-time]").textContent="₹"+Math.round(P.pain.timeCost).toLocaleString("en-IN");\n'
+ +'q("[data-assump]").textContent="Assumptions: "+P.pain.perMonth+" enquiries/month · "+P.pain.h+"% out-of-hours · "+P.pain.u+"% of those unanswered · "+P.pain.c+"% close rate · ₹"+P.pain.t+" ticket · "+P.pain.d+" working days.";\n'
+ +'q("[data-plan]").textContent=P.planName+" ("+P.planWho+")";\n'
+ +'q("[data-bullets]").innerHTML=P.bullets.map(function(b){return "<li>"+b+"</li>"}).join("");\n'
+ +'q("[data-care]").textContent=P.careNote;\n'
+ +'q("[data-scope]").textContent=P.niche;\n'
+ +'q("[data-owner2]").textContent=P.owner;\n'
+ +'q("[data-wa]").innerHTML=P.waLink?" · <a href=\'"+P.waLink+"\'>WhatsApp us</a>":"";\n'
+ +'<\/'+'script>\n</body>\n</html>';
+}
+function buildMsg(D){
+ return "Namaste "+(D.contact||D.biz)+",\n\n"
+ +"As discussed — I checked the numbers with YOUR figures: about ₹"+Math.round(D.pain.loss).toLocaleString("en-IN")+"/month currently left on the table when enquiries arrive outside staff hours.\n\n"
+ +"Attached is a 1-page proposal: what we build, what it costs, and a 1-week pilot with a same-week report. No commitment — read it once, it's deliberately short.\n\n"
+ +"— "+D.owner+", Abet Works";
+}
+/* ===================== GEN-END ====================== */
+/* DOM layer */
+document.getElementById("preset").onclick=function(){
+ document.getElementById("p_biz").value="Shreeji Dental Care";
+ document.getElementById("p_contact").value="Dr. Mehta";
+ document.getElementById("p_niche").value="dental";
+ document.getElementById("p_e").value=30;document.getElementById("p_h").value=35;document.getElementById("p_u").value=85;
+ document.getElementById("p_c").value=10;document.getElementById("p_t").value=2000;document.getElementById("p_m").value=150;
+ document.getElementById("p_w").value=120;document.getElementById("p_d").value=26;
+ document.getElementById("p_plan").value="Pro";document.getElementById("p_price").value=34999;
+ document.getElementById("p_owner").value="";document.getElementById("p_wa").value="";
+};
+function readForm(){
+ var v=function(id){return document.getElementById(id).value.trim()};
+ return {biz:v("p_biz"),contact:v("p_contact"),niche:v("p_niche"),e:v("p_e"),h:v("p_h"),u:v("p_u"),
+  c:v("p_c"),t:v("p_t"),m:v("p_m"),w:v("p_w"),d:v("p_d"),plan:v("p_plan"),price:v("p_price"),
+  valid:v("p_valid"),owner:v("p_owner"),wa:v("p_wa")};
+}
+var LAST={file:"proposal.html",html:"",pulse:"",msg:""};
+document.getElementById("gen").onclick=function(){
+ var F=readForm();
+ if(!F.biz){alert("Business name required");return;}
+ var D=buildData(F);
+ LAST.html=buildProposal(D);
+ LAST.file="proposal-"+F.biz.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40)+".html";
+ LAST.pulse=[
+  "enquiries/month : "+Math.round(D.pain.perMonth),
+  "loss / month    : "+inr(D.pain.loss)+"  (their ₹ gone, per their own inputs)",
+  "recovery/mo @75%: "+inr(D.pain.gain),
+  "staff reclaimed : "+inr(D.pain.timeCost),
+  "TOTAL monthly   : "+inr(D.pain.total),
+  "plan            : "+D.planName+" · "+D.careNote,
+  "payback         : "+D.care.split(",")[0].replace("₹","₹")+" vs ₹"+Math.round(D.pain.total).toLocaleString("en-IN")+" → "+(D.pain.total>0?Math.max(1,Math.round(D.setup/Math.round(D.pain.total)*30))+" days to cover setup":"n/a")
+ ].join("\n");
+ LAST.msg=buildMsg(D);
+ var blob=new Blob([LAST.html],{type:"text/html"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=LAST.file;a.click();
+ document.getElementById("fname").textContent=LAST.file;
+ document.getElementById("pulse").textContent=LAST.pulse;
+ document.getElementById("msg").textContent=LAST.msg;
+ document.getElementById("out").style.display="block";
+};
+document.getElementById("redl").onclick=function(){
+ var blob=new Blob([LAST.html],{type:"text/html"});
+ var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=LAST.file;a.click();
+};
+document.getElementById("copym").onclick=function(){
+ navigator.clipboard.writeText(document.getElementById("msg").textContent).then(function(){alert("Message copied — paste in WhatsApp and attach the PDF")});
+};
+</script>
+</body>
+</html>
