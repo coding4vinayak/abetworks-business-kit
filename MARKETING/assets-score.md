@@ -11,6 +11,7 @@
 |---|---|---|
 | 🏠 Landing portal | /abetworks-business-kit/ | bio link, DM sign-off |
 | 🤖 Interactive demo (THE asset) | /abetworks-business-kit/demo-front-desk.html | every first touch |
+| 💰 ROI calculator | /abetworks-business-kit/roi-calculator.html | warm leads + discovery calls (§ objection #1/close) |
 | 📄 Offer page (allied services) | /abetworks-business-kit/allied-services.html | LinkedIn + serious leads |
 | 🧪 EvalReady gate | /abetworks-business-kit/evalready.html | trust-stage, "test any bot" |
 | ⚖️ Eval suite (working app) | /abetworks-business-kit/eval-suite.html | competitions/technical leads |
