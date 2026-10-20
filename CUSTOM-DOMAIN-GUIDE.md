@@ -38,6 +38,9 @@ Because a wildcard catches `kit`, we do **not** edit anything existing. We **add
 
 ## 2 · VERIFY the DNS took (5–15 min wait)
 
+**Fastest way:** `bash scripts/domain-check.sh` — prints your exact state (A: not added · B: live & correct, GitHub's 404 · C-ish: wrong proxy/port · D: fully live) and the next move for each.
+
+
 Open **https://dnschecker.org** → type `kit.abetworks.in` → type `CNAME` → it should show `coding4vinayak.github.io` on green flags worldwide.
 
 Then open **https://kit.abetworks.in** in a browser. Correct result at this stage: GitHub's **404 page** ("There isn't a GitHub Pages site here"). That 404 is GOOD — it proves the domain reached GitHub. Tell me when you see it.
